@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../screens/start_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MaterialApp(home: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {

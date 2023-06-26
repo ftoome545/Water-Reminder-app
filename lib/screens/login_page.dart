@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:water_reminder_app/screens/reset_password.dart';
+import 'package:water_reminder_app/screens/signUp_page.dart';
 import '../widgets/email_password.dart';
 
 class LoginPage extends StatefulWidget {
@@ -45,39 +48,95 @@ class _LoginPageState extends State<LoginPage> {
                 hint: 'Enter your password',
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 8.0,
+                left: 215.0,
+              ),
+              // child: Text(
+              //   'Forgot Password?',
+              //   style: TextStyle(
+              //       fontSize: 18, color: Color.fromARGB(255, 7, 96, 168)),
+              // ),
+              child: RichText(
+                text: TextSpan(
+                    text: 'Forgot Passsword?',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(255, 7, 96, 168),
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ResetPassword()));
+                      }),
+              ),
+            ),
             Stack(
               children: [
                 Image.asset(
                   'images/login_image_2.jpg',
                   width: 563.0,
-                  height: 280.5,
+                  height: 270.5,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(50.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 35.0,
-                          left: 20.0,
-                          right: 35.0,
-                          bottom: 35.0,
-                        ),
-                        child: Text(
-                          'New here? Sign Up',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 90, 0, 0),
-                            fontSize: 16.0,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 200.0,
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'New here?',
+                            style:
+                                TextStyle(fontSize: 18.0, color: Colors.white),
+                            children: [
+                              TextSpan(
+                                  text: ' Sign Up',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignUpPage()));
+                                    }),
+                            ]),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 130.0,
+                        left: 55.0,
+                      ),
+                      child: SizedBox(
+                        width: 130.8,
+                        height: 57.14,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7),
+                              side: BorderSide(color: Colors.white, width: 2),
+                            ),
+                            backgroundColor: Color.fromARGB(255, 7, 107, 132),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            'Login',
+                            style: TextStyle(fontSize: 24),
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text('Login'),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             )

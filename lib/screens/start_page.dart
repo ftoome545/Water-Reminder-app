@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/signUp_page.dart';
 import '../screens/login_page.dart';
-import '../screens/home_page.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);

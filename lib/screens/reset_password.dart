@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../screens/login_page.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class ResetPassword extends StatelessWidget {
+  const ResetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,10 @@ class SignUpPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const LoginPage()));
             },
           ),
-          Center(
+          const Center(
             child: Text(
-              'SignUp Page',
-              style: TextStyle(fontSize: 37.0),
+              'here you can reset your password!',
+              style: TextStyle(fontSize: 37),
             ),
           ),
         ],

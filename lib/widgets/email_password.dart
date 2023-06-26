@@ -16,13 +16,20 @@ class EmailPassword extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               email,
-              style: TextStyle(color: Color.fromARGB(255, 7, 96, 168)),
+              style: TextStyle(
+                  color: Color.fromARGB(255, 7, 96, 168), fontSize: 15),
             )),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: TextField(
-            decoration:
-                InputDecoration(border: OutlineInputBorder(), hintText: hint),
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 7, 96, 168),
+                      width: 2,
+                    )),
+                hintText: hint),
           ),
         ),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../screens/home_page.dart';
+import '../screens/user_info.dart';
 import '../screens/login_page.dart';
 import '../widgets/email_password.dart';
 
@@ -107,7 +107,8 @@ class SignUpPage extends StatelessWidget {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
+                                    builder: (context) =>
+                                        const UserInfoPage()));
                           },
                           child: Text(
                             'Sign Up',

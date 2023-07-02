@@ -56,9 +56,10 @@ class UserInfoPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(28)),
                       backgroundColor: Color.fromARGB(255, 7, 107, 132)),
                   onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) => const AddUserInfo());
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AddUserInfo()));
                   },
                   child: const Text(
                     "Let's Start",

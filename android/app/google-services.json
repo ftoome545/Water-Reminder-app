@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "255534548740",
+    "project_id": "water-reminder-app-fadeb",
+    "storage_bucket": "water-reminder-app-fadeb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255534548740:android:002653b820c619db24f251",
+        "android_client_info": {
+          "package_name": "com.fatima_hure.water_reminder_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255534548740-8qo6l2pvu6rt12h11iavidj50ml2scsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXNuTQMsJWRlLn3IlvcbaLN5aUqwqDgoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255534548740-8qo6l2pvu6rt12h11iavidj50ml2scsq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

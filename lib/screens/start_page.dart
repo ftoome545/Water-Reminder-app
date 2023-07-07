@@ -13,16 +13,18 @@ class _StartPageState extends State<StartPage> {
   Widget LoginSignUpBotton(String text, VoidCallback action) {
     return SizedBox(
       height: 41,
-      width: 117,
+      width: 120,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 7, 96, 168), // Background color
+          primary: Color.fromARGB(255, 7, 96, 168),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)), // Background color
         ),
         onPressed: action,
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 15,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -59,7 +61,7 @@ class _StartPageState extends State<StartPage> {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 21.0, right: 115.0),
+                  padding: const EdgeInsets.only(left: 21.0, right: 110.0),
                   child: LoginSignUpBotton('Login', () {
                     Navigator.pushReplacement(
                         context,

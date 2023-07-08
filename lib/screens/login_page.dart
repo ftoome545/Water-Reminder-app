@@ -20,8 +20,8 @@ class _LoginPageState extends State<LoginPage> {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('images/login_image.jpg'),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -33,16 +33,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
               child: EmailPassword(
                 email: 'Email',
                 hint: 'Enter your email',
               ),
             ),
-            Padding(
+            const Padding(
               padding:
-                  const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                  EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
               child: EmailPassword(
                 email: 'Password',
                 hint: 'Enter your password',
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
               child: RichText(
                 text: TextSpan(
                     text: 'Forgot Passsword?',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Color.fromARGB(255, 7, 96, 168),
                     ),
@@ -92,11 +92,11 @@ class _LoginPageState extends State<LoginPage> {
                         text: TextSpan(
                             text: 'New here?',
                             style:
-                                TextStyle(fontSize: 18.0, color: Colors.white),
+                                const TextStyle(fontSize: 18.0, color: Colors.white),
                             children: [
                               TextSpan(
                                   text: ' Sign Up',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
@@ -124,12 +124,12 @@ class _LoginPageState extends State<LoginPage> {
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(7),
-                              side: BorderSide(color: Colors.white, width: 2),
+                              side: const BorderSide(color: Colors.white, width: 2),
                             ),
-                            backgroundColor: Color.fromARGB(255, 7, 107, 132),
+                            backgroundColor: const Color.fromARGB(255, 7, 107, 132),
                           ),
                           onPressed: () {},
-                          child: Text(
+                          child: const Text(
                             'Login',
                             style: TextStyle(fontSize: 24),
                           ),

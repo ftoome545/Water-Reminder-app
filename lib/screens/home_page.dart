@@ -10,12 +10,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int index = 0;
   final pages = [
-    Center(
+    const Center(
         child: Text(
       'Welcom to Home Page',
       style: TextStyle(fontSize: 37),
     )),
-    Center(
+    const Center(
         child: Text(
       'Profile Page',
       style: TextStyle(fontSize: 37),
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 7, 96, 168),
-          title: Text(
+          title: const Text(
             'Water reminder',
             style: TextStyle(fontSize: 24.0, color: Colors.white),
           ),
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
           height: 60,
           selectedIndex: index,
           onDestinationSelected: (index) => setState(() => this.index = index),
-          destinations: [
+          destinations: const [
             NavigationDestination(
               icon: Icon(Icons.home_outlined),
               label: 'Home',

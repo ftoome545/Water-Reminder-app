@@ -16,14 +16,14 @@ class _StartPageState extends State<StartPage> {
       width: 120,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 7, 96, 168),
+          backgroundColor: const Color.fromARGB(255, 7, 96, 168),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8)), // Background color
         ),
         onPressed: action,
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -37,7 +37,7 @@ class _StartPageState extends State<StartPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 7, 96, 168),
-        title: Text(
+        title: const Text(
           'Water reminder',
           style: TextStyle(fontSize: 24.0, color: Colors.white),
         ),
@@ -46,7 +46,7 @@ class _StartPageState extends State<StartPage> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                   top: 50.0, bottom: 58.0, left: 21.0, right: 21.0),
               // child: Image.asset('images/start page image.png'),
               child: ClipRRect(

@@ -11,7 +11,7 @@ class ResetPassword extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ListTile(
-            leading: Icon(Icons.arrow_back),
+            leading: const Icon(Icons.arrow_back),
             onTap: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const LoginPage()));

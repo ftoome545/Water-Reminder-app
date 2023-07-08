@@ -9,8 +9,8 @@ import '../screens/start_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MaterialApp(
-    home: const MyApp(),
+  runApp(const MaterialApp(
+    home: MyApp(),
     debugShowCheckedModeBanner: false,
   ));
 }
@@ -25,6 +25,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return StartPage();
+    return const StartPage();
   }
 }

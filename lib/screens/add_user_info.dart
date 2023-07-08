@@ -11,19 +11,19 @@ enum Gender { male, female }
 
 class _AddUserInfoState extends State<AddUserInfo> {
   Gender? _gender = Gender.male;
-  String _unit = 'pounds';
+  final String _unit = 'pounds';
   double _wieght = 0;
-  String _briod = 'AM';
+  final String _briod = 'AM';
   late String _time;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 197, 239, 250),
+      backgroundColor: const Color.fromARGB(255, 197, 239, 250),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 35.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 38, left: 35, right: 284),
               child: Text(
                 'Gender',
@@ -40,7 +40,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
                 children: <Widget>[
                   RadioListTile<Gender>(
                     activeColor: const Color.fromARGB(255, 7, 107, 132),
-                    title: Text('Male'),
+                    title: const Text('Male'),
                     value: Gender.male,
                     groupValue: _gender,
                     onChanged: (Gender? value) {
@@ -50,8 +50,8 @@ class _AddUserInfoState extends State<AddUserInfo> {
                     },
                   ),
                   RadioListTile<Gender>(
-                    activeColor: Color.fromARGB(255, 7, 107, 132),
-                    title: Text('Female'),
+                    activeColor: const Color.fromARGB(255, 7, 107, 132),
+                    title: const Text('Female'),
                     value: Gender.female,
                     groupValue: _gender,
                     onChanged: (Gender? value) {
@@ -64,10 +64,10 @@ class _AddUserInfoState extends State<AddUserInfo> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 15, left: 35, right: 84),
+              padding: const EdgeInsets.only(top: 15, left: 35, right: 84),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Weight',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -97,10 +97,10 @@ class _AddUserInfoState extends State<AddUserInfo> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 38, left: 35, right: 80),
+              padding: const EdgeInsets.only(top: 38, left: 35, right: 80),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Wake-up time',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -129,10 +129,10 @@ class _AddUserInfoState extends State<AddUserInfo> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 38, left: 35, right: 80),
+              padding: const EdgeInsets.only(top: 38, left: 35, right: 80),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Bedtime',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -173,7 +173,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18)),
-                        backgroundColor: Color.fromARGB(255, 7, 107, 132)),
+                        backgroundColor: const Color.fromARGB(255, 7, 107, 132)),
                     onPressed: () {},
                     child: const Text(
                       "OK",

@@ -54,7 +54,7 @@ class UserInfoPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28)),
-                      backgroundColor: Color.fromARGB(255, 7, 107, 132)),
+                      backgroundColor: const Color.fromARGB(255, 7, 107, 132)),
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,

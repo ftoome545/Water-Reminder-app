@@ -15,8 +15,8 @@ class SignUpPage extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('images/login_image.jpg'),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -28,22 +28,22 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
               child: EmailPassword(
                 email: 'Full Name',
                 hint: 'Fatima Hure',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
               child: EmailPassword(
                 email: 'Email',
                 hint: 'fatimahure@gmail.com',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
               child: EmailPassword(
                 email: 'Password',
                 hint: 'Enter your password',
@@ -67,11 +67,11 @@ class SignUpPage extends StatelessWidget {
                         text: TextSpan(
                             text: 'Already Member?',
                             style:
-                                TextStyle(fontSize: 18.0, color: Colors.white),
+                                const TextStyle(fontSize: 18.0, color: Colors.white),
                             children: [
                               TextSpan(
                                   text: ' Login',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
@@ -99,9 +99,9 @@ class SignUpPage extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(7),
-                              side: BorderSide(color: Colors.white, width: 2),
+                              side: const BorderSide(color: Colors.white, width: 2),
                             ),
-                            backgroundColor: Color.fromARGB(255, 7, 107, 132),
+                            backgroundColor: const Color.fromARGB(255, 7, 107, 132),
                           ),
                           onPressed: () {
                             Navigator.pushReplacement(
@@ -110,7 +110,7 @@ class SignUpPage extends StatelessWidget {
                                     builder: (context) =>
                                         const UserInfoPage()));
                           },
-                          child: Text(
+                          child: const Text(
                             'Sign Up',
                             style: TextStyle(fontSize: 24),
                           ),

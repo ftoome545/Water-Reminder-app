@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EmailPassword extends StatelessWidget {
-  const EmailPassword({
+  const EmailPassword({super.key, 
     required this.email,
     required this.hint,
   });
@@ -16,7 +16,7 @@ class EmailPassword extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               email,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromARGB(255, 7, 96, 168), fontSize: 15),
             )),
         Padding(
@@ -25,7 +25,7 @@ class EmailPassword extends StatelessWidget {
             decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromARGB(255, 7, 96, 168),
                       width: 2,
                     )),

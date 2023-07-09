@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../screens/home.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({ Key? key }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -10,11 +11,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int index = 0;
   final pages = [
-    const Center(
-        child: Text(
-      'Welcom to Home Page',
-      style: TextStyle(fontSize: 37),
-    )),
+    const Home(),
     const Center(
         child: Text(
       'Profile Page',
@@ -23,33 +20,24 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 7, 96, 168),
-          title: const Text(
-            'Water reminder',
-            style: TextStyle(fontSize: 24.0, color: Colors.white),
+    return Scaffold(
+      body: pages[index],
+      bottomNavigationBar: NavigationBar(
+        height: 60,
+        selectedIndex: index,
+        onDestinationSelected: (index) => setState(() => this.index = index),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+            selectedIcon: Icon(Icons.home),
           ),
-        ),
-        body: pages[index],
-        bottomNavigationBar: NavigationBar(
-          height: 60,
-          selectedIndex: index,
-          onDestinationSelected: (index) => setState(() => this.index = index),
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-              selectedIcon: Icon(Icons.home),
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.account_circle_outlined),
-              label: 'Home',
-              selectedIcon: Icon(Icons.account_circle),
-            ),
-          ],
-        ),
+          NavigationDestination(
+            icon: Icon(Icons.account_circle_outlined),
+            label: 'Home',
+            selectedIcon: Icon(Icons.account_circle),
+          ),
+        ],
       ),
     );
   }

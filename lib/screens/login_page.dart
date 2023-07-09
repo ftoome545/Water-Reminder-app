@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:water_reminder_app/screens/reset_password.dart';
 import 'package:water_reminder_app/screens/signUp_page.dart';
 import '../widgets/email_password.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -41,8 +42,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const Padding(
-              padding:
-                  EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+              padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
               child: EmailPassword(
                 email: 'Password',
                 hint: 'Enter your password',
@@ -91,8 +91,8 @@ class _LoginPageState extends State<LoginPage> {
                       child: RichText(
                         text: TextSpan(
                             text: 'New here?',
-                            style:
-                                const TextStyle(fontSize: 18.0, color: Colors.white),
+                            style: const TextStyle(
+                                fontSize: 18.0, color: Colors.white),
                             children: [
                               TextSpan(
                                   text: ' Sign Up',
@@ -124,11 +124,18 @@ class _LoginPageState extends State<LoginPage> {
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(7),
-                              side: const BorderSide(color: Colors.white, width: 2),
+                              side: const BorderSide(
+                                  color: Colors.white, width: 2),
                             ),
-                            backgroundColor: const Color.fromARGB(255, 7, 107, 132),
+                            backgroundColor:
+                                const Color.fromARGB(255, 7, 107, 132),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()));
+                          },
                           child: const Text(
                             'Login',
                             style: TextStyle(fontSize: 24),

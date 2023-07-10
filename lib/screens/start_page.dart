@@ -16,7 +16,7 @@ class _StartPageState extends State<StartPage> {
       width: 120,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 7, 96, 168),
+          backgroundColor: const Color.fromARGB(255, 7, 107, 132),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8)), // Background color
         ),
@@ -36,7 +36,7 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 7, 96, 168),
+        backgroundColor: const Color.fromARGB(255, 7, 107, 132),
         title: const Text(
           'Water reminder',
           style: TextStyle(fontSize: 24.0, color: Colors.white),

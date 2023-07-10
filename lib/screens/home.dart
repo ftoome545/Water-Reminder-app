@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/start_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,8 +13,19 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          ListTile(
+            leading: Icon(
+              Icons.arrow_back,
+              color: Colors.grey,
+              size: 29,
+            ),
+            onTap: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const StartPage()));
+            },
+          ),
           Padding(
             padding: EdgeInsets.all(50.0),
             child: SizedBox(

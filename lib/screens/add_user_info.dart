@@ -18,7 +18,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 197, 239, 250),
+      // backgroundColor: const Color.fromARGB(255, 197, 239, 250),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 35.0),
@@ -172,8 +172,9 @@ class _AddUserInfoState extends State<AddUserInfo> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18)),
-                        backgroundColor: const Color.fromARGB(255, 7, 107, 132)),
+                            borderRadius: BorderRadius.circular(25)),
+                        backgroundColor:
+                            const Color.fromARGB(255, 7, 107, 132)),
                     onPressed: () {},
                     child: const Text(
                       "OK",
@@ -194,6 +195,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
   DropdownButton<String> dropdownButtonFunction(
       String one, String two, String three) {
     return DropdownButton<String>(
+      iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
       value: one,
       onChanged: (String? newValue) {
         setState(() {

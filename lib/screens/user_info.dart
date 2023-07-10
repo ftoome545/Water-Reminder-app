@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/start_page.dart';
 import '../screens/add_user_info.dart';
 
 class UserInfoPage extends StatelessWidget {
@@ -10,9 +11,23 @@ class UserInfoPage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 28.0, bottom: 50),
+            child: ListTile(
+              leading: Icon(
+                Icons.arrow_back,
+                color: Colors.grey,
+                size: 29,
+              ),
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const StartPage()));
+              },
+            ),
+          ),
           Container(
             padding: const EdgeInsets.only(
-              top: 98.0,
+              top: 78.0,
               left: 34.0,
               right: 88.0,
               bottom: 18.0,
@@ -30,7 +45,7 @@ class UserInfoPage extends StatelessWidget {
               top: 18.0,
               left: 34.0,
               right: 50.0,
-              bottom: 62.0,
+              bottom: 22.0,
             ),
             child: const Text(
               "To keep your body hydrated I need to get some basic information. and I'll keep it save",
@@ -43,9 +58,10 @@ class UserInfoPage extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.only(
-              top: 62,
+              top: 52,
               left: 62,
-              right: 89,
+              right: 62,
+              bottom: 99,
             ),
             child: SizedBox(
               width: 309,

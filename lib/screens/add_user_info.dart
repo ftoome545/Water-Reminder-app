@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water_reminder_app/screens/home_page.dart';
 
 class AddUserInfo extends StatefulWidget {
   const AddUserInfo({super.key});
@@ -11,14 +12,13 @@ enum Gender { male, female }
 
 class _AddUserInfoState extends State<AddUserInfo> {
   Gender? _gender = Gender.male;
-  final String _unit = 'pounds';
+  String _unit = 'pounds';
   double _wieght = 0;
-  final String _briod = 'AM';
+  String _briod = 'AM';
   late String _time;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 197, 239, 250),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 35.0),
@@ -73,7 +73,22 @@ class _AddUserInfoState extends State<AddUserInfo> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 22.0),
-                    child: dropdownButtonFunction(_unit, 'pounds', 'kilograms'),
+                    child: DropdownButton<String>(
+                      iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
+                      value: _unit,
+                      items: <String>['pounds', 'kilograms']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _unit = newValue!;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -106,7 +121,22 @@ class _AddUserInfoState extends State<AddUserInfo> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 22.0),
-                    child: dropdownButtonFunction(_briod, 'AM', 'PM'),
+                    child: DropdownButton<String>(
+                      iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
+                      value: _briod,
+                      items: <String>['AM', 'PM']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _briod = newValue!;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -138,7 +168,22 @@ class _AddUserInfoState extends State<AddUserInfo> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 22.0),
-                    child: dropdownButtonFunction(_briod, 'AM', 'PM'),
+                    child: DropdownButton<String>(
+                      iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
+                      value: _briod,
+                      items: <String>['AM', 'PM']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _briod = newValue!;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -167,7 +212,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
                 right: 56,
               ),
               child: SizedBox(
-                width: 209,
+                width: 300,
                 height: 54.79,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -175,7 +220,12 @@ class _AddUserInfoState extends State<AddUserInfo> {
                             borderRadius: BorderRadius.circular(25)),
                         backgroundColor:
                             const Color.fromARGB(255, 7, 107, 132)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                    },
                     child: const Text(
                       "OK",
                       style: TextStyle(
@@ -189,25 +239,6 @@ class _AddUserInfoState extends State<AddUserInfo> {
           ]),
         ),
       ),
-    );
-  }
-
-  DropdownButton<String> dropdownButtonFunction(
-      String one, String two, String three) {
-    return DropdownButton<String>(
-      iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
-      value: one,
-      onChanged: (String? newValue) {
-        setState(() {
-          one = newValue!;
-        });
-      },
-      items: <String>[two, three].map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
   }
 }

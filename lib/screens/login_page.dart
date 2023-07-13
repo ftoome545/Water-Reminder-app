@@ -34,18 +34,22 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(20.0),
               child: EmailPassword(
-                email: 'Email',
+                title: 'Email',
                 hint: 'Enter your email',
+                onchanged: (value) {},
+                obscureText: false,
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
               child: EmailPassword(
-                email: 'Password',
+                title: 'Password',
                 hint: 'Enter your password',
+                onchanged: (value) {},
+                obscureText: true,
               ),
             ),
             Padding(

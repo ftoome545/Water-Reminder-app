@@ -3,10 +3,20 @@ import 'package:flutter/material.dart';
 import '../screens/user_info.dart';
 import '../screens/login_page.dart';
 import '../widgets/email_password.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final _auth = FirebaseAuth.instance;
+  late String userName;
+  late String email;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,25 +38,37 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(10.0),
               child: EmailPassword(
-                email: 'Full Name',
+                title: 'Full Name',
                 hint: 'Fatima Hure',
+                onchanged: (value) {
+                  userName = value;
+                },
+                obscureText: false,
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(10.0),
               child: EmailPassword(
-                email: 'Email',
+                title: 'Email',
                 hint: 'fatimahure@gmail.com',
+                onchanged: (value) {
+                  email = value;
+                },
+                obscureText: false,
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(10.0),
               child: EmailPassword(
-                email: 'Password',
+                title: 'Password',
                 hint: 'Enter your password',
+                onchanged: (value) {
+                  password = value;
+                },
+                obscureText: true,
               ),
             ),
             Stack(
@@ -66,8 +88,8 @@ class SignUpPage extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(
                             text: 'Already Member?',
-                            style:
-                                const TextStyle(fontSize: 18.0, color: Colors.white),
+                            style: const TextStyle(
+                                fontSize: 18.0, color: Colors.white),
                             children: [
                               TextSpan(
                                   text: ' Login',
@@ -99,16 +121,24 @@ class SignUpPage extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(7),
-                              side: const BorderSide(color: Colors.white, width: 2),
+                              side: const BorderSide(
+                                  color: Colors.white, width: 2),
                             ),
-                            backgroundColor: const Color.fromARGB(255, 7, 107, 132),
+                            backgroundColor:
+                                const Color.fromARGB(255, 7, 107, 132),
                           ),
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const UserInfoPage()));
+                          onPressed: () async {
+                            try {
+                              final newUser =
+                                  await _auth.createUserWithEmailAndPassword(
+                                      email: email, password: password);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UserInfoPage()));
+                            } catch (e) {
+                              print(e);
+                            }
                           },
                           child: const Text(
                             'Sign Up',

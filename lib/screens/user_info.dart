@@ -1,9 +1,36 @@
 import 'package:flutter/material.dart';
 import '../screens/start_page.dart';
 import '../screens/add_user_info.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class UserInfoPage extends StatelessWidget {
+class UserInfoPage extends StatefulWidget {
   const UserInfoPage({super.key});
+
+  @override
+  State<UserInfoPage> createState() => _UserInfoPageState();
+}
+
+class _UserInfoPageState extends State<UserInfoPage> {
+  final _auth = FirebaseAuth.instance;
+  late User signUPUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        signUPUser = user;
+        print(signUPUser.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +59,7 @@ class UserInfoPage extends StatelessWidget {
               right: 88.0,
               bottom: 18.0,
             ),
-            child: const Text(
+            child: Text(
               "Hi, I'm a water reminder system",
               style: TextStyle(
                 fontSize: 40,

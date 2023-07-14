@@ -38,7 +38,7 @@ dependencies:
   firebase_core: ^2.14.0
   firebase_auth: ^4.6.3
   cloud_firestore: ^4.8.2
-  another_flushbar: ^1.12.30
+  modal_progress_hud_nsn: ^0.4.0
 
 dev_dependencies:
   flutter_test:

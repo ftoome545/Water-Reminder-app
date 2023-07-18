@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:water_reminder_app/screens/home_page.dart';
+import '../screens/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'home.dart';
 
 class AddUserInfo extends StatefulWidget {
   const AddUserInfo({super.key});
@@ -11,11 +14,13 @@ class AddUserInfo extends StatefulWidget {
 enum Gender { male, female }
 
 class _AddUserInfoState extends State<AddUserInfo> {
+  final _firestore = FirebaseFirestore.instance;
   Gender? _gender = Gender.male;
   String _unit = 'pounds';
   double _wieght = 0;
   String _briod = 'AM';
-  late String _time;
+  late String _bedtime;
+  late String _wakeUptime;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +158,8 @@ class _AddUserInfoState extends State<AddUserInfo> {
                     labelText: _briod == 'AM' ? '05:30 AM' : '11:00 PM'),
                 onChanged: (String newValue) {
                   setState(() {
-                    _time = String.fromCharCode(newValue as int) ?? '02:55 PM';
+                    _wakeUptime = newValue;
+                    // _time = String.fromCharCode(newValue as String) ?? '02:55 PM';
                   });
                 },
               ),
@@ -200,13 +206,13 @@ class _AddUserInfoState extends State<AddUserInfo> {
                     labelText: _briod == 'AM' ? '05:30 AM' : '11:00 PM'),
                 onChanged: (String newValue) {
                   setState(() {
-                    _time = String.fromCharCode(newValue as int) ?? '02:55 PM';
+                    _bedtime = newValue;
                   });
                 },
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                 top: 38,
                 left: 57,
                 right: 56,
@@ -218,13 +224,17 @@ class _AddUserInfoState extends State<AddUserInfo> {
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        backgroundColor:
-                            const Color.fromARGB(255, 7, 107, 132)),
+                        backgroundColor: Color.fromARGB(255, 7, 107, 132)),
                     onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                      String stringGender = _gender.toString().split(".").last;
+                      _firestore.collection('users').add({
+                        'bedtime': _bedtime,
+                        'gender': stringGender,
+                        'wake-up time': _wakeUptime,
+                        'weight': _wieght,
+                      });
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => Home()));
                     },
                     child: const Text(
                       "OK",

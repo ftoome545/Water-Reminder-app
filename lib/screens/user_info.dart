@@ -13,6 +13,7 @@ class UserInfoPage extends StatefulWidget {
 class _UserInfoPageState extends State<UserInfoPage> {
   final _auth = FirebaseAuth.instance;
   late User signUPUser;
+  late String userEmail;
 
   @override
   void initState() {
@@ -26,6 +27,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       if (user != null) {
         signUPUser = user;
         print(signUPUser.email);
+        userEmail = signUPUser.email!;
       }
     } catch (e) {
       print(e);
@@ -39,7 +41,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 28.0, bottom: 50),
+            padding: const EdgeInsets.only(top: 28.0, bottom: 68),
             child: ListTile(
               leading: Icon(
                 Icons.arrow_back,
@@ -60,9 +62,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
               bottom: 18.0,
             ),
             child: Text(
-              "Hi, I'm a water reminder system",
+              "Hi $userEmail, I'm a water reminder system",
               style: TextStyle(
-                fontSize: 40,
+                fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
             ),

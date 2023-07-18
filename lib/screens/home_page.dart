@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int index = 0;
   final pages = [
-    const Home(),
+    //  Home(),
     const Center(
         child: Text(
       'Profile Page',

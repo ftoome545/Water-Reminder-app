@@ -42,22 +42,22 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: EmailPassword(
-                  title: 'Full Name',
-                  hint: 'Fatima Hure',
-                  onchanged: (value) {
-                    userName = value;
-                  },
-                  obscureText: false,
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.all(10.0),
+              //   child: EmailPassword(
+              //     title: 'Full Name',
+              //     hint: 'Fatima Hure',
+              //     onchanged: (value) {
+              //       userName = value;
+              //     },
+              //     obscureText: false,
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: EmailPassword(
                   title: 'Email',
-                  hint: 'fatimahure@gmail.com',
+                  hint: 'user_name@gmail.com',
                   onchanged: (value) {
                     email = value;
                   },

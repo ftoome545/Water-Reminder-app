@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../screens/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'home.dart';
@@ -19,6 +18,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
   String _unit = 'pounds';
   double _wieght = 0;
   String _briod = 'AM';
+  String _briodTow = 'PM';
   late String _bedtime;
   late String _wakeUptime;
   @override
@@ -29,7 +29,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
           padding: const EdgeInsets.only(top: 35.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Padding(
-              padding: EdgeInsets.only(top: 38, left: 35, right: 284),
+              padding: EdgeInsets.only(top: 38, left: 35, right: 280),
               child: Text(
                 'Gender',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -108,7 +108,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     labelText:
-                        _unit == 'pounds' ? 'Wieght (lbs)' : 'Wieght (kg)'),
+                        _unit == 'pounds' ? 'Weight (lbs)' : 'Weight (kg)'),
                 onChanged: (String newValue) {
                   setState(() {
                     _wieght = double.tryParse(newValue) ?? 0;
@@ -176,7 +176,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
                     padding: const EdgeInsets.only(left: 22.0),
                     child: DropdownButton<String>(
                       iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
-                      value: _briod,
+                      value: _briodTow,
                       items: <String>['AM', 'PM']
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
@@ -186,7 +186,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
                       }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
-                          _briod = newValue!;
+                          _briodTow = newValue!;
                         });
                       },
                     ),
@@ -203,7 +203,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
               child: TextFormField(
                 keyboardType: TextInputType.datetime,
                 decoration: InputDecoration(
-                    labelText: _briod == 'AM' ? '05:30 AM' : '11:00 PM'),
+                    labelText: _briodTow == 'AM' ? '05:30 AM' : '11:00 PM'),
                 onChanged: (String newValue) {
                   setState(() {
                     _bedtime = newValue;
@@ -213,7 +213,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                top: 38,
+                top: 30,
                 left: 57,
                 right: 56,
               ),
@@ -233,8 +233,11 @@ class _AddUserInfoState extends State<AddUserInfo> {
                         'wake-up time': _wakeUptime,
                         'weight': _wieght,
                       });
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => Home()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => Home(
+                                weight: _wieght,
+                                unit: _unit,
+                              )));
                     },
                     child: const Text(
                       "OK",

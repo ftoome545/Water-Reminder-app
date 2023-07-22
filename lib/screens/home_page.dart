@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/home.dart';
+import '../screens/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,9 +14,10 @@ class _HomePageState extends State<HomePage> {
     //  Home(),
     const Center(
         child: Text(
-      'Profile Page',
+      'Home Page',
       style: TextStyle(fontSize: 37),
     )),
+    const ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           ),
           NavigationDestination(
             icon: Icon(Icons.account_circle_outlined),
-            label: 'Home',
+            label: 'Profile',
             selectedIcon: Icon(Icons.account_circle),
           ),
         ],

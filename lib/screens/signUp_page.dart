@@ -38,7 +38,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 7, 96, 168)),
+                        color: Color.fromARGB(255, 7, 107, 132)),
                   ),
                 ),
               ),
@@ -88,6 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 200.0,
+                          left: 10,
                         ),
                         child: RichText(
                           text: TextSpan(
@@ -116,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 130.0,
-                          left: 30.0,
+                          left: 2.0,
                         ),
                         child: SizedBox(
                           width: 130.8,

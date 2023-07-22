@@ -22,7 +22,7 @@ class EmailPassword extends StatelessWidget {
             child: Text(
               title,
               style: const TextStyle(
-                  color: Color.fromARGB(255, 7, 96, 168), fontSize: 15),
+                  color: Color.fromARGB(255, 7, 107, 132), fontSize: 15),
             )),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),

@@ -62,9 +62,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
               bottom: 18.0,
             ),
             child: Text(
-              "Hi $userEmail, I'm a water reminder system",
+              "Hi, I'm a water reminder system",
               style: TextStyle(
-                fontSize: 35,
+                fontSize: 33,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -90,7 +90,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               top: 52,
               left: 62,
               right: 62,
-              bottom: 99,
+              bottom: 80,
             ),
             child: SizedBox(
               width: 309,

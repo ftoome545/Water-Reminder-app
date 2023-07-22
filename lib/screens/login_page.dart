@@ -36,9 +36,10 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Login',
                     style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 7, 96, 168)),
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 7, 107, 132),
+                    ),
                   ),
                 ),
               ),
@@ -65,10 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 8.0,
-                  left: 215.0,
-                ),
+                padding: const EdgeInsets.only(top: 8.0, left: 180),
                 // child: Text(
                 //   'Forgot Password?',
                 //   style: TextStyle(
@@ -79,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Forgot Passsword?',
                       style: const TextStyle(
                         fontSize: 18,
-                        color: Color.fromARGB(255, 7, 96, 168),
+                        color: Color.fromARGB(255, 7, 107, 132),
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -103,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 200.0,
+                          left: 10,
                         ),
                         child: RichText(
                           text: TextSpan(
@@ -131,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 130.0,
-                          left: 55.0,
+                          left: 33.0,
                         ),
                         child: SizedBox(
                           width: 130.8,
@@ -167,10 +166,6 @@ class _LoginPageState extends State<LoginPage> {
                               } catch (e) {
                                 print(e);
                               }
-                              // Navigator.pushReplacement(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => const HomePage()));
                             },
                             child: const Text(
                               'Login',

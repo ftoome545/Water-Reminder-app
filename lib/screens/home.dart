@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:water_reminder_app/screens/profile_page.dart';
 
+import '../widgets/drink_record.dart';
+
 class Home extends StatefulWidget {
   final double weight;
   final String unit;
@@ -157,39 +159,15 @@ class _HomeState extends State<Home> {
                 ),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 22, right: 22),
-                      child: ListTile(
-                        title: Text('175ml'),
-                        trailing: Text(
-                          '...',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        leading: Text(
-                          "03:44 PM ",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
+                    DrinkRecord(
+                      amountOfWater: '175 ml',
+                      time: '03:44 PM',
+                      onTab: () {},
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 22, right: 22),
-                      child: ListTile(
-                        title: Text('175ml'),
-                        trailing: Text(
-                          '...',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        leading: Text(
-                          "03:44 PM ",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
+                    DrinkRecord(
+                      amountOfWater: '175 ml',
+                      time: '03:44 PM',
+                      onTab: () {},
                     ),
                   ],
                 ),

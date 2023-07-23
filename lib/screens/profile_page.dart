@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:water_reminder_app/screens/home.dart';
-import 'package:water_reminder_app/screens/home_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

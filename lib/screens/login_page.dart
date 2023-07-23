@@ -153,6 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                 final user =
                                     await _auth.signInWithEmailAndPassword(
                                         email: email, password: password);
+                                // ignore: unnecessary_null_comparison
                                 if (user != null) {
                                   Navigator.pushReplacement(
                                       context,

@@ -27,32 +27,84 @@ class _HomeState extends State<Home> {
         time: '11:0 AM',
         amountOfWater: '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
       ),
-      DrinkRecordModel(
-        time: '03:44 PM',
-        amountOfWater: '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
-      ),
-      DrinkRecordModel(
-        time: '12:44 AM',
-        amountOfWater: '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
-      ),
     ]);
   }
 
-  double calRecommAmount() {
-    widget.unit == 'kilograms'
-        ? recommendedAmount = widget.weight * 30
-        : recommendedAmount = widget.weight * 0.5;
-    return recommendedAmount;
-  }
-
-  void changeUnit() {
-    widget.unit == 'kilograms' ? '175 ml' : '6 fl oz';
+  String changeUnit() {
+    return widget.unit == 'kilograms' ? '175 ml' : '6 fl oz';
   }
 
   void _deleteItem(int index) {
     setState(() {
       _items.value.removeAt(index);
     });
+  }
+
+  void _editItem(int index) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        String updatedTime = _items.value[index].time;
+        String updatedAmount = _items.value[index].amountOfWater;
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              height: 300,
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Edit Record',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Time',
+                      hintText: 'Enter new time',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        updatedTime = value;
+                      });
+                    },
+                    // controller: TextEditingController(text: updatedTime),
+                  ),
+                  SizedBox(height: 16.0),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Amount of Water',
+                      hintText: 'Enter new amount',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        updatedAmount = value;
+                      });
+                    },
+                    // controller: TextEditingController(text: updatedAmount),
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    child: Text('Save'),
+                    onPressed: () {
+                      setState(() {
+                        _items.value[index].time = updatedTime;
+                        _items.value[index].amountOfWater = updatedAmount;
+                      });
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -95,12 +147,14 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
+                      //coffee ListTile button
                       Padding(
                         padding: const EdgeInsets.only(
                             bottom: 20, left: 57, right: 57),
                         child: ListTile(
                           title: Text(
-                            '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
+                            // '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
+                            changeUnit(),
                             style: TextStyle(
                               fontSize: 18,
                             ),
@@ -114,6 +168,10 @@ class _HomeState extends State<Home> {
                               widget.unit == 'kilograms'
                                   ? amount += 175
                                   : amount += 6;
+                              _items.value.add(DrinkRecordModel(
+                                time: TimeOfDay.now().format(context),
+                                amountOfWater: changeUnit(),
+                              ));
                             });
                           },
                         ),
@@ -148,7 +206,7 @@ class _HomeState extends State<Home> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Today's drunks",
+                "Today's records",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -162,6 +220,7 @@ class _HomeState extends State<Home> {
               child: SizedBox(
                 height: 155,
                 width: 350,
+                //today's records card
                 child: Card(
                   margin: EdgeInsets.zero,
                   color: Color.fromARGB(255, 220, 239, 249),
@@ -182,6 +241,9 @@ class _HomeState extends State<Home> {
                             onDelete: () {
                               _deleteItem(index);
                             },
+                            onEdit: () {
+                              _editItem(index);
+                            },
                           );
                         },
                       );
@@ -194,6 +256,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       bottomNavigationBar: NavigationBar(
+        indicatorColor: Color.fromARGB(218, 220, 239, 249),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         backgroundColor: const Color.fromARGB(255, 7, 107, 132),
         height: 60,
@@ -210,7 +273,7 @@ class _HomeState extends State<Home> {
             label: 'Home',
             selectedIcon: Icon(
               Icons.home,
-              color: Colors.white,
+              color: const Color.fromARGB(255, 7, 107, 132),
             ),
           ),
           NavigationDestination(

@@ -6,15 +6,18 @@ class DrinkRecord extends StatelessWidget {
     required this.time,
     required this.amountOfWater,
     required this.onDelete,
+    required this.onEdit,
   });
 
   final String time;
   final String amountOfWater;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
   void actionPopUpItemSelected(String value) {
     if (value == 'edit') {
       // You can navigate the user to edit page.
+      onEdit();
     } else if (value == 'delete') {
       // You can delete the item.
       onDelete();
@@ -38,11 +41,23 @@ class DrinkRecord extends StatelessWidget {
                 return [
                   PopupMenuItem(
                     value: 'delete',
-                    child: Text('Delete'),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.delete,
+                        color: const Color.fromARGB(255, 7, 107, 132),
+                      ),
+                      title: Text('Delete'),
+                    ),
                   ),
                   PopupMenuItem(
                     value: 'edit',
-                    child: Text('Edit'),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.edit,
+                        color: const Color.fromARGB(255, 7, 107, 132),
+                      ),
+                      title: Text('Edit'),
+                    ),
                   ),
                 ];
               },
@@ -63,8 +78,8 @@ class DrinkRecord extends StatelessWidget {
 }
 
 class DrinkRecordModel {
-  final String time;
-  final String amountOfWater;
+  String time;
+  String amountOfWater;
   DrinkRecordModel({
     required this.time,
     required this.amountOfWater,

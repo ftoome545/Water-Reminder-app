@@ -42,66 +42,74 @@ class _HomeState extends State<Home> {
 
   void _editItem(int index) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         String updatedTime = _items.value[index].time;
         String updatedAmount = _items.value[index].amountOfWater;
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              height: 300,
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Edit Record',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+        TextEditingController timeController =
+            TextEditingController(text: updatedTime);
+        TextEditingController amountController =
+            TextEditingController(text: updatedAmount);
+        return Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                height: 300,
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Edit Record',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16.0),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Time',
-                      hintText: 'Enter new time',
+                    SizedBox(height: 16.0),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Time',
+                        hintText: 'Enter new time',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          updatedTime = value;
+                          _items.value[index].time = value;
+                        });
+                      },
+                      controller: timeController,
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        updatedTime = value;
-                      });
-                    },
-                    // controller: TextEditingController(text: updatedTime),
-                  ),
-                  SizedBox(height: 16.0),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Amount of Water',
-                      hintText: 'Enter new amount',
+                    SizedBox(height: 16.0),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Amount of Water',
+                        hintText: 'Enter new amount',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          updatedAmount = value;
+                          _items.value[index].amountOfWater = value;
+                        });
+                      },
+                      controller: amountController,
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        updatedAmount = value;
-                      });
-                    },
-                    // controller: TextEditingController(text: updatedAmount),
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    child: Text('Save'),
-                    onPressed: () {
-                      setState(() {
-                        _items.value[index].time = updatedTime;
-                        _items.value[index].amountOfWater = updatedAmount;
-                      });
-                      Navigator.pop(context);
-                    },
-                  )
-                ],
-              ),
-            );
-          },
+                    SizedBox(height: 16.0),
+                    ElevatedButton(
+                      child: Text('Save'),
+                      onPressed: () {
+                        _items.notifyListeners();
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
         );
       },
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../screens/user_info.dart';
-import '../screens/login_page.dart';
+import '../model/pages_names.dart';
 import '../widgets/email_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -105,11 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const LoginPage()));
+                                        Navigator.pushNamed(context, logInPage);
                                       }),
                               ]),
                         ),
@@ -141,10 +136,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 final newUser =
                                     await _auth.createUserWithEmailAndPassword(
                                         email: email, password: password);
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => UserInfoPage()));
+                                Navigator.pushNamed(context, userDataPage);
                                 setState(() {
                                   showSpinner = false;
                                 });

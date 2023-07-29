@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/add_user_info.dart';
+import 'package:water_reminder_app/model/pages_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserInfoPage extends StatefulWidget {
@@ -100,10 +100,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           borderRadius: BorderRadius.circular(28)),
                       backgroundColor: const Color.fromARGB(255, 7, 107, 132)),
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AddUserInfo()));
+                    Navigator.pushNamed(context, addUserDataPage);
                   },
                   child: const Text(
                     "Let's Start",

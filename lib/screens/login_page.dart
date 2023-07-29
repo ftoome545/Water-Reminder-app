@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:water_reminder_app/screens/user_info.dart';
+import '../model/pages_names.dart';
 import '../screens/reset_password.dart';
-import '../screens/signUp_page.dart';
 import '../widgets/email_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -118,11 +117,8 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignUpPage()));
+                                        Navigator.pushNamed(
+                                            context, signUpPage);
                                       }),
                               ]),
                         ),
@@ -155,11 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                                         email: email, password: password);
                                 // ignore: unnecessary_null_comparison
                                 if (user != null) {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              UserInfoPage()));
+                                  Navigator.pushNamed(context, userDataPage);
                                   setState(() {
                                     showSpinner = false;
                                   });

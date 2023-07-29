@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../screens/start_page.dart';
+import 'model/pages_names.dart';
 
 // void main() {
 //   runApp(MaterialApp(home: const MyApp()));
@@ -9,10 +9,14 @@ import '../screens/start_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MaterialApp(
-    home: MyApp(),
-    debugShowCheckedModeBanner: false,
-  ));
+  runApp(
+    MyApp(),
+    // debugShowCheckedModeBanner: false,
+    // routes: {
+    //   // '/': (context) => StartPage(),
+    //   // Home.homePage:(context) => Hom(),
+    // },
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -25,6 +29,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const StartPage();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: startPage,
+      onGenerateRoute: MyRoutes.genrateRoute,
+    );
   }
 }

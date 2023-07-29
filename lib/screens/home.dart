@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:water_reminder_app/screens/profile_page.dart';
-
 import '../widgets/drink_record.dart';
 
 class Home extends StatefulWidget {
   final double weight;
   final String unit;
+  final String bedTime;
+  final String wakeUpTime;
   Home({
     required this.weight,
     required this.unit,
+    required this.bedTime,
+    required this.wakeUpTime,
   });
 
   @override
@@ -16,6 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // static const homePage = '/homePage';
   late ValueNotifier<List<DrinkRecordModel>> _items;
   double amount = 0;
   late double recommendedAmount;
@@ -67,6 +70,7 @@ class _HomeState extends State<Home> {
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 7, 107, 132),
                       ),
                     ),
                     SizedBox(height: 16.0),
@@ -99,6 +103,11 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7)),
+                        backgroundColor: const Color.fromARGB(255, 7, 107, 132),
+                      ),
                       child: Text('Save'),
                       onPressed: () {
                         _items.notifyListeners();
@@ -117,6 +126,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // final args = ModalRoute.of(context)!.settings.arguments as Home;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -260,37 +270,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        indicatorColor: Color.fromARGB(218, 220, 239, 249),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-        backgroundColor: const Color.fromARGB(255, 7, 107, 132),
-        height: 60,
-        // selectedIndex: index,
-        onDestinationSelected: (value) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => ProfilePage()));
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(
-              Icons.home_outlined,
-            ),
-            label: 'Home',
-            selectedIcon: Icon(
-              Icons.home,
-              color: const Color.fromARGB(255, 7, 107, 132),
-            ),
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Icons.account_circle_outlined,
-              color: Colors.white,
-            ),
-            label: 'Profile',
-            selectedIcon: Icon(Icons.account_circle),
           ),
         ],
       ),

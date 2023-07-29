@@ -31,7 +31,16 @@ class DrinkRecord extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            contentPadding: EdgeInsets.only(),
+            contentPadding: EdgeInsets.only(left: 8, right: 10),
+            // subtitle: Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: Text(
+            //     nextTime,
+            //     style: TextStyle(
+            //       fontSize: 18,
+            //     ),
+            //   ),
+            // ),
             title: Text(amountOfWater),
             trailing: PopupMenuButton(
               onSelected: (value) {
@@ -80,8 +89,25 @@ class DrinkRecord extends StatelessWidget {
 class DrinkRecordModel {
   String time;
   String amountOfWater;
+  // String nextTime;s
   DrinkRecordModel({
     required this.time,
     required this.amountOfWater,
+    // required this.nextTime,
   });
 }
+
+// class UserData {
+//   String u; //unit
+//   double we; //weight
+//   String bedT; //bedtime
+//   String wakeUpT; //wake-up time
+
+//   UserData({
+//     required this.u,
+//     required this.we,
+//     required this.bedT,
+//     required this.wakeUpT,
+//   });
+  
+// }

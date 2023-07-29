@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/signUp_page.dart';
-import '../screens/login_page.dart';
+import '../model/pages_names.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -63,19 +62,13 @@ class _StartPageState extends State<StartPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 21.0, right: 110.0),
                   child: LoginSignUpBotton('Login', () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()));
+                    Navigator.pushNamed(context, logInPage);
                   }),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 21.0),
                   child: LoginSignUpBotton('SignUp', () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignUpPage()));
+                    Navigator.pushNamed(context, signUpPage);
                   }),
                 ),
               ],

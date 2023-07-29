@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'home.dart';
+import 'package:water_reminder_app/screens/home.dart';
+import 'package:water_reminder_app/screens/home_page.dart';
 
 class AddUserInfo extends StatefulWidget {
   const AddUserInfo({super.key});
@@ -16,7 +16,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
   final _firestore = FirebaseFirestore.instance;
   Gender? _gender = Gender.male;
   String _unit = 'pounds';
-  double _wieght = 0;
+  double _weight = 0;
   String _briod = 'AM';
   String _briodTow = 'PM';
   late String _bedtime;
@@ -111,7 +111,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
                         _unit == 'pounds' ? 'Weight (lbs)' : 'Weight (kg)'),
                 onChanged: (String newValue) {
                   setState(() {
-                    _wieght = double.tryParse(newValue) ?? 0;
+                    _weight = double.tryParse(newValue) ?? 0;
                   });
                 },
               ),
@@ -231,12 +231,14 @@ class _AddUserInfoState extends State<AddUserInfo> {
                         'bedtime': _bedtime,
                         'gender': stringGender,
                         'wake-up time': _wakeUptime,
-                        'weight': _wieght,
+                        'weight': _weight,
                       });
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Home(
-                                weight: _wieght,
+                          builder: (context) => HomePage(
+                                weight: _weight,
                                 unit: _unit,
+                                bedTime: _bedtime,
+                                wakeUpTime: _wakeUptime,
                               )));
                     },
                     child: const Text(

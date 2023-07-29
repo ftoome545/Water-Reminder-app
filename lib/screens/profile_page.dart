@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:water_reminder_app/screens/home.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  const ProfilePage(
+      {super.key,
+      required this.weightUnit,
+      required this.userWeight,
+      required this.userBedTime,
+      required this.userWakeUpTime});
+  final String weightUnit;
+  final double userWeight;
+  final String userBedTime;
+  final String userWakeUpTime;
 
   @override
   Widget build(BuildContext context) {
@@ -10,28 +18,24 @@ class ProfilePage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 548.0),
-            child: ListTile(
-              leading: Icon(
-                Icons.arrow_back,
-                color: const Color.fromARGB(255, 7, 107, 132),
-                size: 29,
-              ),
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Home(
-                              weight: 88,
-                              unit: 'kg',
-                            )));
-              },
-            ),
-          ),
-          const Center(
+          Center(
               child: Text(
-            'Profile Page',
+            userWakeUpTime,
+            style: TextStyle(fontSize: 37),
+          )),
+          Center(
+              child: Text(
+            userBedTime,
+            style: TextStyle(fontSize: 37),
+          )),
+          Center(
+              child: Text(
+            '$userWeight',
+            style: TextStyle(fontSize: 37),
+          )),
+          Center(
+              child: Text(
+            weightUnit,
             style: TextStyle(fontSize: 37),
           )),
         ],

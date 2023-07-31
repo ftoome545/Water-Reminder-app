@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../model/pages_names.dart';
@@ -13,6 +14,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  // final _emailController = TextEditingController();
+  // final _passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   late String userName;
   late String email;
@@ -55,6 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: EmailPassword(
+                  // contro: _emailController,
                   title: 'Email',
                   hint: 'user_name@gmail.com',
                   onchanged: (value) {
@@ -66,6 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: EmailPassword(
+                  // contro: _passwordController,
                   title: 'Password',
                   hint: 'Enter your password',
                   onchanged: (value) {
@@ -140,8 +145,29 @@ class _SignUpPageState extends State<SignUpPage> {
                                 setState(() {
                                   showSpinner = false;
                                 });
-                              } catch (e) {
-                                print(e);
+                              } on FirebaseAuthException catch (e) {
+                                String message;
+                                if (e.code == 'email-already-in-use') {
+                                  message =
+                                      'The email address is already in use by another account';
+                                } else if (e.code == 'weak-password') {
+                                  message = 'The password is too weak';
+                                } else if (e.code == 'invalid-email') {
+                                  message = 'The email address is invalid';
+                                } else {
+                                  message = 'An error occurred';
+                                }
+                                setState(() {
+                                  showSpinner = false;
+                                });
+                                Flushbar(
+                                  duration: const Duration(seconds: 3),
+                                  message: message,
+                                  flushbarPosition: FlushbarPosition.BOTTOM,
+                                  backgroundColor:
+                                      const Color.fromARGB(222, 244, 67, 54),
+                                ).show(context);
+                                // print(e);
                               }
                             },
                             child: const Text(

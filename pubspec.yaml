@@ -39,6 +39,8 @@ dependencies:
   firebase_auth: ^4.6.3
   cloud_firestore: ^4.8.2
   modal_progress_hud_nsn: ^0.4.0
+  shared_preferences: ^2.2.0
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import '../screens/reset_password.dart';
 import '../widgets/email_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -156,8 +157,26 @@ class _LoginPageState extends State<LoginPage> {
                                     showSpinner = false;
                                   });
                                 }
-                              } catch (e) {
-                                print(e);
+                              } on FirebaseAuthException catch (e) {
+                                String message;
+                                if (e.code == 'user-not-found') {
+                                  message = 'User not found';
+                                } else if (e.code == 'wrong-password') {
+                                  message = 'Wrong password';
+                                } else {
+                                  message = 'An error occurred';
+                                }
+                                setState(() {
+                                  showSpinner = false;
+                                });
+                                // Display the warning message using Flushbar
+                                Flushbar(
+                                  message: message,
+                                  backgroundColor:
+                                      const Color.fromARGB(222, 244, 67, 54),
+                                  duration: const Duration(seconds: 3),
+                                  flushbarPosition: FlushbarPosition.BOTTOM,
+                                )..show(context);
                               }
                             },
                             child: const Text(

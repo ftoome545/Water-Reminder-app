@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/drink_record.dart';
 
 class Home extends StatefulWidget {
@@ -18,19 +19,48 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // static const homePage = '/homePage';
+  static const _amountAdded = 'amount';
+  static const _recomendedWaterAmount = 'recommendedAmount';
+  static const _item = 'recordItem';
+
   late ValueNotifier<List<DrinkRecordModel>> _items;
   double amount = 0;
   late double recommendedAmount;
 
+  double _calculateRecommendedAmount() {
+    if (widget.unit == 'kilograms') {
+      return widget.weight * 30;
+    } else {
+      return widget.weight * 0.5;
+    }
+  }
+
   void initState() {
     super.initState();
+    _saveData();
+    _getData();
+    amount;
+    recommendedAmount = _calculateRecommendedAmount();
     _items = ValueNotifier([
       DrinkRecordModel(
         time: '11:0 AM',
         amountOfWater: '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
       ),
     ]);
+  }
+
+  void _saveData() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setDouble(_amountAdded, amount);
+    prefs.setDouble(_recomendedWaterAmount, recommendedAmount);
+    prefs.setStringList(_item, _items as List<String>);
+  }
+
+  void _getData() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.getDouble(_amountAdded) ?? amount;
+    prefs.getDouble(_recomendedWaterAmount) ?? recommendedAmount;
+    prefs.getStringList(_item) ?? _items;
   }
 
   String changeUnit() {
@@ -159,7 +189,7 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(
                             bottom: 21, left: 52, right: 52),
                         child: Text(
-                          '$amount / ${widget.unit == 'kilograms' ? recommendedAmount = widget.weight * 30 : recommendedAmount = widget.weight * 0.5} ${widget.unit == 'kilograms' ? 'ml' : 'oz'}',
+                          '${amount.round()} / ${widget.unit == 'kilograms' ? recommendedAmount.round() : recommendedAmount.round()} ${widget.unit == 'kilograms' ? 'ml' : 'oz'}',
                           style: TextStyle(
                             fontSize: 20,
                           ),

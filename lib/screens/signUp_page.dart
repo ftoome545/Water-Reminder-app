@@ -164,8 +164,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   duration: const Duration(seconds: 3),
                                   message: message,
                                   flushbarPosition: FlushbarPosition.BOTTOM,
-                                  backgroundColor:
-                                      const Color.fromARGB(222, 244, 67, 54),
+                                  backgroundColor: Colors.red,
                                 ).show(context);
                                 // print(e);
                               }

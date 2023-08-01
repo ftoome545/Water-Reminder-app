@@ -67,11 +67,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, left: 180),
-                // child: Text(
-                //   'Forgot Password?',
-                //   style: TextStyle(
-                //       fontSize: 18, color: Color.fromARGB(255, 7, 96, 168)),
-                // ),
                 child: RichText(
                   text: TextSpan(
                       text: 'Forgot Passsword?',
@@ -172,8 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                                 // Display the warning message using Flushbar
                                 Flushbar(
                                   message: message,
-                                  backgroundColor:
-                                      const Color.fromARGB(222, 244, 67, 54),
+                                  backgroundColor: Colors.red,
                                   duration: const Duration(seconds: 3),
                                   flushbarPosition: FlushbarPosition.BOTTOM,
                                 )..show(context);

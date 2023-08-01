@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class AddUserInfo extends StatefulWidget {
   const AddUserInfo({super.key});
@@ -20,6 +21,19 @@ class _AddUserInfoState extends State<AddUserInfo> {
   String _briodTow = 'PM';
   late String _bedtime;
   late String _wakeUptime;
+  bool _formValid = false;
+
+  void _validateForm() {
+    if (_gender == null ||
+        _weight == 0 ||
+        _wakeUptime == null ||
+        _bedtime == null) {
+      _formValid = false;
+    } else {
+      _formValid = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -225,20 +239,31 @@ class _AddUserInfoState extends State<AddUserInfo> {
                             borderRadius: BorderRadius.circular(25)),
                         backgroundColor: Color.fromARGB(255, 7, 107, 132)),
                     onPressed: () {
-                      String stringGender = _gender.toString().split(".").last;
-                      _firestore.collection('users').add({
-                        'bedtime': _bedtime,
-                        'gender': stringGender,
-                        'wake-up time': _wakeUptime,
-                        'weight': _weight,
-                      });
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomePage(
-                                weight: _weight,
-                                unit: _unit,
-                                bedTime: _bedtime,
-                                wakeUpTime: _wakeUptime,
-                              )));
+                      _validateForm();
+                      if (_formValid) {
+                        String stringGender =
+                            _gender.toString().split(".").last;
+                        _firestore.collection('users').add({
+                          'bedtime': _bedtime,
+                          'gender': stringGender,
+                          'wake-up time': _wakeUptime,
+                          'weight': _weight,
+                        });
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => HomePage(
+                                  weight: _weight,
+                                  unit: _unit,
+                                  bedTime: _bedtime,
+                                  wakeUpTime: _wakeUptime,
+                                )));
+                      } else {
+                        Flushbar(
+                          title: "Warning",
+                          message: "Please fill in all the form items.",
+                          duration: Duration(seconds: 4),
+                          backgroundColor: Colors.red,
+                        )..show(context);
+                      }
                     },
                     child: const Text(
                       "OK",

@@ -5,6 +5,7 @@ import 'package:water_reminder_app/screens/login_page.dart';
 // import 'package:water_reminder_app/screens/profile_page.dart';
 import 'package:water_reminder_app/screens/signUp_page.dart';
 import 'package:water_reminder_app/screens/start_page.dart';
+import 'package:water_reminder_app/screens/verification_page.dart';
 
 import '../screens/user_info.dart';
 
@@ -45,6 +46,8 @@ class MyRoutes {
       //             bedTime: bedTime,
       //             weight: weight,
       //           ));
+      case verificationPage:
+        return MaterialPageRoute(builder: (context) => VerificationPage());
       default:
     }
 
@@ -62,3 +65,4 @@ const String userDataPage = '/userData';
 const String addUserDataPage = '/addUserData';
 const String homePage = '/homePage';
 const String profilePage = '/profilePage';
+const String verificationPage = '/verificationPage';

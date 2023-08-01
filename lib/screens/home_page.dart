@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: pages[index],
       bottomNavigationBar: NavigationBar(
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         indicatorColor: Color.fromARGB(218, 220, 239, 249),
         backgroundColor: const Color.fromARGB(255, 7, 107, 132),
         height: 60,
@@ -47,14 +48,30 @@ class _HomePageState extends State<HomePage> {
         onDestinationSelected: (index) => setState(() => this.index = index),
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(
+              Icons.home_outlined,
+              color: Colors.white,
+              size: 30,
+            ),
             label: 'Home',
-            selectedIcon: Icon(Icons.home),
+            selectedIcon: Icon(
+              Icons.home,
+              color: const Color.fromARGB(255, 7, 107, 132),
+              size: 30,
+            ),
           ),
           NavigationDestination(
-            icon: Icon(Icons.account_circle_outlined),
+            icon: Icon(
+              Icons.account_circle_outlined,
+              color: Colors.white,
+              size: 30,
+            ),
             label: 'Profile',
-            selectedIcon: Icon(Icons.account_circle),
+            selectedIcon: Icon(
+              Icons.account_circle,
+              color: const Color.fromARGB(255, 7, 107, 132),
+              size: 30,
+            ),
           ),
         ],
       ),

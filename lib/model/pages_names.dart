@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:water_reminder_app/screens/add_user_info.dart';
 // import 'package:water_reminder_app/screens/home.dart';
 import 'package:water_reminder_app/screens/login_page.dart';
+import 'package:water_reminder_app/screens/new_password.dart';
+import 'package:water_reminder_app/screens/reset_password.dart';
 // import 'package:water_reminder_app/screens/profile_page.dart';
 import 'package:water_reminder_app/screens/signUp_page.dart';
 import 'package:water_reminder_app/screens/start_page.dart';
@@ -46,8 +48,12 @@ class MyRoutes {
       //             bedTime: bedTime,
       //             weight: weight,
       //           ));
+      case resetPasswordPage:
+        return MaterialPageRoute(builder: (context) => ResetPassword());
       case verificationPage:
         return MaterialPageRoute(builder: (context) => VerificationPage());
+      case newPasswordPage:
+        return MaterialPageRoute(builder: (context) => NewPasswordPage());
       default:
     }
 
@@ -65,4 +71,6 @@ const String userDataPage = '/userData';
 const String addUserDataPage = '/addUserData';
 const String homePage = '/homePage';
 const String profilePage = '/profilePage';
+const String resetPasswordPage = '/resetPasswordPage';
 const String verificationPage = '/verificationPage';
+const String newPasswordPage = '/newPasswordPage';

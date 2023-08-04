@@ -7,14 +7,14 @@ class EmailPassword extends StatelessWidget {
     required this.hint,
     required this.onchanged,
     required this.obscureText,
-    // required this.contro,
+    required this.contro,
   });
 
   final String title;
   final String hint;
   final Function(String)? onchanged;
   final bool obscureText;
-  // final TextEditingController contro;
+  final TextEditingController contro;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,7 +29,7 @@ class EmailPassword extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: TextField(
-            // controller: contro,
+            controller: contro,
             obscureText: obscureText,
             decoration: InputDecoration(
                 border: OutlineInputBorder(

@@ -14,8 +14,16 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordState extends State<ResetPassword> {
   final _auth = FirebaseAuth.instance;
+  final _emailController = TextEditingController();
   late String email;
   bool showSpinner = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +60,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                   height: 80,
                   width: 250,
                   child: TextField(
+                    //put controller here to viledate if the email field is empty or not
+                    controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'user@gmail.com',
                       border: OutlineInputBorder(
@@ -98,32 +108,71 @@ class _ResetPasswordState extends State<ResetPassword> {
                       setState(() {
                         showSpinner = true;
                       });
-                      try {
-                        await _auth.sendPasswordResetEmail(email: email);
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushNamed(context, verificationPage);
-                        setState(() {
-                          showSpinner = false;
-                        });
-                      } on FirebaseAuthException catch (e) {
-                        String message;
-                        if (e.code == 'invalid-email') {
-                          message = 'This email is invalid';
-                        } else if (e.code == 'user-not-found') {
-                          message =
-                              'User not found. Please enter a valid email address';
-                        } else {
-                          message = 'An error occurred';
-                        }
+                      String email = _emailController.text.trim();
+                      if (email.isEmpty) {
                         setState(() {
                           showSpinner = false;
                         });
                         Flushbar(
-                          message: message,
+                          message: "Email cannot be empty",
                           backgroundColor: Colors.red,
                           duration: const Duration(seconds: 3),
                           flushbarPosition: FlushbarPosition.BOTTOM,
-                        )..show(context);
+                        ).show(context);
+                      } else {
+                        try {
+                          await _auth.sendPasswordResetEmail(email: email);
+                          // ignore: use_build_context_synchronously
+                          // Navigator.pushNamed(context, verificationPage);
+                          Flushbar(
+                            message:
+                                'Reset link send it to your emaill address successfully back to login page',
+                            backgroundColor: Colors.green,
+                            duration: const Duration(minutes: 1),
+                            flushbarPosition: FlushbarPosition.BOTTOM,
+                            mainButton: TextButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                  side: const BorderSide(
+                                      color: Colors.white, width: 2),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, logInPage);
+                              },
+                              child: Text(
+                                'Login',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ).show(context);
+                          setState(() {
+                            showSpinner = false;
+                          });
+                        } on FirebaseAuthException catch (e) {
+                          String message;
+                          if (e.code == 'invalid-email') {
+                            message = 'This email is invalid';
+                          } else if (e.code == 'user-not-found') {
+                            message =
+                                'User not found. Please enter a valid email address';
+                          } else {
+                            message = 'An error occurred';
+                          }
+                          setState(() {
+                            showSpinner = false;
+                          });
+                          Flushbar(
+                            message: message,
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 3),
+                            flushbarPosition: FlushbarPosition.BOTTOM,
+                          ).show(context);
+                        }
                       }
                     },
                     child: const Text(

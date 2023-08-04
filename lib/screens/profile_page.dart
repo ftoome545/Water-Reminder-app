@@ -16,28 +16,44 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
-              child: Text(
-            userWakeUpTime,
-            style: TextStyle(fontSize: 37),
-          )),
-          Center(
-              child: Text(
-            userBedTime,
-            style: TextStyle(fontSize: 37),
-          )),
-          Center(
-              child: Text(
-            '$userWeight',
-            style: TextStyle(fontSize: 37),
-          )),
-          Center(
-              child: Text(
-            weightUnit,
-            style: TextStyle(fontSize: 37),
-          )),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 80, bottom: 20, left: 1, right: 40),
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.arrow_back,
+                    color: const Color.fromARGB(255, 7, 107, 132),
+                  ),
+                  onTap: () {
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const Home()));
+                  },
+                ),
+              ),
+              //     Padding(
+              //   padding:
+              //       const EdgeInsets.only(top: 80, bottom: 20, left: 1, right: 40),
+              //   child: ListTile(
+              //     leading: const Icon(
+              //       Icons.edit_square,
+              //       color: const Color.fromARGB(255, 7, 107, 132),
+              //     ),
+              //     onTap: () {
+              //       // Navigator.pushReplacement(
+              //       //     context,
+              //       //     MaterialPageRoute(
+              //       //         builder: (context) => const Home()));
+              //     },
+              //   ),
+              // ),
+            ],
+          ),
         ],
       ),
     );

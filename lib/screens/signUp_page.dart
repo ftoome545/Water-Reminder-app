@@ -14,13 +14,21 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  // final _emailController = TextEditingController();
-  // final _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   late String userName;
   late String email;
   late String password;
   bool showSpinner = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,21 +52,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: EdgeInsets.all(10.0),
-              //   child: EmailPassword(
-              //     title: 'Full Name',
-              //     hint: 'Fatima Hure',
-              //     onchanged: (value) {
-              //       userName = value;
-              //     },
-              //     obscureText: false,
-              //   ),
-              // ),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: EmailPassword(
-                  // contro: _emailController,
+                  contro: _emailController,
                   title: 'Email',
                   hint: 'user_name@gmail.com',
                   onchanged: (value) {
@@ -70,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: EmailPassword(
-                  // contro: _passwordController,
+                  contro: _passwordController,
                   title: 'Password',
                   hint: 'Enter your password',
                   onchanged: (value) {
@@ -136,37 +133,51 @@ class _SignUpPageState extends State<SignUpPage> {
                               setState(() {
                                 showSpinner = true;
                               });
-                              try {
-                                // ignore: unused_local_variable
-                                final newUser =
-                                    await _auth.createUserWithEmailAndPassword(
-                                        email: email, password: password);
-                                Navigator.pushNamed(context, userDataPage);
-                                setState(() {
-                                  showSpinner = false;
-                                });
-                              } on FirebaseAuthException catch (e) {
-                                String message;
-                                if (e.code == 'email-already-in-use') {
-                                  message =
-                                      'The email address is already in use by another account';
-                                } else if (e.code == 'weak-password') {
-                                  message = 'The password is too weak';
-                                } else if (e.code == 'invalid-email') {
-                                  message = 'The email address is invalid';
-                                } else {
-                                  message = 'An error occurred';
-                                }
+                              String email = _emailController.text.trim();
+                              String password = _passwordController.text.trim();
+                              if (email.isEmpty || password.isEmpty) {
                                 setState(() {
                                   showSpinner = false;
                                 });
                                 Flushbar(
+                                  message: 'Email and password cannot be empty',
                                   duration: const Duration(seconds: 3),
-                                  message: message,
                                   flushbarPosition: FlushbarPosition.BOTTOM,
                                   backgroundColor: Colors.red,
                                 ).show(context);
-                                // print(e);
+                              } else {
+                                try {
+                                  // ignore: unused_local_variable
+                                  final newUser = await _auth
+                                      .createUserWithEmailAndPassword(
+                                          email: email, password: password);
+                                  Navigator.pushNamed(context, userDataPage);
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+                                } on FirebaseAuthException catch (e) {
+                                  String message;
+                                  if (e.code == 'email-already-in-use') {
+                                    message =
+                                        'The email address is already in use by another account';
+                                  } else if (e.code == 'weak-password') {
+                                    message = 'The password is too weak';
+                                  } else if (e.code == 'invalid-email') {
+                                    message = 'The email address is invalid';
+                                  } else {
+                                    message = 'An error occurred';
+                                  }
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+                                  Flushbar(
+                                    duration: const Duration(seconds: 3),
+                                    message: message,
+                                    flushbarPosition: FlushbarPosition.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                  ).show(context);
+                                  // print(e);
+                                }
                               }
                             },
                             child: const Text(

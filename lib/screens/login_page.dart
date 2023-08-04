@@ -16,9 +16,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   late String email;
   late String password;
   bool showSpinner = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.all(20.0),
                 child: EmailPassword(
                   title: 'Email',
+                  contro: _emailController,
                   hint: 'Enter your email',
                   onchanged: (value) {
                     email = value;
@@ -58,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
                 child: EmailPassword(
                   title: 'Password',
+                  contro: _passwordController,
                   hint: 'Enter your password',
                   onchanged: (value) {
                     password = value;
@@ -141,36 +153,46 @@ class _LoginPageState extends State<LoginPage> {
                               setState(() {
                                 showSpinner = true;
                               });
-                              try {
-                                final user =
-                                    await _auth.signInWithEmailAndPassword(
-                                        email: email, password: password);
-                                // ignore: unnecessary_null_comparison
-                                if (user != null) {
-                                  Navigator.pushNamed(context, userDataPage);
-                                  setState(() {
-                                    showSpinner = false;
-                                  });
-                                }
-                              } on FirebaseAuthException catch (e) {
-                                String message;
-                                if (e.code == 'user-not-found') {
-                                  message = 'User not found';
-                                } else if (e.code == 'wrong-password') {
-                                  message = 'Wrong password';
-                                } else {
-                                  message = 'An error occurred';
-                                }
+                              String email = _emailController.text.trim();
+                              String password = _passwordController.text.trim();
+                              if (email.isEmpty || password.isEmpty) {
                                 setState(() {
                                   showSpinner = false;
                                 });
-                                // Display the warning message using Flushbar
                                 Flushbar(
-                                  message: message,
+                                  message: "Email and password cannot be empty",
                                   backgroundColor: Colors.red,
                                   duration: const Duration(seconds: 3),
                                   flushbarPosition: FlushbarPosition.BOTTOM,
                                 )..show(context);
+                              } else {
+                                try {
+                                  final user =
+                                      await _auth.signInWithEmailAndPassword(
+                                          email: email, password: password);
+                                  if (user != null) {
+                                    Navigator.pushNamed(context, userDataPage);
+                                  }
+                                } on FirebaseAuthException catch (e) {
+                                  String message;
+                                  if (e.code == 'user-not-found') {
+                                    message = 'User not found';
+                                  } else if (e.code == 'wrong-password') {
+                                    message = 'Wrong password';
+                                  } else {
+                                    message = 'An error occurred';
+                                  }
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+
+                                  Flushbar(
+                                    message: message,
+                                    backgroundColor: Colors.red,
+                                    duration: const Duration(seconds: 3),
+                                    flushbarPosition: FlushbarPosition.BOTTOM,
+                                  )..show(context);
+                                }
                               }
                             },
                             child: const Text(

@@ -2,8 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:water_reminder_app/model/pages_names.dart';
+import 'package:water_reminder_app/screens/privacy_policy.dart';
+import 'package:water_reminder_app/screens/reminder_schedule.dart';
+import 'package:water_reminder_app/screens/reminder_sound.dart';
+import 'package:water_reminder_app/widgets/bedtime_dialog.dart';
+import 'package:water_reminder_app/widgets/gender_dialog.dart';
 
 import '../widgets/user_data.dart';
+import '../widgets/weight_dialog.dart';
 // import 'package:water_reminder_app/model/user_data.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -71,6 +77,39 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  void _showGenderDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GenderDialog();
+      },
+    );
+  }
+
+  void _showWeightDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return WeightDialog();
+        });
+  }
+
+  void _showBedtimeDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return BedtimeDialog();
+        });
+  }
+
+  void _showWakeUpTimeDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return BedtimeDialog();
+        });
+  }
+
   void _chooseImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: source);
@@ -108,13 +147,23 @@ class _ProfilePageState extends State<ProfilePage> {
                             onTap: () {
                               _showImagePickerDialog();
                             },
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundColor: Colors.white,
-                              backgroundImage: FileImage(
-                                File(profileImagePath!),
-                              ),
-                            ),
+                            child: (profileImagePath != null)
+                                ? CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: FileImage(
+                                      File(profileImagePath ?? ''),
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 50,
+                                      color: Color.fromARGB(255, 7, 107, 132),
+                                    ),
+                                  ),
                           ),
                         ),
                         // Padding(
@@ -146,16 +195,24 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            userInformation('Ematl', 'Sarah@gmail.com', () {
+            userInformation('Email', 'Sarah@gmail.com', () {
               _showEmailResetDialog();
             }),
             userInformation('Password', '', () {
               Navigator.pushNamed(context, resetPasswordPage);
             }),
-            userInformation('Gender', 'Female', () {}),
-            userInformation('Weight', '${widget.userWeight}', () {}),
-            userInformation('Bedtime', widget.userBedTime, () {}),
-            userInformation('Wake-up time', widget.userWakeUpTime, () {}),
+            userInformation('Gender', 'Female', () {
+              _showGenderDialog();
+            }),
+            userInformation('Weight', '${widget.userWeight}', () {
+              _showWeightDialog();
+            }),
+            userInformation('Bedtime', widget.userBedTime, () {
+              _showBedtimeDialog();
+            }),
+            userInformation('Wake-up time', widget.userWakeUpTime, () {
+              _showWakeUpTimeDialog();
+            }),
             Padding(
               padding: const EdgeInsets.only(
                 top: 23,
@@ -170,8 +227,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            reminderSettings('Reminder schedule', () {}),
-            reminderSettings('Reminder sound', () {}),
+            reminderSettings('Reminder schedule', () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => ReminderSchedule()));
+            }),
+            reminderSettings('Reminder sound', () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => ReminderSound()));
+            }),
             Padding(
               padding: const EdgeInsets.only(
                 top: 23,
@@ -188,7 +251,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             userInformation('Intake goal', '1980 ml', () {}),
             userInformation('Unit', 'kg, ml', () {}),
-            userInformation('Privacy policy', '', () {}),
+            userInformation('Privacy policy', '', () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+            }),
             SizedBox(
               height: 30,
             ),

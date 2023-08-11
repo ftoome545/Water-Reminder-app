@@ -28,7 +28,7 @@ class _WakeUpTimeDialogState extends State<WakeUpTimeDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Bedtime',
+        'Wake-up time',
         style: TextStyle(
           color: Color.fromARGB(255, 7, 107, 132),
           fontWeight: FontWeight.bold,
@@ -38,11 +38,11 @@ class _WakeUpTimeDialogState extends State<WakeUpTimeDialog> {
         child: ListBody(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 15, left: 35, right: 80),
+              padding: const EdgeInsets.only(top: 15, left: 35, right: 30),
               child: Row(
                 children: [
                   const Text(
-                    'Bedtime',
+                    'Wake-up time',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Padding(
@@ -131,6 +131,7 @@ class _WakeUpTimeDialogState extends State<WakeUpTimeDialog> {
                                 }).catchError((error) {
                                   print('Error updating document: $error');
                                 });
+                                Navigator.pop(context);
                               }
                             }
                           }),

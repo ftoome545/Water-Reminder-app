@@ -129,6 +129,7 @@ class _WeightDialogState extends State<WeightDialog> {
                                 }).catchError((error) {
                                   print('Error updating document: $error');
                                 });
+                                Navigator.pop(context);
                               } else {
                                 Flushbar(
                                   title: "Warning",

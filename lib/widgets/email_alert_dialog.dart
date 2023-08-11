@@ -1,10 +1,28 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class EmailAlertDialog extends StatelessWidget {
+class EmailAlertDialog extends StatefulWidget {
   const EmailAlertDialog({
     super.key,
   });
+
+  @override
+  State<EmailAlertDialog> createState() => _EmailAlertDialogState();
+}
+
+class _EmailAlertDialogState extends State<EmailAlertDialog> {
+  final _emailController = TextEditingController();
+  final _emailConfirmController = TextEditingController();
+
+  late String email_1;
+  late String email_2;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _emailConfirmController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +44,7 @@ class EmailAlertDialog extends StatelessWidget {
               height: 44,
               width: 90,
               child: TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   hintText: 'user@name2.com',
                   border: OutlineInputBorder(
@@ -35,7 +54,9 @@ class EmailAlertDialog extends StatelessWidget {
                         width: 2,
                       )),
                 ),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  email_1 = value;
+                },
               ),
             ),
             SizedBox(
@@ -49,6 +70,7 @@ class EmailAlertDialog extends StatelessWidget {
               height: 44,
               width: 90,
               child: TextField(
+                controller: _emailConfirmController,
                 decoration: InputDecoration(
                   hintText: 'user@name2.com',
                   border: OutlineInputBorder(
@@ -58,7 +80,9 @@ class EmailAlertDialog extends StatelessWidget {
                         width: 2,
                       )),
                 ),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  email_2 = value;
+                },
               ),
             ),
             Padding(

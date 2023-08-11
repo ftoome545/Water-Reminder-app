@@ -131,6 +131,7 @@ class _BedtimeDialogState extends State<BedtimeDialog> {
                                 }).catchError((error) {
                                   print('Error updating document: $error');
                                 });
+                                Navigator.pop(context);
                               }
                             }
                           }),

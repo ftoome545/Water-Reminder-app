@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:water_reminder_app/model/pages_names.dart';
@@ -7,8 +8,8 @@ import 'package:water_reminder_app/screens/reminder_schedule.dart';
 import 'package:water_reminder_app/screens/reminder_sound.dart';
 import 'package:water_reminder_app/widgets/bedtime_dialog.dart';
 import 'package:water_reminder_app/widgets/gender_dialog.dart';
-
-import '../widgets/user_data.dart';
+import 'package:water_reminder_app/widgets/wakeuptime_dailog.dart';
+import '../widgets/email_alert_dialog.dart';
 import '../widgets/weight_dialog.dart';
 // import 'package:water_reminder_app/model/user_data.dart';
 
@@ -30,6 +31,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String? profileImagePath;
+  User? user = FirebaseAuth.instance.currentUser;
 
   void _showImagePickerDialog() {
     showDialog(
@@ -106,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return BedtimeDialog();
+          return WakeUpTimeDialog();
         });
   }
 
@@ -118,6 +120,15 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         profileImagePath = pickedImage.path;
       });
+    }
+  }
+
+  void getUserEmail() {
+    if (user != null) {
+      Text(
+        '${user!.email}',
+        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      );
     }
   }
 
@@ -166,15 +177,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(
-                        //       top: 68, left: 33, right: 25, bottom: 26),
-                        //   child: Text(
-                        //     'User name',
-                        //     style: TextStyle(
-                        //         fontSize: 25, fontWeight: FontWeight.bold),
-                        //   ),
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 68, left: 5, right: 5, bottom: 26),
+                          child: (user != null)
+                              ? Text(
+                                  '${user!.email}',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              : Text('userName'),
+                        ),
                       ],
                     ),
                   ),
@@ -195,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            userInformation('Email', 'Sarah@gmail.com', () {
+            userInformation('Email', '${user!.email}', () {
               _showEmailResetDialog();
             }),
             userInformation('Password', '', () {

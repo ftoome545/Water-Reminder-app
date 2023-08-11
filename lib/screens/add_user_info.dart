@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
@@ -14,6 +15,7 @@ enum Gender { male, female }
 
 class _AddUserInfoState extends State<AddUserInfo> {
   final _firestore = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
   Gender? _gender = Gender.male;
   String _unit = 'pounds';
   double _weight = 0;
@@ -241,21 +243,27 @@ class _AddUserInfoState extends State<AddUserInfo> {
                     onPressed: () {
                       _validateForm();
                       if (_formValid) {
-                        String stringGender =
-                            _gender.toString().split(".").last;
-                        _firestore.collection('users').add({
-                          'bedtime': _bedtime,
-                          'gender': stringGender,
-                          'wake-up time': _wakeUptime,
-                          'weight': _weight,
-                        });
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HomePage(
-                                  weight: _weight,
-                                  unit: _unit,
-                                  bedTime: _bedtime,
-                                  wakeUpTime: _wakeUptime,
-                                )));
+                        if (user != null) {
+                          String firebaseAuthId = user!.uid;
+                          String stringGender =
+                              _gender.toString().split(".").last;
+                          _firestore
+                              .collection('users')
+                              .doc(firebaseAuthId)
+                              .set({
+                            'bedtime': _bedtime,
+                            'gender': stringGender,
+                            'wake-up time': _wakeUptime,
+                            'weight': _weight,
+                          });
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                    weight: _weight,
+                                    unit: _unit,
+                                    bedTime: _bedtime,
+                                    wakeUpTime: _wakeUptime,
+                                  )));
+                        }
                       } else {
                         Flushbar(
                           title: "Warning",

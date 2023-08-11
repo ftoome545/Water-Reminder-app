@@ -90,16 +90,22 @@ class _GenderDialogState extends State<GenderDialog> {
                           ..onTap = () {
                             // _validateForm();
                             if (user != null) {
-                              String uid = user!.uid;
+                              String firebaseAuthId = user!.uid;
+                              print(user!.email);
+                              print(firebaseAuthId);
                               // if (_formValid) {
                               String stringGender =
                                   _gender.toString().split(".").last;
-                              _firestore.collection('users').doc(uid).update(
-                                  {'gender': stringGender}).then((value) {
+                              _firestore
+                                  .collection('users')
+                                  .doc(firebaseAuthId)
+                                  .update({'gender': stringGender}).then(
+                                      (value) {
                                 print('Document updated successfully!');
                               }).catchError((error) {
                                 print('Error updating document: $error');
                               });
+                              Navigator.pop(context);
                               // }
                             }
                           }),

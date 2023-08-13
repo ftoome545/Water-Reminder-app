@@ -9,7 +9,7 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  Widget LoginSignUpBotton(String text, VoidCallback action) {
+  Widget LoginSignUpButton(String text, VoidCallback action) {
     return SizedBox(
       height: 41,
       width: 120,
@@ -33,6 +33,8 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final buttonWidth = screenSize.width * 0.35;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 7, 107, 132),
@@ -58,16 +60,17 @@ class _StartPageState extends State<StartPage> {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 21.0, right: 110.0),
-                  child: LoginSignUpBotton('Login', () {
+                SizedBox(
+                  width: buttonWidth,
+                  child: LoginSignUpButton('Login', () {
                     Navigator.pushNamed(context, logInPage);
                   }),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 21.0),
-                  child: LoginSignUpBotton('SignUp', () {
+                SizedBox(
+                  width: buttonWidth,
+                  child: LoginSignUpButton('SignUp', () {
                     Navigator.pushNamed(context, signUpPage);
                   }),
                 ),

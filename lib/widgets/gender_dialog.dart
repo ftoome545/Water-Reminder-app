@@ -16,15 +16,15 @@ class _GenderDialogState extends State<GenderDialog> {
   final _firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
   Gender? _gender = Gender.male;
-  bool _formValid = false;
+  // bool _formValid = false;
 
-  void _validateForm() {
-    if (_gender == null) {
-      _formValid = false;
-    } else {
-      _formValid = true;
-    }
-  }
+  // void _validateForm() {
+  //   if (_gender == null) {
+  //     _formValid = false;
+  //   } else {
+  //     _formValid = true;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

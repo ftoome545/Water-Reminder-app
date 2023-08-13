@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:water_reminder_app/widgets/responsive_container.dart';
 import '../widgets/drink_record.dart';
 
 class Home extends StatefulWidget {
@@ -199,29 +200,31 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.only(
                             bottom: 20, left: 57, right: 57),
-                        child: ListTile(
-                          title: Text(
-                            // '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
-                            changeUnit(),
-                            style: TextStyle(
-                              fontSize: 18,
+                        child: ResponsiveContainer(
+                          child: ListTile(
+                            title: Text(
+                              // '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
+                              changeUnit(),
+                              style: TextStyle(
+                                fontSize: 17,
+                              ),
                             ),
+                            leading: Icon(
+                              Icons.coffee_sharp,
+                              size: 70,
+                            ),
+                            onTap: () {
+                              setState(() {
+                                widget.unit == 'kilograms'
+                                    ? amount += 175
+                                    : amount += 6;
+                                _items.value.add(DrinkRecordModel(
+                                  time: TimeOfDay.now().format(context),
+                                  amountOfWater: changeUnit(),
+                                ));
+                              });
+                            },
                           ),
-                          leading: Icon(
-                            Icons.coffee_sharp,
-                            size: 70,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              widget.unit == 'kilograms'
-                                  ? amount += 175
-                                  : amount += 6;
-                              _items.value.add(DrinkRecordModel(
-                                time: TimeOfDay.now().format(context),
-                                amountOfWater: changeUnit(),
-                              ));
-                            });
-                          },
                         ),
                       ),
                     ],
@@ -238,21 +241,26 @@ class _HomeState extends State<Home> {
               color: const Color.fromARGB(255, 7, 107, 132),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5, left: 55, right: 55),
-            child: Text(
-              'Click here to confirm that you drank water',
-              style: TextStyle(
-                fontSize: 15,
-                color: const Color.fromARGB(146, 0, 0, 0),
+          ResponsiveContainer(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
+              child: Text(
+                'Click here to confirm that you drank water',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: const Color.fromARGB(146, 0, 0, 0),
+                ),
               ),
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(top: 15, bottom: 5, left: 15, right: 170),
+            padding: const EdgeInsets.only(
+              top: 15,
+              bottom: 5,
+              left: 15,
+            ),
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.topLeft,
               child: Text(
                 "Today's records",
                 style: TextStyle(
@@ -262,9 +270,9 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15),
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15),
+            child: ResponsiveContainer(
               child: SizedBox(
                 height: 155,
                 width: 350,

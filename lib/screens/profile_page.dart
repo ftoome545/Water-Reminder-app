@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:another_flushbar/flushbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -135,145 +137,196 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: 250,
-              width: 400,
-              color: Color.fromRGBO(0, 200, 250, 0.415),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 100, bottom: 15, left: 1, right: 40),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 33, right: 27, bottom: 11),
-                          child: InkWell(
-                            onTap: () {
-                              _showImagePickerDialog();
-                            },
-                            child: (profileImagePath != null)
-                                ? CircleAvatar(
-                                    radius: 50,
-                                    backgroundColor: Colors.white,
-                                    backgroundImage: FileImage(
-                                      File(profileImagePath ?? ''),
-                                    ),
-                                  )
-                                : CircleAvatar(
-                                    radius: 50,
-                                    backgroundColor: Colors.white,
-                                    child: Icon(
-                                      Icons.person,
-                                      size: 50,
-                                      color: Color.fromARGB(255, 7, 107, 132),
-                                    ),
-                                  ),
-                          ),
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(user?.uid)
+            .snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          final userData = snapshot.data?.data() as Map<String, dynamic>?;
+
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  height: 250,
+                  width: 400,
+                  color: Color.fromRGBO(0, 200, 250, 0.415),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 100, bottom: 15, left: 1, right: 40),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 15, left: 33, right: 27, bottom: 11),
+                              child: InkWell(
+                                onTap: () {
+                                  _showImagePickerDialog();
+                                },
+                                child: (profileImagePath != null)
+                                    ? CircleAvatar(
+                                        radius: 50,
+                                        backgroundColor: Colors.white,
+                                        backgroundImage: FileImage(
+                                          File(profileImagePath ?? ''),
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 50,
+                                        backgroundColor: Colors.white,
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 50,
+                                          color:
+                                              Color.fromARGB(255, 7, 107, 132),
+                                        ),
+                                      ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 68, left: 5, right: 5, bottom: 26),
+                              child: (user != null)
+                                  ? Text(
+                                      '${user!.email}',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : Text('userName'),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 68, left: 5, right: 5, bottom: 26),
-                          child: (user != null)
-                              ? Text(
-                                  '${user!.email}',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              : Text('userName'),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 23,
+                    left: 25,
+                    bottom: 15,
+                  ),
+                  child: Text(
+                    'User information',
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Color.fromARGB(142, 0, 0, 0),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                userInformation('Email', user?.email ?? '', () {
+                  _showEmailResetDialog();
+                }),
+                userInformation('Password', '', () {
+                  //Navigator.pushNamed(context, resetPasswordPage);
+                  Flushbar(
+                    message:
+                        'If you want to reset your password click on Reset Password button',
+                    backgroundColor: Colors.green,
+                    duration: const Duration(seconds: 15),
+                    flushbarPosition: FlushbarPosition.BOTTOM,
+                    mainButton: TextButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7),
+                          side: const BorderSide(color: Colors.white, width: 2),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, resetPasswordPage);
+                      },
+                      child: Text(
+                        'Reset Password',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ).show(context);
+                }),
+                userInformation('Gender', userData?['gender'] ?? '', () {
+                  _showGenderDialog();
+                }),
+                userInformation(
+                    'Weight', userData?['weight']?.round().toString() ?? '',
+                    () {
+                  // + '${widget.weightUnit}'
+                  _showWeightDialog();
+                }),
+                userInformation('Bedtime', userData?['bedtime'] ?? '', () {
+                  _showBedtimeDialog();
+                }),
+                userInformation('Wake-up time', userData?['wake-up time'] ?? '',
+                    () {
+                  _showWakeUpTimeDialog();
+                }),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 23,
+                    left: 25,
+                    bottom: 15,
+                  ),
+                  child: Text(
+                    'Reminder settings',
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Color.fromARGB(142, 0, 0, 0),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                reminderSettings('Reminder schedule', () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ReminderSchedule()));
+                }),
+                reminderSettings('Reminder sound', () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ReminderSound()));
+                }),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 23,
+                    left: 25,
+                    bottom: 15,
+                  ),
+                  child: Text(
+                    'General',
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Color.fromARGB(142, 0, 0, 0),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                userInformation('Intake goal', '1980 ml', () {}),
+                userInformation('Unit', 'kg, ml', () {}),
+                userInformation('Privacy policy', '', () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+                }),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 23,
-                left: 25,
-                bottom: 15,
-              ),
-              child: Text(
-                'User information',
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Color.fromARGB(142, 0, 0, 0),
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            userInformation('Email', '${user!.email}', () {
-              _showEmailResetDialog();
-            }),
-            userInformation('Password', '', () {
-              Navigator.pushNamed(context, resetPasswordPage);
-            }),
-            userInformation('Gender', 'Female', () {
-              _showGenderDialog();
-            }),
-            userInformation('Weight', '${widget.userWeight}', () {
-              _showWeightDialog();
-            }),
-            userInformation('Bedtime', widget.userBedTime, () {
-              _showBedtimeDialog();
-            }),
-            userInformation('Wake-up time', widget.userWakeUpTime, () {
-              _showWakeUpTimeDialog();
-            }),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 23,
-                left: 25,
-                bottom: 15,
-              ),
-              child: Text(
-                'Reminder settings',
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Color.fromARGB(142, 0, 0, 0),
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            reminderSettings('Reminder schedule', () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ReminderSchedule()));
-            }),
-            reminderSettings('Reminder sound', () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ReminderSound()));
-            }),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 23,
-                left: 25,
-                bottom: 15,
-              ),
-              child: Text(
-                'General',
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Color.fromARGB(142, 0, 0, 0),
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            userInformation('Intake goal', '1980 ml', () {}),
-            userInformation('Unit', 'kg, ml', () {}),
-            userInformation('Privacy policy', '', () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => PrivacyPolicy()));
-            }),
-            SizedBox(
-              height: 30,
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

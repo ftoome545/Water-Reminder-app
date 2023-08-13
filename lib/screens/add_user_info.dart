@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:water_reminder_app/widgets/responsive_container.dart';
 
 class AddUserInfo extends StatefulWidget {
   const AddUserInfo({super.key});
@@ -43,11 +44,16 @@ class _AddUserInfoState extends State<AddUserInfo> {
         child: Padding(
           padding: const EdgeInsets.only(top: 35.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 38, left: 35, right: 280),
-              child: Text(
-                'Gender',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ResponsiveContainer(
+              child: const Padding(
+                padding: EdgeInsets.only(top: 38, left: 24),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Gender',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
             ),
             Padding(

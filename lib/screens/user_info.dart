@@ -39,20 +39,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 28.0, bottom: 68),
-          //   child: ListTile(
-          //     leading: Icon(
-          //       Icons.arrow_back,
-          //       color: Colors.grey,
-          //       size: 29,
-          //     ),
-          //     onTap: () {
-          //       Navigator.pushReplacement(context,
-          //           MaterialPageRoute(builder: (context) => const StartPage()));
-          //     },
-          //   ),
-          // ),
           Container(
             padding: const EdgeInsets.only(
               top: 78.0,

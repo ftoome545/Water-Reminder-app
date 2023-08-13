@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:water_reminder_app/widgets/responsive_container.dart';
 import '../model/pages_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -47,21 +48,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20, left: 80, right: 80),
-                child: Text(
-                  'Enter Your Email Address',
-                  style: TextStyle(fontSize: 20),
+              ResponsiveContainer(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: 20, left: 60, right: 60),
+                  child: Text(
+                    'Enter Your Email Address',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: SizedBox(
-                  height: 80,
+                  height: 50,
                   width: 250,
                   child: TextField(
                     //put controller here to viledate if the email field is empty or not
                     controller: _emailController,
+                    textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       hintText: 'user@gmail.com',
                       border: OutlineInputBorder(
@@ -77,19 +82,21 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, left: 150),
-                child: RichText(
-                  text: TextSpan(
-                      text: 'Back to login',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Color.fromARGB(125, 0, 0, 0),
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.pushNamed(context, logInPage);
-                        }),
+              ResponsiveContainer(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: RichText(
+                    text: TextSpan(
+                        text: 'Back to login',
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: Color.fromARGB(125, 0, 0, 0),
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pushNamed(context, logInPage);
+                          }),
+                  ),
                 ),
               ),
               Padding(
@@ -220,6 +227,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),

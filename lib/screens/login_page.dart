@@ -8,7 +8,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:another_flushbar/flushbar.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(10.0),
                 child: EmailPassword(
                   title: 'Email',
                   contro: _emailController,
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                padding: EdgeInsets.all(10),
                 child: EmailPassword(
                   title: 'Password',
                   contro: _passwordController,
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8.0, left: 180),
+                padding: const EdgeInsets.only(top: 5.0, left: 180),
                 child: RichText(
                   text: TextSpan(
                       text: 'Forgot Passsword?',
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: 200.0,
+                          top: 190.0,
                           left: 10,
                         ),
                         child: RichText(

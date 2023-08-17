@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:water_reminder_app/model/pages_names.dart';
@@ -320,6 +321,22 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => PrivacyPolicy()));
                 }),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 34),
+                  child: RichText(
+                    text: TextSpan(
+                        text: 'Log out',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pushNamed(context, startPage);
+                          }),
+                  ),
+                ),
                 SizedBox(
                   height: 30,
                 ),

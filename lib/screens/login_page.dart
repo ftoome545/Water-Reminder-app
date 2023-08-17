@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:water_reminder_app/screens/home.dart';
+import 'package:water_reminder_app/screens/home_page.dart';
 import '../model/pages_names.dart';
 import '../screens/reset_password.dart';
 import '../widgets/email_password.dart';
@@ -171,7 +173,14 @@ class _LoginPageState extends State<LoginPage> {
                                       await _auth.signInWithEmailAndPassword(
                                           email: email, password: password);
                                   if (user != null) {
-                                    Navigator.pushNamed(context, userDataPage);
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage(
+                                                weight: 99,
+                                                unit: 'kilograms',
+                                                bedTime: '10:00 pm',
+                                                wakeUpTime: '06:20 am')));
                                   }
                                 } on FirebaseAuthException catch (e) {
                                   String message;

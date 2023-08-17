@@ -9,6 +9,7 @@ import 'package:water_reminder_app/screens/signUp_page.dart';
 import 'package:water_reminder_app/screens/start_page.dart';
 import 'package:water_reminder_app/screens/verification_page.dart';
 
+import '../screens/home.dart';
 import '../screens/user_info.dart';
 
 class MyRoutes {
@@ -36,18 +37,18 @@ class MyRoutes {
       //             userWeight: weight,
       //             weightUnit: unit,
       //           ));
-      // case homePage:
-      //   var unit = setting.arguments as String;
-      //   var weight = setting.arguments as double;
-      //   var bedTime = setting.arguments as String;
-      //   var wakeUpTime = setting.arguments as String;
-      //   return MaterialPageRoute(
-      //       builder: (context) => Home(
-      //             unit: unit,
-      //             wakeUpTime: wakeUpTime,
-      //             bedTime: bedTime,
-      //             weight: weight,
-      //           ));
+      case homePage:
+        var unit = setting.arguments as String;
+        var weight = setting.arguments as double;
+        var bedTime = setting.arguments as String;
+        var wakeUpTime = setting.arguments as String;
+        return MaterialPageRoute(
+            builder: (context) => Home(
+                  unit: unit,
+                  wakeUpTime: wakeUpTime,
+                  bedTime: bedTime,
+                  weight: weight,
+                ));
       case resetPasswordPage:
         return MaterialPageRoute(builder: (context) => ResetPassword());
       case verificationPage:

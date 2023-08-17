@@ -90,7 +90,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                         text: 'Back to login',
                         style: const TextStyle(
                           fontSize: 15,
-                          color: Color.fromARGB(125, 0, 0, 0),
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 4, 137, 246),
+                          decoration: TextDecoration.underline,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

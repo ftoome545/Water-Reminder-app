@@ -11,6 +11,7 @@ import 'package:water_reminder_app/screens/reminder_schedule.dart';
 import 'package:water_reminder_app/screens/reminder_sound.dart';
 import 'package:water_reminder_app/widgets/bedtime_dialog.dart';
 import 'package:water_reminder_app/widgets/gender_dialog.dart';
+import 'package:water_reminder_app/widgets/unit_dialog.dart';
 import 'package:water_reminder_app/widgets/wakeuptime_dailog.dart';
 import '../widgets/email_alert_dialog.dart';
 import '../widgets/weight_dialog.dart';
@@ -33,6 +34,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final _auth = FirebaseAuth.instance;
   String? profileImagePath;
   User? user = FirebaseAuth.instance.currentUser;
 
@@ -113,6 +115,18 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (BuildContext context) {
           return WakeUpTimeDialog();
         });
+  }
+
+  void _showUnitDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return UnitDialog();
+        });
+  }
+
+  void _intakeGoal() {
+    if (widget.weightUnit == 'kilograms') {}
   }
 
   void _chooseImage(ImageSource source) async {
@@ -316,7 +330,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 userInformation('Intake goal', '1980 ml', () {}),
-                userInformation('Unit', 'kg, ml', () {}),
+                userInformation('Unit', 'kg / lbs', () {
+                  _showUnitDialog();
+                }),
                 userInformation('Privacy policy', '', () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => PrivacyPolicy()));
@@ -333,7 +349,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushNamed(context, startPage);
+                            if (user != null) {
+                              _auth.signOut();
+                              Navigator.pushNamed(context, startPage);
+                            }
                           }),
                   ),
                 ),

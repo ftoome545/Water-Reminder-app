@@ -261,6 +261,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
                             'gender': stringGender,
                             'wake-up time': _wakeUptime,
                             'weight': _weight,
+                            'unit': _unit,
                           });
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => HomePage(

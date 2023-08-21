@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
 import '../widgets/drink_record.dart';
 
@@ -20,28 +20,30 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  static const _amountAdded = 'amount';
-  static const _recomendedWaterAmount = 'recommendedAmount';
-  static const _item = 'recordItem';
+  // static const _amountAdded = 'amount';
+  // static const _recomendedWaterAmount = 'recommendedAmount';
+  // static const _item = 'recordItem';
 
   late ValueNotifier<List<DrinkRecordModel>> _items;
   double amount = 0;
   late double recommendedAmount;
 
-  double _calculateRecommendedAmount() {
+  String _calculateRecommendedAmount() {
     if (widget.unit == 'kilograms') {
-      return widget.weight * 30;
+      double kiloResult = widget.weight * 30;
+      return kiloResult.round().toString();
     } else {
-      return widget.weight * 0.5;
+      double pounResult = widget.weight * 0.5;
+      return pounResult.round().toString();
     }
   }
 
   void initState() {
     super.initState();
-    _saveData();
-    _getData();
+    // _saveData();
+    // _getData();
     amount;
-    recommendedAmount = _calculateRecommendedAmount();
+    // recommendedAmount = _calculateRecommendedAmount();
     _items = ValueNotifier([
       DrinkRecordModel(
         time: '11:0 AM',
@@ -50,19 +52,19 @@ class _HomeState extends State<Home> {
     ]);
   }
 
-  void _saveData() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setDouble(_amountAdded, amount);
-    prefs.setDouble(_recomendedWaterAmount, recommendedAmount);
-    prefs.setStringList(_item, _items as List<String>);
-  }
+  // void _saveData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setDouble(_amountAdded, amount);
+  //   prefs.setDouble(_recomendedWaterAmount, recommendedAmount);
+  //   prefs.setStringList(_item, _items as List<String>);
+  // }
 
-  void _getData() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.getDouble(_amountAdded) ?? amount;
-    prefs.getDouble(_recomendedWaterAmount) ?? recommendedAmount;
-    prefs.getStringList(_item) ?? _items;
-  }
+  // void _getData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.getDouble(_amountAdded) ?? amount;
+  //   prefs.getDouble(_recomendedWaterAmount) ?? recommendedAmount;
+  //   prefs.getStringList(_item) ?? _items;
+  // }
 
   String changeUnit() {
     return widget.unit == 'kilograms' ? '175 ml' : '6 fl oz';
@@ -190,7 +192,7 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(
                             bottom: 21, left: 52, right: 52),
                         child: Text(
-                          '${amount.round()} / ${widget.unit == 'kilograms' ? recommendedAmount.round() : recommendedAmount.round()} ${widget.unit == 'kilograms' ? 'ml' : 'oz'}',
+                          '${amount.round()} / ${_calculateRecommendedAmount()} ${widget.unit == 'kilograms' ? 'ml' : 'oz'}',
                           style: TextStyle(
                             fontSize: 20,
                           ),

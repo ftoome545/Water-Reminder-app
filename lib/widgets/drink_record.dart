@@ -97,17 +97,15 @@ class DrinkRecordModel {
   });
 }
 
-// class UserData {
-//   String u; //unit
-//   double we; //weight
-//   String bedT; //bedtime
-//   String wakeUpT; //wake-up time
+// class RecommindedAmount {
 
-//   UserData({
-//     required this.u,
-//     required this.we,
-//     required this.bedT,
-//     required this.wakeUpT,
-//   });
-  
+//   String calculateRecommendedAmount(double weight, String unit) {
+//     if (unit == 'kilograms') {
+//       double kiloResult = weight * 30;
+//       return kiloResult.round().toString();
+//     } else {
+//       double pounResult = weight * 0.5;
+//       return pounResult.round().toString();
+//     }
+//   }
 // }

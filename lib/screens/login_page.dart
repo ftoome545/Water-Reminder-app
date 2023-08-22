@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:water_reminder_app/screens/home.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
 import '../model/pages_names.dart';
 import '../screens/reset_password.dart';
@@ -8,6 +7,7 @@ import '../widgets/email_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -173,14 +173,31 @@ class _LoginPageState extends State<LoginPage> {
                                       await _auth.signInWithEmailAndPassword(
                                           email: email, password: password);
                                   if (user != null) {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage(
-                                                weight: 99,
-                                                unit: 'kilograms',
-                                                bedTime: '10:00 pm',
-                                                wakeUpTime: '06:20 am')));
+                                    final userDoc = await FirebaseFirestore
+                                        .instance
+                                        .collection('users')
+                                        .doc(user.user?.uid)
+                                        .get();
+
+                                    if (userDoc.exists) {
+                                      final userData = userDoc.data()
+                                          as Map<String, dynamic>;
+
+                                      final weight = userData['weight'];
+                                      final unit = userData['unit'];
+                                      final bedTime = userData['bedtime'];
+                                      final wakeUpTime =
+                                          userData['wake-up time'];
+
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HomePage(
+                                                  weight: weight,
+                                                  unit: unit,
+                                                  bedTime: bedTime,
+                                                  wakeUpTime: wakeUpTime)));
+                                    }
                                   }
                                 } on FirebaseAuthException catch (e) {
                                   String message;

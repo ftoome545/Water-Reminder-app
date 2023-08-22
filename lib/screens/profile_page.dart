@@ -330,7 +330,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 userInformation('Intake goal', '1980 ml', () {}),
-                userInformation('Unit', 'kg / lbs', () {
+                userInformation(
+                    'Unit',
+                    (userData?['unit'] == 'pounds')
+                        ? 'pounds (lbs)'
+                        : 'kilograms (kg)', () {
                   _showUnitDialog();
                 }),
                 userInformation('Privacy policy', '', () {
@@ -341,19 +345,22 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: const EdgeInsets.only(top: 15, left: 34),
                   child: RichText(
                     text: TextSpan(
-                        text: 'Log out',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            if (user != null) {
-                              _auth.signOut();
-                              Navigator.pushNamed(context, startPage);
-                            }
-                          }),
+                      text: 'Log out',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            startPage,
+                            (route) => false,
+                          );
+                        },
+                    ),
                   ),
                 ),
                 SizedBox(

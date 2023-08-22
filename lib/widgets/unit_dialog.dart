@@ -30,7 +30,7 @@ class _UnitDialogState extends State<UnitDialog> {
           children: <Widget>[
             RadioListTile<Unit>(
               activeColor: const Color.fromARGB(255, 7, 107, 132),
-              title: const Text('kg'),
+              title: const Text('kilograms (kg)'),
               value: Unit.kilograms,
               groupValue: _unit,
               onChanged: (Unit? value) {
@@ -41,7 +41,7 @@ class _UnitDialogState extends State<UnitDialog> {
             ),
             RadioListTile<Unit>(
               activeColor: const Color.fromARGB(255, 7, 107, 132),
-              title: const Text('lbs'),
+              title: const Text('pounds (lbs)'),
               value: Unit.pounds,
               groupValue: _unit,
               onChanged: (Unit? value) {

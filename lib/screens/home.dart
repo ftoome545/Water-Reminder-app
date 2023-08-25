@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
     // recommendedAmount = _calculateRecommendedAmount();
     _items = ValueNotifier([
       DrinkRecordModel(
-        time: '11:0 AM',
+        time: '11:00 AM',
         amountOfWater: '${widget.unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
       ),
     ]);

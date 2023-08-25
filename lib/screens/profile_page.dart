@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:water_reminder_app/model/pages_names.dart';
+import 'package:water_reminder_app/screens/home.dart';
 import 'package:water_reminder_app/screens/privacy_policy.dart';
 import 'package:water_reminder_app/screens/reminder_schedule.dart';
 import 'package:water_reminder_app/screens/reminder_sound.dart';
@@ -34,6 +35,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late double inTakeGoal;
   final _auth = FirebaseAuth.instance;
   String? profileImagePath;
   User? user = FirebaseAuth.instance.currentUser;
@@ -125,8 +127,18 @@ class _ProfilePageState extends State<ProfilePage> {
         });
   }
 
-  void _intakeGoal() {
-    if (widget.weightUnit == 'kilograms') {}
+  String _intakeGoal() {
+    if (widget.weightUnit == 'kilograms') {
+      inTakeGoal = widget.userWeight * 30;
+      return inTakeGoal.round().toString();
+    } else {
+      inTakeGoal = widget.userWeight * 0.5;
+      return inTakeGoal.round().toString();
+    }
+  }
+
+  String changeUnit() {
+    return widget.weightUnit == 'kilograms' ? 'ml' : 'fl oz';
   }
 
   void _chooseImage(ImageSource source) async {
@@ -187,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                  top: 15, left: 33, right: 27, bottom: 11),
+                                  top: 15, left: 8, right: 20, bottom: 11),
                               child: InkWell(
                                 onTap: () {
                                   _showImagePickerDialog();
@@ -205,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         backgroundColor: Colors.white,
                                         child: Icon(
                                           Icons.person,
-                                          size: 50,
+                                          size: 40,
                                           color:
                                               Color.fromARGB(255, 7, 107, 132),
                                         ),
@@ -244,11 +256,28 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                userInformation('Email', user?.email ?? '', () {
-                  _showEmailResetDialog();
-                }),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 34),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Email',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(width: 100),
+                      Text(
+                        user?.email ?? '',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 7, 107, 132),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 userInformation('Password', '', () {
-                  //Navigator.pushNamed(context, resetPasswordPage);
                   Flushbar(
                     message:
                         'If you want to reset your password click on Reset Password button',
@@ -329,7 +358,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                userInformation('Intake goal', '1980 ml', () {}),
+                userInformation(
+                    'Intake goal', '${_intakeGoal()} ${changeUnit()}', () {}),
                 userInformation(
                     'Unit',
                     (userData?['unit'] == 'pounds')

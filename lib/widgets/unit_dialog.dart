@@ -78,18 +78,14 @@ class _UnitDialogState extends State<UnitDialog> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // _validateForm();
                             if (user != null) {
                               String firebaseAuthId = user!.uid;
                               print(user!.email);
                               print(firebaseAuthId);
-                              // if (_formValid) {
-                              String stringGender =
-                                  _unit.toString().split(".").last;
                               _firestore
                                   .collection('users')
                                   .doc(firebaseAuthId)
-                                  .update({'unit': stringGender}).then((value) {
+                                  .update({'unit': _unit}).then((value) {
                                 print('Document updated successfully!');
                               }).catchError((error) {
                                 print('Error updating document: $error');

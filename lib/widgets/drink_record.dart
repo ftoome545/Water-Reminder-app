@@ -16,10 +16,8 @@ class DrinkRecord extends StatelessWidget {
 
   void actionPopUpItemSelected(String value) {
     if (value == 'edit') {
-      // You can navigate the user to edit page.
       onEdit();
     } else if (value == 'delete') {
-      // You can delete the item.
       onDelete();
     } else {}
   }
@@ -32,15 +30,6 @@ class DrinkRecord extends StatelessWidget {
         children: [
           ListTile(
             contentPadding: EdgeInsets.only(left: 8, right: 10),
-            // subtitle: Align(
-            //   alignment: Alignment.centerLeft,
-            //   child: Text(
-            //     nextTime,
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //     ),
-            //   ),
-            // ),
             title: Text(amountOfWater),
             trailing: PopupMenuButton(
               onSelected: (value) {
@@ -96,16 +85,3 @@ class DrinkRecordModel {
     // required this.nextTime,
   });
 }
-
-// class RecommindedAmount {
-
-//   String calculateRecommendedAmount(double weight, String unit) {
-//     if (unit == 'kilograms') {
-//       double kiloResult = weight * 30;
-//       return kiloResult.round().toString();
-//     } else {
-//       double pounResult = weight * 0.5;
-//       return pounResult.round().toString();
-//     }
-//   }
-// }

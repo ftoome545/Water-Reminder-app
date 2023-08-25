@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_reminder_app/screens/add_user_info.dart';
+import 'package:water_reminder_app/screens/home_page.dart';
 // import 'package:water_reminder_app/screens/home.dart';
 import 'package:water_reminder_app/screens/login_page.dart';
 import 'package:water_reminder_app/screens/new_password.dart';
@@ -9,7 +10,7 @@ import 'package:water_reminder_app/screens/signUp_page.dart';
 import 'package:water_reminder_app/screens/start_page.dart';
 import 'package:water_reminder_app/screens/verification_page.dart';
 
-import '../screens/home.dart';
+// import '../screens/home.dart';
 import '../screens/user_info.dart';
 
 class MyRoutes {
@@ -43,7 +44,7 @@ class MyRoutes {
         var bedTime = setting.arguments as String;
         var wakeUpTime = setting.arguments as String;
         return MaterialPageRoute(
-            builder: (context) => Home(
+            builder: (context) => HomePage(
                   unit: unit,
                   wakeUpTime: wakeUpTime,
                   bedTime: bedTime,

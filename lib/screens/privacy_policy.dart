@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:water_reminder_app/screens/home_page.dart';
 import 'package:water_reminder_app/screens/profile_page.dart';
+import 'package:water_reminder_app/widgets/responsive_container.dart';
 
 // ignore: must_be_immutable
 class PrivacyPolicy extends StatefulWidget {
@@ -26,12 +28,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               size: 30,
               color: const Color.fromARGB(255, 7, 107, 132),
             ),
-            trailing: Center(
-              child: Text(
-                'Privacy Policy',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-            ),
             onTap: () async {
               try {
                 if (user != null) {
@@ -51,11 +47,11 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProfilePage(
-                                userWeight: weight,
-                                weightUnit: unit,
-                                userBedTime: bedTime,
-                                userWakeUpTime: wakeUpTime)));
+                            builder: (context) => HomePage(
+                                weight: weight,
+                                unit: unit,
+                                bedTime: bedTime,
+                                wakeUpTime: wakeUpTime)));
                   }
                 }
               } on FirebaseAuthException catch (e) {
@@ -69,43 +65,50 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 }
               }
             },
-          ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 50),
-            //   child: Center(
-            //     child: Text(
-            //       'Privacy Policy',
-            //       style: TextStyle(fontSize: 29, fontWeight: FontWeight.bold),
-            //     ),
-            //   ),
-            // ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50, bottom: 15),
-              child: Center(
-                child: Text(
-                  'Android App Privacy Policy',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: const Color.fromARGB(255, 7, 107, 132),
-                  ),
+            subtitle: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text(
+                'Privacy Policy',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 25, left: 15, right: 15, bottom: 10),
-              child: Text(
-                'To make our app work properly, we need sometimes to request some permistions for: \n\n * Access to WIFI for getting user data from the server.\n\n * Access to phone tone for reminder tone. ',
-                style: TextStyle(
-                  fontSize: 20,
+          ),
+        ),
+        SingleChildScrollView(
+          child: ResponsiveContainer(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 50, bottom: 13, right: 25, left: 25),
+                  child: Center(
+                    child: Text(
+                      'Android App Privacy Policy',
+                      style: TextStyle(
+                        fontSize: 32,
+                        color: const Color.fromARGB(255, 7, 107, 132),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            )
-          ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 25, left: 15, right: 15, bottom: 5),
+                  child: Text(
+                    'To make our app work properly, we need sometimes to request some permistions for: \n\n * Access to WIFI for getting user data from the server.\n\n * Access to phone tone for reminder tone. ',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ]),
     );

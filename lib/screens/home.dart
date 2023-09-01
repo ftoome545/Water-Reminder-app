@@ -161,11 +161,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     // final args = ModalRoute.of(context)!.settings.arguments as Home;
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SingleChildScrollView(
-            child: Padding(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
               padding: EdgeInsets.only(top: 90, left: 33, right: 33, bottom: 5),
               child: SizedBox(
                 width: 295,
@@ -234,84 +234,84 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(top: 5, bottom: 5, left: 173, right: 173),
-            child: Icon(
-              Icons.arrow_upward,
-              color: const Color.fromARGB(255, 7, 107, 132),
-            ),
-          ),
-          ResponsiveContainer(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
-              child: Text(
-                'Click here to confirm that you drank water',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: const Color.fromARGB(146, 0, 0, 0),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 5, bottom: 5, left: 173, right: 173),
+              child: Icon(
+                Icons.arrow_upward,
+                color: const Color.fromARGB(255, 7, 107, 132),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 15,
-              bottom: 5,
-              left: 15,
-            ),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Today's records",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15),
-            child: ResponsiveContainer(
-              child: SizedBox(
-                height: 155,
-                width: 350,
-                //today's records card
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  color: Color.fromARGB(255, 220, 239, 249),
-                  shadowColor: const Color.fromARGB(14, 0, 0, 0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  child: ValueListenableBuilder<List<DrinkRecordModel>>(
-                    valueListenable: _items,
-                    builder: (context, items, child) {
-                      return ListView.builder(
-                        padding: const EdgeInsets.only(top: 15),
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          return DrinkRecord(
-                            time: items[index].time,
-                            amountOfWater: items[index].amountOfWater,
-                            onDelete: () {
-                              _deleteItem(index);
-                            },
-                            onEdit: () {
-                              _editItem(index);
-                            },
-                          );
-                        },
-                      );
-                    },
+            ResponsiveContainer(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
+                child: Text(
+                  'Click here to confirm that you drank water',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: const Color.fromARGB(146, 0, 0, 0),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 15,
+                bottom: 5,
+                left: 15,
+              ),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Today's records",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0, bottom: 15),
+              child: ResponsiveContainer(
+                child: SizedBox(
+                  height: 155,
+                  width: 350,
+                  //today's records card
+                  child: Card(
+                    margin: EdgeInsets.zero,
+                    color: Color.fromARGB(255, 220, 239, 249),
+                    shadowColor: const Color.fromARGB(14, 0, 0, 0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: ValueListenableBuilder<List<DrinkRecordModel>>(
+                      valueListenable: _items,
+                      builder: (context, items, child) {
+                        return ListView.builder(
+                          padding: const EdgeInsets.only(top: 15),
+                          itemCount: items.length,
+                          itemBuilder: (context, index) {
+                            return DrinkRecord(
+                              time: items[index].time,
+                              amountOfWater: items[index].amountOfWater,
+                              onDelete: () {
+                                _deleteItem(index);
+                              },
+                              onEdit: () {
+                                _editItem(index);
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

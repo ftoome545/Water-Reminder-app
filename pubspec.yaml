@@ -43,6 +43,7 @@ dependencies:
   another_flushbar: ^1.12.30
   image_picker: ^1.0.2
   audioplayers: ^5.1.0
+  getwidget: ^4.0.0
 
 dev_dependencies:
   flutter_test:

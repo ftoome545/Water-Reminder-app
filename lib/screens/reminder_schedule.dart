@@ -21,7 +21,8 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: null,
-        backgroundColor: const Color.fromARGB(255, 7, 107, 132),
+        backgroundColor: Color.fromARGB(255, 8, 179, 222),
+        //original color for the flating button is Color.fromARGB(255, 8, 166, 205),
         child: Icon(
           Icons.add,
           color: Colors.white,
@@ -91,6 +92,14 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 31, right: 31, top: 55),
+              child: ScheduleContainer(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 31, right: 31, top: 13),
+              child: ScheduleContainer(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 31, right: 31, top: 13),
               child: ScheduleContainer(),
             ),
             Padding(

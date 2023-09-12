@@ -124,6 +124,7 @@ class _ReminderSoundState extends State<ReminderSound> {
                       }
                     }
                   } on FirebaseAuthException catch (e) {
+                    // ignore: unused_local_variable
                     String message;
                     if (e.code == 'user-not-found') {
                       message = 'User not found';

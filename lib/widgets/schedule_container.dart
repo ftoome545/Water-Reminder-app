@@ -2,16 +2,20 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:water_reminder_app/model/scheduleTimes.dart';
+import 'package:water_reminder_app/services/notify_service.dart';
 
 class ScheduleContainer extends StatefulWidget {
   final String time;
-  ScheduleContainer({required this.time});
+  final VoidCallback onDeleteSchedule;
+  ScheduleContainer({required this.time, required this.onDeleteSchedule});
 
   @override
   _ScheduleContainerState createState() => _ScheduleContainerState();
 }
 
 class _ScheduleContainerState extends State<ScheduleContainer> {
+  // Padding ;
+  bool notify = false;
   double containerHeight = 80;
   bool isExpanded = false;
   String day = 'Everyday';
@@ -74,43 +78,57 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
                   ),
                 ],
               ),
-              SizedBox(
-                width: 180,
-              ),
-              Column(
-                children: [
-                  GFToggle(
-                    onChanged: (value) {},
-                    value: true,
-                    enabledThumbColor: Color.fromARGB(255, 8, 179, 222),
-                    enabledTrackColor: Color.fromARGB(106, 8, 179, 222),
-                    disabledThumbColor: Color.fromARGB(130, 0, 0, 0),
-                    disabledTrackColor: Color.fromARGB(85, 0, 0, 0),
-                  ),
-                  InkWell(
-                    child: containerIcons,
-                    onTap: () {
-                      setState(() {
-                        if (isExpanded) {
-                          containerIcons = Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color.fromARGB(255, 8, 179, 222),
-                          );
-                          containerHeight = 90; // Set to the original height
-                          textColor = Colors.white;
-                        } else {
-                          containerIcons = Icon(
-                            Icons.keyboard_arrow_up,
-                            color: Color.fromARGB(255, 8, 179, 222),
-                          );
-                          containerHeight = 150; // Set to the expanded height
-                        }
-                        isExpanded = !isExpanded;
-                        Icon(Icons.keyboard_arrow_up);
-                      });
-                    },
-                  ),
-                ],
+              // SizedBox(
+              //   width: 140,
+              // ),
+              Padding(
+                padding: EdgeInsets.only(left: 50),
+                child: Column(
+                  children: [
+                    GFToggle(
+                      onChanged: (value) {
+                        setState(() {
+                          notify = value!;
+                          if (notify) {
+                            // Show a local notification
+                            NotificationServices().showNotification(
+                              title: "It's time to drink water!",
+                              body: 'After drinking, touch the cup to confirm',
+                            );
+                          }
+                        });
+                      },
+                      value: true,
+                      enabledThumbColor: Color.fromARGB(255, 8, 179, 222),
+                      enabledTrackColor: Color.fromARGB(106, 8, 179, 222),
+                      disabledThumbColor: Color.fromARGB(130, 0, 0, 0),
+                      disabledTrackColor: Color.fromARGB(85, 0, 0, 0),
+                    ),
+                    InkWell(
+                      child: containerIcons,
+                      onTap: () {
+                        setState(() {
+                          if (isExpanded) {
+                            containerIcons = Icon(
+                              Icons.keyboard_arrow_down,
+                              color: Color.fromARGB(255, 8, 179, 222),
+                            );
+                            containerHeight = 90; // Set to the original height
+                            textColor = Colors.white;
+                          } else {
+                            containerIcons = Icon(
+                              Icons.keyboard_arrow_up,
+                              color: Color.fromARGB(255, 8, 179, 222),
+                            );
+                            containerHeight = 150; // Set to the expanded height
+                          }
+                          isExpanded = !isExpanded;
+                          Icon(Icons.keyboard_arrow_up);
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -163,9 +181,7 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
                               fontSize: 16,
                             ),
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                print('deleted');
-                              }),
+                              ..onTap = widget.onDeleteSchedule),
                       ),
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water_reminder_app/services/notify_service.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'model/pages_names.dart';
@@ -8,6 +9,10 @@ import 'model/pages_names.dart';
 // }
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize the FlutterLocalNotificationsPlugin
+  await NotificationServices().init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MyApp(),

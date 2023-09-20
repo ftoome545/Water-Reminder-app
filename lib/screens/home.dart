@@ -166,7 +166,8 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 90, left: 33, right: 33, bottom: 5),
+              padding:
+                  EdgeInsets.only(top: 120, left: 33, right: 33, bottom: 5),
               child: SizedBox(
                 width: 295,
                 height: 238,

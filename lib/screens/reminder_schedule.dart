@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
+import 'package:water_reminder_app/services/notify_service.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
 import '../model/scheduleTimes.dart';
 import '../widgets/floating_button.dart';
@@ -29,6 +30,12 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
             },
           );
         });
+  }
+
+  void _deleteScheduleContainer(String time) {
+    setState(() {
+      scheduleTimes.remove(time);
+    });
   }
 
   @override
@@ -112,8 +119,13 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
             for (var time in scheduleTimes)
               Padding(
                 padding: const EdgeInsets.only(left: 31, right: 31, top: 13),
-                child:
-                    ResponsiveContainer(child: ScheduleContainer(time: time)),
+                child: ResponsiveContainer(
+                    child: ScheduleContainer(
+                  time: time,
+                  onDeleteSchedule: () {
+                    _deleteScheduleContainer(time);
+                  },
+                )),
               ),
             SizedBox(
               height: 50,

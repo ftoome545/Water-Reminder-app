@@ -6,7 +6,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:water_reminder_app/model/pages_names.dart';
-import 'package:water_reminder_app/screens/home.dart';
 import 'package:water_reminder_app/screens/privacy_policy.dart';
 import 'package:water_reminder_app/screens/reminder_schedule.dart';
 import 'package:water_reminder_app/screens/reminder_sound.dart';

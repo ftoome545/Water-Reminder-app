@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:water_reminder_app/screens/home.dart';
 import 'package:water_reminder_app/screens/profile_page.dart';
@@ -20,11 +21,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int index = 0;
+  int curentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final pages = [
+    List<Widget> pages = [
       Home(
           weight: widget.weight,
           unit: widget.unit,
@@ -38,41 +39,30 @@ class _HomePageState extends State<HomePage> {
       ),
     ];
     return Scaffold(
-      body: pages[index],
-      bottomNavigationBar: NavigationBar(
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-        indicatorColor: Color.fromARGB(218, 220, 239, 249),
+      body: pages[curentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) {
+          setState(() {
+            curentIndex = index;
+          });
+        },
+        currentIndex: curentIndex,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Color.fromARGB(255, 102, 217, 246),
         backgroundColor: const Color.fromARGB(255, 7, 107, 132),
-        height: 60,
-        selectedIndex: index,
-        onDestinationSelected: (index) => setState(() => this.index = index),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(
-              Icons.home_outlined,
-              color: Colors.white,
-              size: 30,
-            ),
-            label: 'Home',
-            selectedIcon: Icon(
-              Icons.home,
-              color: const Color.fromARGB(255, 7, 107, 132),
-              size: 30,
-            ),
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Icons.account_circle_outlined,
-              color: Colors.white,
-              size: 30,
-            ),
-            label: 'Profile',
-            selectedIcon: Icon(
-              Icons.account_circle,
-              color: const Color.fromARGB(255, 7, 107, 132),
-              size: 30,
-            ),
-          ),
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                size: 30,
+              ),
+              label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_circle_outlined,
+                size: 30,
+              ),
+              label: 'Profile'),
         ],
       ),
     );

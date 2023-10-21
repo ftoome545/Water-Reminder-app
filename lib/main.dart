@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:water_reminder_app/services/notify_service.dart';
+import 'package:water_reminder_app/widgets/database.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'model/pages_names.dart';
@@ -15,7 +17,7 @@ Future<void> main() async {
   await NotificationServices().init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    MyApp(),
+    const MyApp(),
     // debugShowCheckedModeBanner: false,
     // routes: {
     //   // '/': (context) => StartPage(),
@@ -32,12 +34,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String? profileImagePath;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: startPage,
-      onGenerateRoute: MyRoutes.genrateRoute,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserDataProvider(),
+        ),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: startPage,
+        onGenerateRoute: MyRoutes.genrateRoute,
+      ),
     );
   }
 }

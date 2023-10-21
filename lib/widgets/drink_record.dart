@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:water_reminder_app/widgets/database.dart';
 
 class DrinkRecord extends StatelessWidget {
   const DrinkRecord({
@@ -26,50 +28,52 @@ class DrinkRecord extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 22, right: 22),
-      child: Column(
-        children: [
-          ListTile(
-            contentPadding: EdgeInsets.only(left: 8, right: 10),
-            title: Text(amountOfWater),
-            trailing: PopupMenuButton(
-              onSelected: (value) {
-                actionPopUpItemSelected(value);
-              },
-              itemBuilder: (context) {
-                return [
-                  PopupMenuItem(
-                    value: 'delete',
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.delete,
-                        color: const Color.fromARGB(255, 7, 107, 132),
+      child: Consumer<UserDataProvider>(
+        builder: (context, userDataModel, child) => Column(
+          children: [
+            ListTile(
+              contentPadding: EdgeInsets.only(left: 8, right: 10),
+              title: Text(amountOfWater),
+              trailing: PopupMenuButton(
+                onSelected: (value) {
+                  actionPopUpItemSelected(value);
+                },
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      value: 'delete',
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.delete,
+                          color: const Color.fromARGB(255, 7, 107, 132),
+                        ),
+                        title: Text('Delete'),
                       ),
-                      title: Text('Delete'),
                     ),
-                  ),
-                  PopupMenuItem(
-                    value: 'edit',
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.edit,
-                        color: const Color.fromARGB(255, 7, 107, 132),
+                    PopupMenuItem(
+                      value: 'edit',
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.edit,
+                          color: const Color.fromARGB(255, 7, 107, 132),
+                        ),
+                        title: Text('Edit'),
                       ),
-                      title: Text('Edit'),
                     ),
-                  ),
-                ];
-              },
-            ),
-            leading: Text(
-              time,
-              style: TextStyle(
-                fontSize: 18,
+                  ];
+                },
               ),
+              leading: Text(
+                time,
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              onTap: () {},
             ),
-            onTap: () {},
-          ),
-          SizedBox(height: 0),
-        ],
+            SizedBox(height: 0),
+          ],
+        ),
       ),
     );
   }
@@ -84,4 +88,17 @@ class DrinkRecordModel {
     required this.amountOfWater,
     // required this.nextTime,
   });
+  Map<String, dynamic> toMap() {
+    return {
+      'time': time,
+      'amountOfWater': amountOfWater,
+    };
+  }
+
+  factory DrinkRecordModel.fromMap(Map<String, dynamic> map) {
+    return DrinkRecordModel(
+      time: map['time'],
+      amountOfWater: map['amountOfWater'],
+    );
+  }
 }

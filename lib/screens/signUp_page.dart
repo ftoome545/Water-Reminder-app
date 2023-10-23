@@ -109,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              top: 220.0, left: 10, right: 20),
+                              top: 220.0, left: 10, right: 0),
                           child: RichText(
                             text: TextSpan(
                                 text: 'Already Member?',
@@ -118,7 +118,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     color: Color.fromARGB(255, 7, 107, 132)),
                                 children: [
                                   TextSpan(
-                                      text: ' Login',
+                                      text: '\nLogin',
                                       style: const TextStyle(
                                         color: Color.fromARGB(255, 7, 107, 132),
                                         fontSize: 18.0,
@@ -132,78 +132,83 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ]),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 190.0,
-                            left: 2.0,
-                          ),
-                          child: SizedBox(
-                            width: 130.8,
-                            height: 57.14,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 190.0,
+                              left: 33.0,
+                            ),
+                            child: SizedBox(
+                              width: 130.8,
+                              height: 57.14,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 7, 107, 132),
                                 ),
-                                backgroundColor:
-                                    const Color.fromARGB(255, 7, 107, 132),
-                              ),
-                              onPressed: () async {
-                                setState(() {
-                                  showSpinner = true;
-                                });
-                                String email = _emailController.text.trim();
-                                String password =
-                                    _passwordController.text.trim();
-                                if (email.isEmpty || password.isEmpty) {
+                                onPressed: () async {
                                   setState(() {
-                                    showSpinner = false;
+                                    showSpinner = true;
                                   });
-                                  Flushbar(
-                                    message:
-                                        'Email and password cannot be empty',
-                                    duration: const Duration(seconds: 3),
-                                    flushbarPosition: FlushbarPosition.BOTTOM,
-                                    backgroundColor: Colors.red,
-                                  ).show(context);
-                                } else {
-                                  try {
-                                    // ignore: unused_local_variable
-                                    final newUser = await _auth
-                                        .createUserWithEmailAndPassword(
-                                            email: email, password: password);
-                                    Navigator.pushNamed(context, userDataPage);
-                                    setState(() {
-                                      showSpinner = false;
-                                    });
-                                  } on FirebaseAuthException catch (e) {
-                                    String message;
-                                    if (e.code == 'email-already-in-use') {
-                                      message =
-                                          'The email address is already in use by another account';
-                                    } else if (e.code == 'weak-password') {
-                                      message = 'The password is too weak';
-                                    } else if (e.code == 'invalid-email') {
-                                      message = 'The email address is invalid';
-                                    } else {
-                                      message = 'An error occurred';
-                                    }
+                                  String email = _emailController.text.trim();
+                                  String password =
+                                      _passwordController.text.trim();
+                                  if (email.isEmpty || password.isEmpty) {
                                     setState(() {
                                       showSpinner = false;
                                     });
                                     Flushbar(
+                                      message:
+                                          'Email and password cannot be empty',
                                       duration: const Duration(seconds: 3),
-                                      message: message,
                                       flushbarPosition: FlushbarPosition.BOTTOM,
                                       backgroundColor: Colors.red,
                                     ).show(context);
-                                    // print(e);
+                                  } else {
+                                    try {
+                                      // ignore: unused_local_variable
+                                      final newUser = await _auth
+                                          .createUserWithEmailAndPassword(
+                                              email: email, password: password);
+                                      Navigator.pushNamed(
+                                          context, userDataPage);
+                                      setState(() {
+                                        showSpinner = false;
+                                      });
+                                    } on FirebaseAuthException catch (e) {
+                                      String message;
+                                      if (e.code == 'email-already-in-use') {
+                                        message =
+                                            'The email address is already in use by another account';
+                                      } else if (e.code == 'weak-password') {
+                                        message = 'The password is too weak';
+                                      } else if (e.code == 'invalid-email') {
+                                        message =
+                                            'The email address is invalid';
+                                      } else {
+                                        message = 'An error occurred';
+                                      }
+                                      setState(() {
+                                        showSpinner = false;
+                                      });
+                                      Flushbar(
+                                        duration: const Duration(seconds: 3),
+                                        message: message,
+                                        flushbarPosition:
+                                            FlushbarPosition.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                      ).show(context);
+                                      // print(e);
+                                    }
                                   }
-                                }
-                              },
-                              child: const Text(
-                                'Sign Up',
-                                style: TextStyle(fontSize: 24),
+                                },
+                                child: const Text(
+                                  'Sign Up',
+                                  style: TextStyle(fontSize: 24),
+                                ),
                               ),
                             ),
                           ),

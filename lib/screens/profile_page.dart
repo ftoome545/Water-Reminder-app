@@ -67,6 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () {
                     _chooseImage(ImageSource.camera);
                     Navigator.of(context).pop();
+                    setData();
                   },
                 ),
                 const SizedBox(height: 16.0),
@@ -75,6 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () {
                     _chooseImage(ImageSource.gallery);
                     Navigator.of(context).pop();
+                    setData();
                   },
                 ),
               ],
@@ -151,6 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         profileImagePath = pickedImage.path;
       });
+      setData();
     }
   }
 
@@ -215,10 +218,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 15, left: 20, right: 20, bottom: 11),
+                                    top: 15, left: 20, right: 5, bottom: 11),
                                 child: InkWell(
                                   onTap: () {
                                     _showImagePickerDialog();
+                                    setData();
                                   },
                                   child: (profileImagePath != null)
                                       ? CircleAvatar(
@@ -377,8 +381,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  userInformation('Intake goal',
-                      '${userDataModel.calculateRecommendedAmount(widget.weightUnit, widget.userWeight)} ${userDataModel.changeUnit(widget.weightUnit)}',
+                  userInformation(
+                      'Intake goal',
+                      // '${userDataModel.calculateRecommendedAmount(widget.weightUnit, widget.userWeight)} ${userDataModel.changeUnit(widget.weightUnit)}',
+                      '${userDataModel.intakeGoal.round()} ${userDataModel.changeUnit(widget.weightUnit)}',
                       () {
                     _showIntakeGoalDialog();
                   }),

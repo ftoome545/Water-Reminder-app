@@ -3,26 +3,31 @@ import 'package:flutter/material.dart';
 import 'drink_record.dart';
 
 class UserDataProvider extends ChangeNotifier {
+  late double intakeGoal;
   double amount = 0; //for home page
   ValueNotifier<List<DrinkRecordModel>> items = ValueNotifier([]);
 
   void initializeItems(String unit) {
     items.value = [
-      DrinkRecordModel(
-        time: '11:00 AM',
-        amountOfWater: '${unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
-      ),
+      // DrinkRecordModel(
+      //   time: '11:00 AM',
+      //   amountOfWater: '${unit == 'kilograms' ? '175 ml' : '6 fl oz'}',
+      // ),
     ];
     notifyListeners();
   }
 
-  String calculateRecommendedAmount(String unit, double weight) {
+  dynamic calculateRecommendedAmount(String unit, double weight) {
     if (unit == 'kilograms') {
       double kiloResult = weight * 30;
-      return kiloResult.round().toString();
+      kiloResult.round().toString();
+      intakeGoal = kiloResult;
+      return intakeGoal.round();
     } else {
       double pounResult = weight * 0.5;
-      return pounResult.round().toString();
+      pounResult.round().toString();
+      intakeGoal = pounResult;
+      return intakeGoal.round();
     }
   }
 
@@ -30,5 +35,12 @@ class UserDataProvider extends ChangeNotifier {
     return unit == 'kilograms' ? 'ml' : 'fl oz';
   }
 
-  void newIntakeGoal(String newGoal) {}
+  double getIntakeGoal() {
+    return intakeGoal;
+  }
+
+  void setIntakeGoal(double goal) {
+    intakeGoal = goal;
+    notifyListeners();
+  }
 }

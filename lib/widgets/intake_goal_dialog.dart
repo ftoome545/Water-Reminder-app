@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/widgets/database.dart';
 
 class IntakeGoalDialog extends StatefulWidget {
@@ -11,14 +12,39 @@ class IntakeGoalDialog extends StatefulWidget {
 }
 
 class _IntakeGoalDialogState extends State<IntakeGoalDialog> {
+  late SharedPreferences sharedPreferences;
   final _intakeGoalController = TextEditingController();
-
-  late String intakeGoal;
 
   @override
   void dispose() {
     _intakeGoalController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _intakeGoalController.text =
+        Provider.of<UserDataProvider>(context, listen: false)
+            .getIntakeGoal()
+            .toString();
+    getData();
+  }
+
+  getData() async {
+    final userDataProvider =
+        Provider.of<UserDataProvider>(context, listen: false);
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      userDataProvider.intakeGoal = sharedPreferences.getDouble('intakeGoal')!;
+    });
+  }
+
+  setData() async {
+    final intakeGoal =
+        Provider.of<UserDataProvider>(context, listen: false).intakeGoal;
+    sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setDouble('intakeGoal', intakeGoal);
   }
 
   @override
@@ -34,30 +60,30 @@ class _IntakeGoalDialogState extends State<IntakeGoalDialog> {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text('Add the new intake goal'),
-              SizedBox(
+              const Text('Add the new intake goal'),
+              const SizedBox(
                 height: 8,
               ),
               SizedBox(
                 height: 44,
                 width: 90,
                 child: TextField(
-                  // controller: _emailController,
+                  controller: _intakeGoalController,
                   decoration: InputDecoration(
                     hintText: '1980 ml',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
                         borderSide: const BorderSide(
-                          color: const Color.fromARGB(255, 7, 107, 132),
+                          color: Color.fromARGB(255, 7, 107, 132),
                           width: 2,
                         )),
                   ),
                   onChanged: (value) {
-                    intakeGoal = value;
+                    userDataModel.intakeGoal = double.parse(value);
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Padding(
@@ -76,7 +102,7 @@ class _IntakeGoalDialogState extends State<IntakeGoalDialog> {
                               Navigator.pop(context);
                             }),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 80,
                     ),
                     RichText(
@@ -84,9 +110,14 @@ class _IntakeGoalDialogState extends State<IntakeGoalDialog> {
                           text: 'OK',
                           style: const TextStyle(
                             fontSize: 15,
-                            color: const Color.fromARGB(255, 7, 107, 132),
+                            color: Color.fromARGB(255, 7, 107, 132),
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = () {}),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              userDataModel.setIntakeGoal(double.parse(
+                                  userDataModel.intakeGoal.toString()));
+                              Navigator.pop(context);
+                            }),
                     ),
                   ],
                 ),

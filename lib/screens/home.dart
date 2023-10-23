@@ -45,6 +45,7 @@ class _HomeState extends State<Home> {
         .toList();
     sharedPreferences.setStringList('items', itemList);
     sharedPreferences.setDouble('amount', userDataProvider.amount);
+    // sharedPreferences.setDouble('intakeGoal', userDataProvider.intakeGoal);
   }
 
   void getData() async {
@@ -61,6 +62,8 @@ class _HomeState extends State<Home> {
             ValueNotifier<List<DrinkRecordModel>>(drinkRecords);
       }
       userDataProvider.amount = sharedPreferences.getDouble('amount')!;
+      // userDataProvider.intakeGoal = sharedPreferences
+      //     .getDouble((userDataProvider.intakeGoal).toString())!;
     });
   }
 
@@ -199,7 +202,7 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.only(
                               bottom: 21, left: 52, right: 52),
                           child: Text(
-                            '${userDataModel.amount.round()} / ${userDataModel.calculateRecommendedAmount(widget.unit, widget.weight)} ${userDataModel.changeUnit(widget.unit)}',
+                            '${userDataModel.amount.round()} / ${userDataModel.intakeGoal.round()} ${userDataModel.changeUnit(widget.unit)}',
                             style: const TextStyle(
                               fontSize: 20,
                             ),

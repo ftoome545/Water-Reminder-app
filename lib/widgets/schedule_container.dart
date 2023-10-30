@@ -91,9 +91,11 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
                           notify = value!;
                           if (notify) {
                             // Show a local notification
-                            NotificationServices().showNotification(
+                            NotificationServices().showScheduledNotification(
+                              id: 1,
                               title: "It's time to drink water!",
                               body: 'After drinking, touch the cup to confirm',
+                              hour: 4,
                             );
                           }
                         });

@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
         .map((item) => jsonEncode(item.toMap()))
         .toList();
     sharedPreferences.setStringList('items', itemList);
-    sharedPreferences.setDouble('amount', userDataProvider.amount);
+    // sharedPreferences.setDouble('amount', userDataProvider.amount);
     // sharedPreferences.setDouble('intakeGoal', userDataProvider.intakeGoal);
   }
 
@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
         userDataProvider.items =
             ValueNotifier<List<DrinkRecordModel>>(drinkRecords);
       }
-      userDataProvider.amount = sharedPreferences.getDouble('amount')!;
+      // userDataProvider.amount = sharedPreferences.getDouble('amount')!;
       // userDataProvider.intakeGoal = sharedPreferences
       //     .getDouble((userDataProvider.intakeGoal).toString())!;
     });

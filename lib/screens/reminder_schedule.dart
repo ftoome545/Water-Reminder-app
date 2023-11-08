@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
-import 'package:water_reminder_app/services/notify_service.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
 import '../model/scheduleTimes.dart';
-import '../widgets/floating_button.dart';
 import '../widgets/schedule_container.dart';
 
 class ReminderSchedule extends StatefulWidget {
@@ -79,9 +77,9 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
         onPressed: () {
           _showTimeDialog();
         },
-        backgroundColor: Color.fromARGB(255, 8, 179, 222),
+        backgroundColor: const Color.fromARGB(255, 8, 179, 222),
         //original color for the flating button is Color.fromARGB(255, 8, 166, 205),
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
@@ -93,10 +91,10 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
             Padding(
               padding: const EdgeInsets.only(top: 50),
               child: ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.arrow_back,
                   size: 30,
-                  color: const Color.fromARGB(255, 7, 107, 132),
+                  color: Color.fromARGB(255, 7, 107, 132),
                 ),
                 onTap: () async {
                   try {
@@ -136,8 +134,8 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
                     }
                   }
                 },
-                subtitle: Padding(
-                  padding: const EdgeInsets.all(18.0),
+                subtitle: const Padding(
+                  padding: EdgeInsets.all(18.0),
                   child: Text(
                     'Reminder schedule',
                     style: TextStyle(
@@ -160,7 +158,7 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
                   },
                 )),
               ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             )
           ],

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
 import 'package:water_reminder_app/services/notify_service.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
@@ -18,18 +19,50 @@ class ReminderSchedule extends StatefulWidget {
 class _ReminderScheduleState extends State<ReminderSchedule> {
   User? user = FirebaseAuth.instance.currentUser;
 
-  void _showTimeDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return FloatingButton(
-            addSchdule: (newTime) {
-              setState(() {
-                scheduleTimes.add(newTime.toString());
-              });
-            },
-          );
-        });
+  // void _showTimeDialog() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return FloatingButton(
+  //           addSchdule: (newTime) {
+  //             setState(() {
+  //               scheduleTimes.add(newTime.toString());
+  //             });
+  //           },
+  //         );
+  //       });
+  // }
+
+  void _showTimeDialog() async {
+    TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: setTime,
+    );
+    if (newTime == null) return;
+
+    final now = DateTime.now();
+    final selectedTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      newTime.hour,
+      newTime.minute,
+    );
+
+    setState(() {
+      setState(() {
+        setTime = newTime;
+        int hour = setTime.hour;
+        int minute = setTime.minute;
+        String formattedTime = DateFormat('hh:mm a').format(DateTime(
+            selectedTime.year,
+            selectedTime.month,
+            selectedTime.day,
+            hour,
+            minute));
+        scheduleTimes.add(formattedTime);
+      });
+    });
   }
 
   void _deleteScheduleContainer(String time) {

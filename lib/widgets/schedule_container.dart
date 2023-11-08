@@ -91,11 +91,21 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
                           notify = value!;
                           if (notify) {
                             // Show a local notification
+                            final now = DateTime.now();
+                            final selectedTime = DateTime(
+                              now.year,
+                              now.month,
+                              now.day,
+                              setTime.hour,
+                              setTime.minute,
+                            );
+                            final difference = selectedTime.difference(now);
+                            final seconds = difference.inSeconds;
                             NotificationServices().showScheduledNotification(
                               id: 1,
                               title: "It's time to drink water!",
                               body: 'After drinking, touch the cup to confirm',
-                              hour: 4,
+                              hour: seconds,
                             );
                           }
                         });

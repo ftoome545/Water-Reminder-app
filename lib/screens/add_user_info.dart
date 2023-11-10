@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
@@ -20,21 +21,82 @@ class _AddUserInfoState extends State<AddUserInfo> {
   Gender? _gender = Gender.male;
   String _unit = 'pounds';
   double _weight = 0;
-  String _briod = 'AM';
-  String _briodTow = 'PM';
-  late String _bedtime;
-  late String _wakeUptime;
+  TimeOfDay _bedtime = const TimeOfDay(hour: 09, minute: 30);
+  TimeOfDay _wakeUptime = const TimeOfDay(hour: 05, minute: 24);
   bool _formValid = false;
-
+  String bedTimeInString = '09:00 PM';
+  String wakeUpINString = '04:50 AM';
   void _validateForm() {
     if (_gender == null ||
         _weight == 0 ||
-        _wakeUptime == null ||
-        _bedtime == null) {
+        wakeUpINString == '' ||
+        bedTimeInString == '') {
       _formValid = false;
     } else {
       _formValid = true;
     }
+  }
+
+  void showBedtimeDialog() async {
+    TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: _bedtime,
+    );
+
+    if (newTime == null) return;
+    final now = DateTime.now();
+    final selectedTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      newTime.hour,
+      newTime.minute,
+    );
+
+    setState(() {
+      _bedtime = newTime;
+      int hour = _bedtime.hour;
+      int minute = _bedtime.minute;
+      String formattedTime = DateFormat('hh:mm a').format(DateTime(
+          selectedTime.year,
+          selectedTime.month,
+          selectedTime.day,
+          hour,
+          minute));
+      bedTimeInString = formattedTime;
+      print('formattedTime: $formattedTime timeInString: $bedTimeInString');
+    });
+  }
+
+  void showWakeUpDialog() async {
+    TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: _wakeUptime,
+    );
+
+    if (newTime == null) return;
+    final now = DateTime.now();
+    final selectedTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      newTime.hour,
+      newTime.minute,
+    );
+
+    setState(() {
+      _wakeUptime = newTime;
+      int hour = _wakeUptime.hour;
+      int minute = _wakeUptime.minute;
+      String formattedTime = DateFormat('hh:mm a').format(DateTime(
+          selectedTime.year,
+          selectedTime.month,
+          selectedTime.day,
+          hour,
+          minute));
+      wakeUpINString = formattedTime;
+      print('formattedTime: $formattedTime wakeUpINString: $wakeUpINString');
+    });
   }
 
   @override
@@ -139,96 +201,45 @@ class _AddUserInfoState extends State<AddUserInfo> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 38, left: 35, right: 80),
-              child: Row(
-                children: [
-                  const Text(
-                    'Wake-up time',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 22.0),
-                    child: DropdownButton<String>(
-                      iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
-                      value: _briod,
-                      items: <String>['AM', 'PM']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _briod = newValue!;
-                        });
-                      },
+              child: ListTile(
+                title: const Text(
+                  'Wake-up time',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                // subtitle: Text('${_bedtime.hour}:${_bedtime.minute}'),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    wakeUpINString,
+                    style: const TextStyle(
+                      fontSize: 20,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                left: 44,
-                right: 150,
-              ),
-              child: TextFormField(
-                keyboardType: TextInputType.datetime,
-                decoration: InputDecoration(
-                    labelText: _briod == 'AM' ? '05:30 AM' : '11:00 PM'),
-                onChanged: (String newValue) {
-                  setState(() {
-                    _wakeUptime = newValue;
-                    // _time = String.fromCharCode(newValue as String) ?? '02:55 PM';
-                  });
+                ),
+                onTap: () {
+                  showWakeUpDialog();
                 },
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 38, left: 35, right: 80),
-              child: Row(
-                children: [
-                  const Text(
-                    'Bedtime',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 22.0),
-                    child: DropdownButton<String>(
-                      iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
-                      value: _briodTow,
-                      items: <String>['AM', 'PM']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _briodTow = newValue!;
-                        });
-                      },
+              child: ListTile(
+                title: const Text(
+                  'Bedtime',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                // subtitle: Text('${_bedtime.hour}:${_bedtime.minute}'),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    bedTimeInString,
+                    style: const TextStyle(
+                      fontSize: 20,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                left: 44,
-                right: 150,
-              ),
-              child: TextFormField(
-                keyboardType: TextInputType.datetime,
-                decoration: InputDecoration(
-                    labelText: _briodTow == 'AM' ? '05:30 AM' : '11:00 PM'),
-                onChanged: (String newValue) {
-                  setState(() {
-                    _bedtime = newValue;
-                  });
+                ),
+                onTap: () {
+                  showBedtimeDialog();
                 },
               ),
             ),
@@ -257,9 +268,9 @@ class _AddUserInfoState extends State<AddUserInfo> {
                               .collection('users')
                               .doc(firebaseAuthId)
                               .set({
-                            'bedtime': _bedtime,
+                            'bedtime': bedTimeInString,
                             'gender': stringGender,
-                            'wake-up time': _wakeUptime,
+                            'wake-up time': wakeUpINString,
                             'weight': _weight,
                             'unit': _unit,
                           });
@@ -267,8 +278,8 @@ class _AddUserInfoState extends State<AddUserInfo> {
                               builder: (context) => HomePage(
                                     weight: _weight,
                                     unit: _unit,
-                                    bedTime: _bedtime,
-                                    wakeUpTime: _wakeUptime,
+                                    bedTime: bedTimeInString,
+                                    wakeUpTime: wakeUpINString,
                                   )));
                         }
                       } else {

@@ -5,18 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/model/pages_names.dart';
 import 'package:water_reminder_app/screens/privacy_policy.dart';
 import 'package:water_reminder_app/screens/reminder_schedule.dart';
 import 'package:water_reminder_app/screens/reminder_sound.dart';
-import 'package:water_reminder_app/widgets/bedtime_dialog.dart';
 import 'package:water_reminder_app/widgets/database.dart';
 import 'package:water_reminder_app/widgets/gender_dialog.dart';
 import 'package:water_reminder_app/widgets/intake_goal_dialog.dart';
 import 'package:water_reminder_app/widgets/unit_dialog.dart';
-import 'package:water_reminder_app/widgets/wakeuptime_dailog.dart';
 import '../widgets/weight_dialog.dart';
 // import 'package:water_reminder_app/model/user_data.dart';
 
@@ -38,9 +37,12 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late double inTakeGoal;
-  final _auth = FirebaseAuth.instance;
+  // final _auth = FirebaseAuth.instance;
   String? profileImagePath;
   User? user = FirebaseAuth.instance.currentUser;
+  final _firestore = FirebaseFirestore.instance;
+  TimeOfDay bedtime = const TimeOfDay(hour: 09, minute: 30);
+  TimeOfDay wakeUptime = const TimeOfDay(hour: 05, minute: 24);
   @override
   void initState() {
     // TODO: implement initState
@@ -100,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return GenderDialog();
+        return const GenderDialog();
       },
     );
   }
@@ -109,24 +111,43 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return WeightDialog();
+          return const WeightDialog();
         });
   }
 
-  void _showBedtimeDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const BedtimeDialog();
-        });
-  }
-
-  void _showWakeUpTimeDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const WakeUpTimeDialog();
-        });
+  void _showTimeDialog(TimeOfDay timeOfDay, String variable) async {
+    TimeOfDay? newTime =
+        await showTimePicker(context: context, initialTime: bedtime);
+    if (newTime == null) return;
+    final now = DateTime.now();
+    final selectedTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      newTime.hour,
+      newTime.minute,
+    );
+    setState(() {
+      timeOfDay = newTime;
+    });
+    if (user != null) {
+      int hour = timeOfDay.hour;
+      int minute = timeOfDay.minute;
+      String formattedTime = DateFormat('hh:mm a').format(DateTime(
+          selectedTime.year,
+          selectedTime.month,
+          selectedTime.day,
+          hour,
+          minute));
+      String uid = user!.uid;
+      _firestore.collection('users').doc(uid).update({
+        variable: formattedTime,
+      }).then((value) {
+        print('Document updated successfully!');
+      }).catchError((error) {
+        print('Error updating document: $error');
+      });
+    }
   }
 
   void _showUnitDialog() {
@@ -335,11 +356,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     _showWeightDialog();
                   }),
                   userInformation('Bedtime', userData?['bedtime'] ?? '', () {
-                    _showBedtimeDialog();
+                    _showTimeDialog(bedtime, 'bedtime');
                   }),
                   userInformation(
                       'Wake-up time', userData?['wake-up time'] ?? '', () {
-                    _showWakeUpTimeDialog();
+                    _showTimeDialog(wakeUptime, 'wake-up time');
                   }),
                   const Padding(
                     padding: EdgeInsets.only(

@@ -76,6 +76,9 @@ class _HomeState extends State<Home> {
         Provider.of<UserDataProvider>(context, listen: false);
     setState(() {
       userDataProvider.items.value.removeAt(index);
+      widget.unit == 'kilograms'
+          ? userDataProvider.amount -= 175
+          : userDataProvider.amount -= 6;
     });
     setData();
   }

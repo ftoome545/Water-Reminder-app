@@ -43,10 +43,12 @@ class _ProfilePageState extends State<ProfilePage> {
   final _firestore = FirebaseFirestore.instance;
   TimeOfDay bedtime = const TimeOfDay(hour: 09, minute: 30);
   TimeOfDay wakeUptime = const TimeOfDay(hour: 05, minute: 24);
+  late String userAuthID;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    userAuthID = FirebaseAuth.instance.currentUser!.uid;
     getData();
   }
 
@@ -190,13 +192,15 @@ class _ProfilePageState extends State<ProfilePage> {
   void getData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      profileImagePath = sharedPreferences.getString('profileImagePath');
+      profileImagePath =
+          sharedPreferences.getString('$userAuthID + profileImagePath');
     });
   }
 
   void setData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString('profileImagePath', profileImagePath!);
+    sharedPreferences.setString(
+        '$userAuthID + profileImagePath', profileImagePath!);
   }
 
   @override
@@ -243,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: InkWell(
                                   onTap: () {
                                     _showImagePickerDialog();
-                                    setData();
+                                    getData();
                                   },
                                   child: (profileImagePath != null)
                                       ? CircleAvatar(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,9 +28,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // late ValueNotifier<List<DrinkRecordModel>> _items;
   late SharedPreferences sharedPreferences;
+  late String userAuthID;
   @override
   void initState() {
     super.initState();
+    userAuthID = FirebaseAuth.instance.currentUser!.uid;
     getData();
 
     Provider.of<UserDataProvider>(context, listen: false)
@@ -43,8 +46,9 @@ class _HomeState extends State<Home> {
     final itemList = userDataProvider.items.value
         .map((item) => jsonEncode(item.toMap()))
         .toList();
-    sharedPreferences.setStringList('items', itemList);
-    // sharedPreferences.setDouble('amount', userDataProvider.amount);
+    sharedPreferences.setStringList('$userAuthID + items', itemList);
+    sharedPreferences.setDouble(
+        '$userAuthID + amount', userDataProvider.amount);
     // sharedPreferences.setDouble('intakeGoal', userDataProvider.intakeGoal);
   }
 
@@ -53,7 +57,7 @@ class _HomeState extends State<Home> {
         Provider.of<UserDataProvider>(context, listen: false);
     sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      final itemList = sharedPreferences.getStringList('items');
+      final itemList = sharedPreferences.getStringList('$userAuthID + items');
       if (itemList != null) {
         final drinkRecords = itemList
             .map((item) => DrinkRecordModel.fromMap(jsonDecode(item)))
@@ -61,7 +65,8 @@ class _HomeState extends State<Home> {
         userDataProvider.items =
             ValueNotifier<List<DrinkRecordModel>>(drinkRecords);
       }
-      // userDataProvider.amount = sharedPreferences.getDouble('amount')!;
+      userDataProvider.amount =
+          sharedPreferences.getDouble('$userAuthID + amount')!;
       // userDataProvider.intakeGoal = sharedPreferences
       //     .getDouble((userDataProvider.intakeGoal).toString())!;
     });

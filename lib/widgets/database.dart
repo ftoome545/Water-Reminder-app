@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'drink_record.dart';
 
 class UserDataProvider extends ChangeNotifier {
-  double intakeGoal = 0;
-  //late double intakeGoal;
+  // double intakeGoal = 0;
+  late double intakeGoal;
   double amount = 0; //for home page
   ValueNotifier<List<DrinkRecordModel>> items = ValueNotifier([]);
 

@@ -46,6 +46,7 @@ class _MyAppState extends State<MyApp> {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: startPage,
+        // theme: ThemeData(primarySwatch: Colors.cyan),
         onGenerateRoute: MyRoutes.genrateRoute,
       ),
     );

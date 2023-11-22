@@ -386,12 +386,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         MaterialPageRoute(
                             builder: (context) => const ReminderSchedule()));
                   }),
-                  reminderSettings('Reminder sound', () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ReminderSound()));
-                  }),
+                  // reminderSettings('Reminder sound', () {
+                  //   Navigator.pushReplacement(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => const ReminderSound()));
+                  // }),
                   const Padding(
                     padding: EdgeInsets.only(
                       top: 23,
@@ -406,20 +406,64 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  userInformation(
-                      'Intake goal',
-                      // '${userDataModel.calculateRecommendedAmount(widget.weightUnit, widget.userWeight)} ${userDataModel.changeUnit(widget.weightUnit)}',
-                      '${userDataModel.intakeGoal.round()} ${userDataModel.changeUnit(widget.weightUnit)}',
-                      () {
-                    _showIntakeGoalDialog();
-                  }),
-                  userInformation(
-                      'Unit',
-                      (userData?['unit'] == 'pounds')
-                          ? 'pounds (lbs)'
-                          : 'kilograms (kg)', () {
-                    _showUnitDialog();
-                  }),
+                  // userInformation(
+                  //     'Intake goal',
+                  //     // '${userDataModel.calculateRecommendedAmount(widget.weightUnit, widget.userWeight)} ${userDataModel.changeUnit(widget.weightUnit)}',
+                  //     '${userDataModel.intakeGoal.round()} ${userDataModel.changeUnit(widget.weightUnit)}',
+                  //     () {
+                  //   // _showIntakeGoalDialog();
+                  // }),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 34),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Intake goal',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 100),
+                        Text(
+                          '${userDataModel.intakeGoal.round()} ${userDataModel.changeUnit(widget.weightUnit)}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 7, 107, 132),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // userInformation(
+                  //     'Unit',
+                  //     (userData?['unit'] == 'pounds')
+                  //         ? 'pounds (lbs)'
+                  //         : 'kilograms (kg)', () {
+                  //   _showUnitDialog();
+                  // }),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 34),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Unit',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 100),
+                        Text(
+                          (userData?['unit'] == 'pounds')
+                              ? 'pounds (lbs)'
+                              : 'kilograms (kg)',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 7, 107, 132),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   userInformation('Privacy policy', '', () {
                     Navigator.pushReplacement(
                         context,

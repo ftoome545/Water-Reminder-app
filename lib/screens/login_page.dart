@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: ClipPath(
                         clipper: WaveClipper(),
                         child: Container(
-                          color: Color.fromARGB(255, 7, 107, 132),
+                          color: const Color.fromARGB(255, 7, 107, 132),
                           height: 200,
                         ),
                       ),
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     ClipPath(
                       clipper: WaveClipper(),
                       child: Container(
-                        color: Color.fromARGB(255, 7, 107, 132),
+                        color: const Color.fromARGB(255, 7, 107, 132),
                         height: 180,
                       ),
                     ),
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: EmailPassword(
                   title: 'Email',
                   contro: _emailController,
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: EmailPassword(
                   title: 'Password',
                   contro: _passwordController,
@@ -105,22 +105,25 @@ class _LoginPageState extends State<LoginPage> {
               ),
               ResponsiveContainer(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 5.0, left: 180),
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'Forgot Passsword?',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 7, 107, 132),
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ResetPassword()));
-                          }),
+                  padding: const EdgeInsets.only(top: 5.0, left: 99),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: RichText(
+                      text: TextSpan(
+                          text: 'Forgot Passsword?',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 7, 107, 132),
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ResetPassword()));
+                            }),
+                    ),
                   ),
                 ),
               ),
@@ -140,14 +143,13 @@ class _LoginPageState extends State<LoginPage> {
                                 text: 'New here?',
                                 style: const TextStyle(
                                   fontSize: 18.0,
-                                  color: const Color.fromARGB(255, 7, 107, 132),
+                                  color: Color.fromARGB(255, 7, 107, 132),
                                 ),
                                 children: [
                                   TextSpan(
                                       text: ' Sign Up',
                                       style: const TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 7, 107, 132),
+                                        color: Color.fromARGB(255, 7, 107, 132),
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -162,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.only(
                             top: 190.0,
-                            left: 33.0,
+                            left: 18.0,
                           ),
                           child: SizedBox(
                             width: 130.8,
@@ -198,6 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                                     final user =
                                         await _auth.signInWithEmailAndPassword(
                                             email: email, password: password);
+                                    // ignore: unnecessary_null_comparison
                                     if (user != null) {
                                       final userDoc = await FirebaseFirestore
                                           .instance

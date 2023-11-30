@@ -149,7 +149,7 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
             ),
             for (var time in scheduleTimes)
               Padding(
-                padding: const EdgeInsets.only(left: 31, right: 31, top: 13),
+                padding: const EdgeInsets.only(left: 5, right: 5, top: 13),
                 child: ResponsiveContainer(
                     child: ScheduleContainer(
                   time: time,

@@ -143,6 +143,8 @@ class _HomeState extends State<Home> {
                           updatedAmount = value;
                           userDataProvider.items.value[index].amountOfWater =
                               value;
+                          // userDataProvider.amount += int.parse(value);
+                          print(value);
                         });
                       },
                       controller: amountController,

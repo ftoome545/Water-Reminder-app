@@ -40,33 +40,31 @@ class _WeightDialogState extends State<WeightDialog> {
         child: ListBody(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 15, left: 35, right: 50),
+              padding: const EdgeInsets.only(top: 15, right: 50),
               child: Row(
                 children: [
                   const Text(
                     'Weight',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                    ),
-                    child: DropdownButton<String>(
-                      iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
-                      value: _unit,
-                      items: <String>['pounds', 'kilograms']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _unit = newValue!;
-                        });
-                      },
-                    ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  DropdownButton<String>(
+                    iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
+                    value: _unit,
+                    items: <String>['pounds', 'kilograms']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _unit = newValue!;
+                      });
+                    },
                   ),
                 ],
               ),

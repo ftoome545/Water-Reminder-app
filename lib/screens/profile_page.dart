@@ -15,6 +15,7 @@ import 'package:water_reminder_app/screens/reminder_sound.dart';
 import 'package:water_reminder_app/widgets/database.dart';
 import 'package:water_reminder_app/widgets/gender_dialog.dart';
 import 'package:water_reminder_app/widgets/intake_goal_dialog.dart';
+import 'package:water_reminder_app/widgets/responsive_container.dart';
 import 'package:water_reminder_app/widgets/unit_dialog.dart';
 import '../widgets/weight_dialog.dart';
 // import 'package:water_reminder_app/model/user_data.dart';
@@ -229,62 +230,65 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    height: 250,
-                    width: 400,
-                    color: const Color.fromRGBO(0, 200, 250, 0.415),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 100, bottom: 15, left: 1, right: 40),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 15, left: 20, right: 5, bottom: 11),
-                                child: InkWell(
-                                  onTap: () {
-                                    _showImagePickerDialog();
-                                    getData();
-                                  },
-                                  child: (profileImagePath != null)
-                                      ? CircleAvatar(
-                                          radius: 50,
-                                          backgroundColor: Colors.white,
-                                          backgroundImage: FileImage(
-                                            File(profileImagePath ?? ''),
+                  ResponsiveContainer(
+                    child: Container(
+                      height: 250,
+                      width: 400,
+                      color: const Color.fromRGBO(0, 200, 250, 0.415),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 100,
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15, left: 20, right: 5, bottom: 11),
+                                  child: InkWell(
+                                    onTap: () {
+                                      _showImagePickerDialog();
+                                      getData();
+                                    },
+                                    child: (profileImagePath != null)
+                                        ? CircleAvatar(
+                                            radius: 50,
+                                            backgroundColor: Colors.white,
+                                            backgroundImage: FileImage(
+                                              File(profileImagePath ?? ''),
+                                            ),
+                                          )
+                                        : const CircleAvatar(
+                                            radius: 50,
+                                            backgroundColor: Colors.white,
+                                            child: Icon(
+                                              Icons.person,
+                                              size: 40,
+                                              color: Color.fromARGB(
+                                                  255, 7, 107, 132),
+                                            ),
                                           ),
-                                        )
-                                      : const CircleAvatar(
-                                          radius: 50,
-                                          backgroundColor: Colors.white,
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 40,
-                                            color: Color.fromARGB(
-                                                255, 7, 107, 132),
-                                          ),
-                                        ),
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 68, left: 5, right: 5, bottom: 26),
-                                child: (user != null)
-                                    ? Text(
-                                        '${user!.email}',
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    : const Text('userName'),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 68, left: 5, right: 5, bottom: 26),
+                                  child: (user != null)
+                                      ? Text(
+                                          '${user!.email}',
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : const Text('userName'),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const Padding(

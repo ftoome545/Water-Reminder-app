@@ -25,22 +25,22 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
     color: Color.fromARGB(255, 8, 179, 222),
   );
 
-  String getRemainingDays() {
-    List<String> days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    List<String> remainingDayNames = [];
+  // String getRemainingDays() {
+  //   List<String> days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  //   List<String> remainingDayNames = [];
 
-    for (int i = 0; i < selectedDays.length; i++) {
-      if (!selectedDays[i]) {
-        remainingDayNames.add(days[i]);
-      }
-    }
+  //   for (int i = 0; i < selectedDays.length; i++) {
+  //     if (!selectedDays[i]) {
+  //       remainingDayNames.add(days[i]);
+  //     }
+  //   }
 
-    if (remainingDayNames.isEmpty) {
-      return 'Everyday';
-    } else {
-      return remainingDayNames.join(', ');
-    }
-  }
+  //   if (remainingDayNames.isEmpty) {
+  //     return 'Everyday';
+  //   } else {
+  //     return remainingDayNames.join(', ');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +66,21 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
                   SizedBox(
                     height: 10,
                   ),
-                  Visibility(
-                    visible: !isExpanded,
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        getRemainingDays(),
-                        style: TextStyle(color: textColor, fontSize: 14),
-                      ),
+                  // Visibility(
+                  //   visible: !isExpanded,
+                  //   child: Align(
+                  //     alignment: Alignment.bottomLeft,
+                  //     child: Text(
+                  //       getRemainingDays(),
+                  //       style: TextStyle(color: textColor, fontSize: 14),
+                  //     ),
+                  //   ),
+                  // ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      'Everyday',
+                      style: TextStyle(color: textColor, fontSize: 14),
                     ),
                   ),
                 ],
@@ -82,7 +89,7 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
               //   width: 140,
               // ),
               Padding(
-                padding: EdgeInsets.only(left: 50),
+                padding: EdgeInsets.only(left: 190),
                 child: Column(
                   children: [
                     GFToggle(
@@ -103,7 +110,7 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
                             final seconds = difference.inSeconds;
                             NotificationServices().showScheduledNotification(
                               id: 1,
-                              title: "It's time to drink water!",
+                              title: "It's time to drink water",
                               body: 'After drinking, touch the cup to confirm',
                               hour: seconds,
                             );
@@ -132,7 +139,7 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
                               Icons.keyboard_arrow_up,
                               color: Color.fromARGB(255, 8, 179, 222),
                             );
-                            containerHeight = 150; // Set to the expanded height
+                            containerHeight = 120; // Set to the expanded height
                           }
                           isExpanded = !isExpanded;
                           Icon(Icons.keyboard_arrow_up);
@@ -152,35 +159,35 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
                   SizedBox(
                     height: 5,
                   ),
-                  Row(
-                    children: [
-                      if (isExpanded) weekDays('Sun', 0),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      weekDays('Mon', 1),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      weekDays('Tue', 2),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      weekDays('Wed', 3),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      weekDays('Thu', 4),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      weekDays('Fri', 5),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      weekDays('Sat', 6),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     if (isExpanded) weekDays('Sun', 0),
+                  //     SizedBox(
+                  //       width: 5,
+                  //     ),
+                  //     weekDays('Mon', 1),
+                  //     SizedBox(
+                  //       width: 5,
+                  //     ),
+                  //     weekDays('Tue', 2),
+                  //     SizedBox(
+                  //       width: 5,
+                  //     ),
+                  //     weekDays('Wed', 3),
+                  //     SizedBox(
+                  //       width: 5,
+                  //     ),
+                  //     weekDays('Thu', 4),
+                  //     SizedBox(
+                  //       width: 5,
+                  //     ),
+                  //     weekDays('Fri', 5),
+                  //     SizedBox(
+                  //       width: 5,
+                  //     ),
+                  //     weekDays('Sat', 6),
+                  //   ],
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Align(
@@ -206,29 +213,29 @@ class _ScheduleContainerState extends State<ScheduleContainer> {
     );
   }
 
-  Widget weekDays(String day, int index) {
-    Color containerColor =
-        selectedDays[index] ? Colors.white : Color.fromARGB(255, 8, 179, 222);
-    Color textColor = selectedDays[index] ? Colors.black : Colors.white;
-    return Container(
-      height: 40,
-      width: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: containerColor,
-      ),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            selectedDays[index] = !selectedDays[index];
-          });
-        },
-        child: Center(
-            child: Text(
-          day,
-          style: TextStyle(color: textColor),
-        )),
-      ),
-    );
-  }
+  // Widget weekDays(String day, int index) {
+  //   Color containerColor =
+  //       selectedDays[index] ? Colors.white : Color.fromARGB(255, 8, 179, 222);
+  //   Color textColor = selectedDays[index] ? Colors.black : Colors.white;
+  //   return Container(
+  //     height: 40,
+  //     width: 40,
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(50),
+  //       color: containerColor,
+  //     ),
+  //     child: InkWell(
+  //       onTap: () {
+  //         setState(() {
+  //           selectedDays[index] = !selectedDays[index];
+  //         });
+  //       },
+  //       child: Center(
+  //           child: Text(
+  //         day,
+  //         style: TextStyle(color: textColor),
+  //       )),
+  //   ),
+  // );
+  // }
 }

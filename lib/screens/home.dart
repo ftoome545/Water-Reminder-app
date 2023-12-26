@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/widgets/database.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
+import '../ad_id.dart';
 import '../widgets/drink_record.dart';
 
 class Home extends StatefulWidget {
@@ -27,6 +29,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // late ValueNotifier<List<DrinkRecordModel>> _items;
+  BannerAd? _bannerAd;
+  bool _isBannerAdReady = false;
   late SharedPreferences sharedPreferences;
   late String userAuthID;
   @override
@@ -34,9 +38,39 @@ class _HomeState extends State<Home> {
     super.initState();
     userAuthID = FirebaseAuth.instance.currentUser!.uid;
     getData();
+    _loadAd();
 
     Provider.of<UserDataProvider>(context, listen: false)
         .initializeItems(widget.unit);
+  }
+
+  /// Loads a banner ad.
+  void _loadAd() {
+    final bannerAd = BannerAd(
+      size: AdSize.banner,
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          if (!mounted) {
+            ad.dispose();
+            return;
+          }
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('BannerAd failed to load: $error');
+          ad.dispose();
+        },
+      ),
+    );
+
+    // Start loading.
+    bannerAd.load();
   }
 
   void setData() async {
@@ -328,10 +362,25 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
+              SizedBox(
+                width: _bannerAd?.size.width.toDouble(),
+                height: _bannerAd?.size.height.toDouble(),
+                child: _bannerAd == null
+                    // Nothing to render yet.
+                    ? SizedBox()
+                    // The actual ad.
+                    : AdWidget(ad: _bannerAd!),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
   }
 }

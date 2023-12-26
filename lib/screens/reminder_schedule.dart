@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:water_reminder_app/screens/home_page.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
+import '../ad_id.dart';
 import '../model/scheduleTimes.dart';
 import '../widgets/schedule_container.dart';
 
@@ -30,6 +32,62 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
   //         );
   //       });
   // }
+
+  InterstitialAd? _interstitialAd;
+  late int _numInterstitialLoadAttempts;
+  int maxFailedLoadAttempts = 7;
+
+  @override
+  void initState() {
+    super.initState();
+    _createInterstitialAd();
+  }
+
+  //InterstitialAd
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdHelper.interstitialAdUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$ad loaded');
+            _interstitialAd = ad;
+            _numInterstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            _numInterstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
+              _createInterstitialAd();
+            }
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
 
   void _showTimeDialog() async {
     TimeOfDay? newTime = await showTimePicker(
@@ -120,6 +178,7 @@ class _ReminderScheduleState extends State<ReminderSchedule> {
                                     unit: unit,
                                     bedTime: bedTime,
                                     wakeUpTime: wakeUpTime)));
+                        _showInterstitialAd();
                       }
                     }
                   } on FirebaseAuthException catch (e) {

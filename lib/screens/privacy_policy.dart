@@ -99,7 +99,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                   padding: const EdgeInsets.only(
                       top: 25, left: 15, right: 15, bottom: 5),
                   child: Text(
-                    'To make our app work properly, we need sometimes to request some permistions for: \n\n * Access to WIFI for getting user data from the server.\n\n * Access to phone tone for reminder tone. ',
+                    'To make our app work properly, we need sometimes to request some permistions for: \n\n * Access to WIFI for getting user data from the server and for advertisements.\n\n * Allow Notifications. ',
                     style: TextStyle(
                       fontSize: 20,
                     ),

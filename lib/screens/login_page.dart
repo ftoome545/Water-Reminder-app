@@ -161,98 +161,103 @@ class _LoginPageState extends State<LoginPage> {
                                 ]),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 190.0,
-                            left: 18.0,
-                          ),
-                          child: SizedBox(
-                            width: 130.8,
-                            height: 57.14,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 190.0,
+                              left: 18.0,
+                            ),
+                            child: SizedBox(
+                              width: 130.8,
+                              height: 57.14,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 7, 107, 132),
                                 ),
-                                backgroundColor:
-                                    const Color.fromARGB(255, 7, 107, 132),
-                              ),
-                              onPressed: () async {
-                                setState(() {
-                                  showSpinner = true;
-                                });
-                                String email = _emailController.text.trim();
-                                String password =
-                                    _passwordController.text.trim();
-                                if (email.isEmpty || password.isEmpty) {
+                                onPressed: () async {
                                   setState(() {
-                                    showSpinner = false;
+                                    showSpinner = true;
                                   });
-                                  Flushbar(
-                                    message:
-                                        "Email and password cannot be empty",
-                                    backgroundColor: Colors.red,
-                                    duration: const Duration(seconds: 3),
-                                    flushbarPosition: FlushbarPosition.BOTTOM,
-                                  )..show(context);
-                                } else {
-                                  try {
-                                    final user =
-                                        await _auth.signInWithEmailAndPassword(
-                                            email: email, password: password);
-                                    // ignore: unnecessary_null_comparison
-                                    if (user != null) {
-                                      final userDoc = await FirebaseFirestore
-                                          .instance
-                                          .collection('users')
-                                          .doc(user.user?.uid)
-                                          .get();
-
-                                      if (userDoc.exists) {
-                                        final userData = userDoc.data()
-                                            as Map<String, dynamic>;
-
-                                        final weight = userData['weight'];
-                                        final unit = userData['unit'];
-                                        final bedTime = userData['bedtime'];
-                                        final wakeUpTime =
-                                            userData['wake-up time'];
-
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => HomePage(
-                                                    weight: weight,
-                                                    unit: unit,
-                                                    bedTime: bedTime,
-                                                    wakeUpTime: wakeUpTime)));
-                                      }
-                                    }
-                                  } on FirebaseAuthException catch (e) {
-                                    String message;
-                                    if (e.code == 'user-not-found') {
-                                      message = 'User not found';
-                                    } else if (e.code == 'wrong-password') {
-                                      message = 'Wrong password';
-                                    } else {
-                                      message = 'An error occurred';
-                                    }
+                                  String email = _emailController.text.trim();
+                                  String password =
+                                      _passwordController.text.trim();
+                                  if (email.isEmpty || password.isEmpty) {
                                     setState(() {
                                       showSpinner = false;
                                     });
-
                                     Flushbar(
-                                      message: message,
+                                      message:
+                                          "Email and password cannot be empty",
                                       backgroundColor: Colors.red,
                                       duration: const Duration(seconds: 3),
                                       flushbarPosition: FlushbarPosition.BOTTOM,
                                     )..show(context);
+                                  } else {
+                                    try {
+                                      final user = await _auth
+                                          .signInWithEmailAndPassword(
+                                              email: email, password: password);
+                                      // ignore: unnecessary_null_comparison
+                                      if (user != null) {
+                                        final userDoc = await FirebaseFirestore
+                                            .instance
+                                            .collection('users')
+                                            .doc(user.user?.uid)
+                                            .get();
+
+                                        if (userDoc.exists) {
+                                          final userData = userDoc.data()
+                                              as Map<String, dynamic>;
+
+                                          final weight = userData['weight'];
+                                          final unit = userData['unit'];
+                                          final bedTime = userData['bedtime'];
+                                          final wakeUpTime =
+                                              userData['wake-up time'];
+
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomePage(
+                                                          weight: weight,
+                                                          unit: unit,
+                                                          bedTime: bedTime,
+                                                          wakeUpTime:
+                                                              wakeUpTime)));
+                                        }
+                                      }
+                                    } on FirebaseAuthException catch (e) {
+                                      String message;
+                                      if (e.code == 'user-not-found') {
+                                        message = 'User not found';
+                                      } else if (e.code == 'wrong-password') {
+                                        message = 'Wrong password';
+                                      } else {
+                                        message = 'An error occurred';
+                                      }
+                                      setState(() {
+                                        showSpinner = false;
+                                      });
+
+                                      Flushbar(
+                                        message: message,
+                                        backgroundColor: Colors.red,
+                                        duration: const Duration(seconds: 3),
+                                        flushbarPosition:
+                                            FlushbarPosition.BOTTOM,
+                                      )..show(context);
+                                    }
                                   }
-                                }
-                              },
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(fontSize: 24),
+                                },
+                                child: const Text(
+                                  'Login',
+                                  style: TextStyle(fontSize: 24),
+                                ),
                               ),
                             ),
                           ),

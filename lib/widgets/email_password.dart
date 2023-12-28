@@ -8,6 +8,7 @@ class EmailPassword extends StatelessWidget {
     required this.onchanged,
     required this.obscureText,
     required this.contro,
+    required this.icon,
   });
 
   final String title;
@@ -15,6 +16,7 @@ class EmailPassword extends StatelessWidget {
   final Function(String)? onchanged;
   final bool obscureText;
   final TextEditingController contro;
+  final Widget icon;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,6 +34,7 @@ class EmailPassword extends StatelessWidget {
             controller: contro,
             obscureText: obscureText,
             decoration: InputDecoration(
+                suffix: icon,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(

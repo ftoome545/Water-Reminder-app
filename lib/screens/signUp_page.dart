@@ -24,12 +24,19 @@ class _SignUpPageState extends State<SignUpPage> {
   late String email;
   late String password;
   bool showSpinner = false;
+  bool _isHidden = true;
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 
   @override
@@ -87,10 +94,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     email = value;
                   },
                   obscureText: false,
+                  icon: const Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: EmailPassword(
                   contro: _passwordController,
                   title: 'Password',
@@ -98,7 +109,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   onchanged: (value) {
                     password = value;
                   },
-                  obscureText: true,
+                  obscureText: _isHidden,
+                  icon: InkWell(
+                    onTap: _togglePasswordView,
+                    child: _isHidden
+                        ? const Icon(
+                            Icons.visibility,
+                          )
+                        : const Icon(Icons.visibility_off),
+                  ),
                 ),
               ),
               Stack(

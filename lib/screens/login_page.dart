@@ -26,12 +26,19 @@ class _LoginPageState extends State<LoginPage> {
   late String email;
   late String password;
   bool showSpinner = false;
+  bool _isHidden = true;
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 
   @override
@@ -89,6 +96,10 @@ class _LoginPageState extends State<LoginPage> {
                     email = value;
                   },
                   obscureText: false,
+                  icon: const Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               Padding(
@@ -100,7 +111,13 @@ class _LoginPageState extends State<LoginPage> {
                   onchanged: (value) {
                     password = value;
                   },
-                  obscureText: true,
+                  obscureText: _isHidden,
+                  icon: InkWell(
+                    onTap: _togglePasswordView,
+                    child: _isHidden
+                        ? const Icon(Icons.visibility)
+                        : const Icon(Icons.visibility_off),
+                  ),
                 ),
               ),
               ResponsiveContainer(

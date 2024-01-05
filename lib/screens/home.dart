@@ -16,7 +16,8 @@ class Home extends StatefulWidget {
   final String unit;
   final String bedTime;
   final String wakeUpTime;
-  Home({
+  const Home({
+    super.key,
     required this.weight,
     required this.unit,
     required this.bedTime,
@@ -30,7 +31,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // late ValueNotifier<List<DrinkRecordModel>> _items;
   BannerAd? _bannerAd;
-  bool _isBannerAdReady = false;
+  // bool _isBannerAdReady = false;
   late SharedPreferences sharedPreferences;
   late String userAuthID;
   @override
@@ -367,7 +368,7 @@ class _HomeState extends State<Home> {
                 height: _bannerAd?.size.height.toDouble(),
                 child: _bannerAd == null
                     // Nothing to render yet.
-                    ? SizedBox()
+                    ? const SizedBox()
                     // The actual ad.
                     : AdWidget(ad: _bannerAd!),
               ),

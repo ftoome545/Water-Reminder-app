@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/model/pages_names.dart';
 import 'package:water_reminder_app/screens/privacy_policy.dart';
 import 'package:water_reminder_app/screens/reminder_schedule.dart';
-import 'package:water_reminder_app/screens/reminder_sound.dart';
 import 'package:water_reminder_app/widgets/database.dart';
 import 'package:water_reminder_app/widgets/gender_dialog.dart';
 import 'package:water_reminder_app/widgets/intake_goal_dialog.dart';

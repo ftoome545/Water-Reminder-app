@@ -119,10 +119,10 @@ class _WeightDialogState extends State<WeightDialog> {
                             if (user != null) {
                               String uid = user!.uid;
                               if (_formValid) {
-                                _firestore
-                                    .collection('users')
-                                    .doc(uid)
-                                    .update({'weight': _weight}).then((value) {
+                                _firestore.collection('users').doc(uid).update({
+                                  'weight': _weight,
+                                  'unit': _unit
+                                }).then((value) {
                                   print('Document updated successfully!');
                                 }).catchError((error) {
                                   print('Error updating document: $error');

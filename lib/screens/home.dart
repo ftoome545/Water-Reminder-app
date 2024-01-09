@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -9,6 +10,7 @@ import 'package:water_reminder_app/widgets/database.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
 import '../ad_id.dart';
+import '../model/pages_names.dart';
 import '../widgets/drink_record.dart';
 
 class Home extends StatefulWidget {
@@ -32,17 +34,29 @@ class _HomeState extends State<Home> {
   // late ValueNotifier<List<DrinkRecordModel>> _items;
   BannerAd? _bannerAd;
   // bool _isBannerAdReady = false;
+  User? user = FirebaseAuth.instance.currentUser;
   late SharedPreferences sharedPreferences;
   late String userAuthID;
   @override
   void initState() {
     super.initState();
-    userAuthID = FirebaseAuth.instance.currentUser!.uid;
-    getData();
-    _loadAd();
 
-    Provider.of<UserDataProvider>(context, listen: false)
-        .initializeItems(widget.unit);
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      userAuthID = currentUser.uid;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final userDataProvider =
+            Provider.of<UserDataProvider>(context, listen: false);
+        userDataProvider.initializeItems(widget.unit);
+        getData();
+        _loadAd();
+      });
+    } else {
+      // Handle the case when there is no user logged in
+      // For example, redirect to login screen
+      Navigator.pushNamed(context, startPage);
+    }
   }
 
   /// Loads a banner ad.
@@ -90,18 +104,36 @@ class _HomeState extends State<Home> {
     final userDataProvider =
         Provider.of<UserDataProvider>(context, listen: false);
     sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      final itemList = sharedPreferences.getStringList('$userAuthID + items');
-      if (itemList != null) {
-        final drinkRecords = itemList
-            .map((item) => DrinkRecordModel.fromMap(jsonDecode(item)))
-            .toList();
-        userDataProvider.items =
-            ValueNotifier<List<DrinkRecordModel>>(drinkRecords);
-      }
-      userDataProvider.amount =
-          sharedPreferences.getDouble('$userAuthID + amount')!;
-    });
+    final itemList = sharedPreferences.getStringList('$userAuthID + items');
+    if (itemList != null) {
+      final drinkRecords = itemList
+          .map((item) => DrinkRecordModel.fromMap(jsonDecode(item)))
+          .toList();
+      userDataProvider.items =
+          ValueNotifier<List<DrinkRecordModel>>(drinkRecords);
+    }
+
+    double? amount = sharedPreferences.getDouble('$userAuthID + amount');
+    if (amount != null) {
+      setState(() {
+        userDataProvider.amount = amount;
+      });
+    }
+  }
+
+  /*
+  widget.unit == 'kilograms' 
+  ? userDataModel.amount += 175
+  : userDataModel.amount += 6;
+   */
+  String newAmount(double amount, String currentUnit) {
+    if (currentUnit == 'kilograms') {
+      amount = amount / 29.57;
+      return amount.round().toString();
+    } else {
+      amount = amount * 29.57;
+      return amount.round().toString();
+    }
   }
 
   String changeUnit() {
@@ -212,169 +244,195 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<UserDataProvider>(
-        builder: (context, userDataModel, child) => SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 120, left: 33, right: 33, bottom: 5),
-                child: SizedBox(
-                  width: 295,
-                  height: 238,
-                  child: Card(
-                    color: const Color.fromRGBO(0, 200, 250, 0.415),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(
-                              top: 46, bottom: 21, left: 62, right: 62),
-                          child: Text(
-                            'Your Drink Goal',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+        builder: (context, userDataModel, child) => StreamBuilder<
+                DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(user?.uid)
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+
+              final userData = snapshot.data?.data() as Map<String, dynamic>?;
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 120, left: 33, right: 33, bottom: 5),
+                      child: SizedBox(
+                        width: 295,
+                        height: 238,
+                        child: Card(
+                          color: const Color.fromRGBO(0, 200, 250, 0.415),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 21, left: 52, right: 52),
-                          child: Text(
-                            '${userDataModel.amount.round()} / ${userDataModel.calculateRecommendedAmount(widget.unit, widget.weight)} ${userDataModel.changeUnit(widget.unit)}',
-                            style: const TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        //coffee ListTile button
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 20, left: 57, right: 57),
-                          child: ResponsiveContainer(
-                            child: ListTile(
-                              title: Text(
-                                changeUnit(),
-                                style: const TextStyle(
-                                  fontSize: 17,
+                          child: Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                    top: 46, bottom: 21, left: 62, right: 62),
+                                child: Text(
+                                  'Your Drink Goal',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                              leading: const Icon(
-                                Icons.coffee_sharp,
-                                size: 70,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 21, left: 52, right: 52),
+                                child: Text(
+                                  '${userDataModel.amount.round()} / ${(userData?['unit'] == 'pounds') ? (userData?['weight'] * 0.5).round().toString() : (userData?['weight'] * 30).round().toString()} ${(userData?['unit'] == 'kilograms' ? 'ml' : 'fl oz')}',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
                               ),
-                              onTap: () {
-                                setState(() {
-                                  widget.unit == 'kilograms'
-                                      ? userDataModel.amount += 175
-                                      : userDataModel.amount += 6;
-                                  userDataModel.items.value
-                                      .add(DrinkRecordModel(
-                                    time: TimeOfDay.now().format(context),
-                                    amountOfWater: changeUnit(),
-                                  ));
-                                });
-                                setData();
+                              //coffee ListTile button
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 20, left: 57, right: 57),
+                                child: ResponsiveContainer(
+                                  child: ListTile(
+                                    title: Text(
+                                      // changeUnit(),
+                                      (userData?['unit'] == 'kilograms'
+                                          ? '175 ml'
+                                          : '6 fl oz'),
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    leading: const Icon(
+                                      Icons.coffee_sharp,
+                                      size: 70,
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        widget.unit == 'kilograms'
+                                            ? userDataModel.amount += 175
+                                            : userDataModel.amount += 6;
+                                        userDataModel.items.value
+                                            .add(DrinkRecordModel(
+                                          time: TimeOfDay.now().format(context),
+                                          amountOfWater:
+                                              (userData?['unit'] == 'kilograms'
+                                                  ? '175 ml'
+                                                  : '6 fl oz'),
+                                        ));
+                                      });
+                                      setData();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(
+                          top: 5, bottom: 5, left: 173, right: 173),
+                      child: Icon(
+                        Icons.arrow_upward,
+                        color: Color.fromARGB(255, 7, 107, 132),
+                      ),
+                    ),
+                    const ResponsiveContainer(
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(bottom: 5, left: 10, right: 10),
+                        child: Text(
+                          'Click here to confirm that you drank water',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(146, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        top: 15,
+                        bottom: 5,
+                        left: 15,
+                      ),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Today's records",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15.0, bottom: 15),
+                      child: ResponsiveContainer(
+                        child: SizedBox(
+                          height: 155,
+                          width: 350,
+                          //today's records card
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            color: const Color.fromARGB(255, 220, 239, 249),
+                            shadowColor: const Color.fromARGB(14, 0, 0, 0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child:
+                                ValueListenableBuilder<List<DrinkRecordModel>>(
+                              valueListenable: userDataModel.items,
+                              builder: (context, items, child) {
+                                return ListView.builder(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  itemCount: items.length,
+                                  itemBuilder: (context, index) {
+                                    return DrinkRecord(
+                                      time: items[index].time,
+                                      amountOfWater: items[index].amountOfWater,
+                                      onDelete: () {
+                                        _deleteItem(index);
+                                      },
+                                      onEdit: () {
+                                        _editItem(index);
+                                      },
+                                    );
+                                  },
+                                );
                               },
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const Padding(
-                padding:
-                    EdgeInsets.only(top: 5, bottom: 5, left: 173, right: 173),
-                child: Icon(
-                  Icons.arrow_upward,
-                  color: Color.fromARGB(255, 7, 107, 132),
-                ),
-              ),
-              const ResponsiveContainer(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-                  child: Text(
-                    'Click here to confirm that you drank water',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Color.fromARGB(146, 0, 0, 0),
-                    ),
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  top: 15,
-                  bottom: 5,
-                  left: 15,
-                ),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Today's records",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15),
-                child: ResponsiveContainer(
-                  child: SizedBox(
-                    height: 155,
-                    width: 350,
-                    //today's records card
-                    child: Card(
-                      margin: EdgeInsets.zero,
-                      color: const Color.fromARGB(255, 220, 239, 249),
-                      shadowColor: const Color.fromARGB(14, 0, 0, 0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: ValueListenableBuilder<List<DrinkRecordModel>>(
-                        valueListenable: userDataModel.items,
-                        builder: (context, items, child) {
-                          return ListView.builder(
-                            padding: const EdgeInsets.only(top: 15),
-                            itemCount: items.length,
-                            itemBuilder: (context, index) {
-                              return DrinkRecord(
-                                time: items[index].time,
-                                amountOfWater: items[index].amountOfWater,
-                                onDelete: () {
-                                  _deleteItem(index);
-                                },
-                                onEdit: () {
-                                  _editItem(index);
-                                },
-                              );
-                            },
-                          );
-                        },
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      width: _bannerAd?.size.width.toDouble(),
+                      height: _bannerAd?.size.height.toDouble(),
+                      child: _bannerAd == null
+                          // Nothing to render yet.
+                          ? const SizedBox()
+                          // The actual ad.
+                          : AdWidget(ad: _bannerAd!),
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(
-                width: _bannerAd?.size.width.toDouble(),
-                height: _bannerAd?.size.height.toDouble(),
-                child: _bannerAd == null
-                    // Nothing to render yet.
-                    ? const SizedBox()
-                    // The actual ad.
-                    : AdWidget(ad: _bannerAd!),
-              ),
-            ],
-          ),
-        ),
+              );
+            }),
       ),
     );
   }

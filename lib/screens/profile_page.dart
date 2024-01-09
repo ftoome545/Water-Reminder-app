@@ -428,7 +428,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const SizedBox(width: 100),
                         Text(
-                          '${userDataModel.intakeGoal.round()} ${userDataModel.changeUnit(widget.weightUnit)}',
+                          // '${userDataModel.intakeGoal.round()} ${userDataModel.changeUnit(widget.weightUnit)}',
+                          (userData?['unit'] == 'pounds')
+                              ? (userData?['weight'] * 0.5).round().toString()
+                              : (userData?['weight'] * 30).round().toString(),
                           style: const TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 7, 107, 132),

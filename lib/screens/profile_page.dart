@@ -430,8 +430,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         Text(
                           // '${userDataModel.intakeGoal.round()} ${userDataModel.changeUnit(widget.weightUnit)}',
                           (userData?['unit'] == 'pounds')
-                              ? (userData?['weight'] * 0.5).round().toString()
-                              : (userData?['weight'] * 30).round().toString(),
+                              ? '${(userData?['weight'] * 0.5).round()} fl oz'
+                              : '${(userData?['weight'] * 30).round()} ml',
                           style: const TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 7, 107, 132),

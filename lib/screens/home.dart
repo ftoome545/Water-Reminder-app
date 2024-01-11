@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:water_reminder_app/screens/start_page.dart';
 import 'package:water_reminder_app/widgets/database.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
@@ -55,7 +56,10 @@ class _HomeState extends State<Home> {
     } else {
       // Handle the case when there is no user logged in
       // For example, redirect to login screen
-      Navigator.pushNamed(context, startPage);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const StartPage()));
+      });
     }
   }
 
@@ -140,12 +144,12 @@ class _HomeState extends State<Home> {
     return widget.unit == 'kilograms' ? '175 ml' : '6 fl oz';
   }
 
-  void _deleteItem(int index) {
+  void _deleteItem(int index, String unit) {
     final userDataProvider =
         Provider.of<UserDataProvider>(context, listen: false);
     setState(() {
       userDataProvider.items.value.removeAt(index);
-      widget.unit == 'kilograms'
+      unit == 'kilograms'
           ? userDataProvider.amount -= 175
           : userDataProvider.amount -= 6;
     });
@@ -320,9 +324,10 @@ class _HomeState extends State<Home> {
                                     ),
                                     onTap: () {
                                       setState(() {
-                                        widget.unit == 'kilograms'
+                                        userData?['unit'] == 'kilograms'
                                             ? userDataModel.amount += 175
                                             : userDataModel.amount += 6;
+                                        print(userDataModel.amount);
                                         userDataModel.items.value
                                             .add(DrinkRecordModel(
                                           time: TimeOfDay.now().format(context),
@@ -406,7 +411,7 @@ class _HomeState extends State<Home> {
                                       time: items[index].time,
                                       amountOfWater: items[index].amountOfWater,
                                       onDelete: () {
-                                        _deleteItem(index);
+                                        _deleteItem(index, userData?['unit']);
                                       },
                                       onEdit: () {
                                         _editItem(index);

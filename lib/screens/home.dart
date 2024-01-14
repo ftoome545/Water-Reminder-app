@@ -130,15 +130,15 @@ class _HomeState extends State<Home> {
   ? userDataModel.amount += 175
   : userDataModel.amount += 6;
    */
-  String newAmount(double amount, String currentUnit) {
-    if (currentUnit == 'kilograms') {
-      amount = amount / 29.57;
-      return amount.round().toString();
-    } else {
-      amount = amount * 29.57;
-      return amount.round().toString();
-    }
-  }
+  // String newAmount(double amount, String currentUnit) {
+  //   if (currentUnit == 'kilograms') {
+  //     amount = amount * 29.57;
+  //     return amount.round().toString();
+  //   } else {
+  //     amount = amount / 29.57;
+  //     return amount.round().toString();
+  //   }
+  // }
 
   String changeUnit() {
     return widget.unit == 'kilograms' ? '175 ml' : '6 fl oz';

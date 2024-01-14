@@ -356,12 +356,33 @@ class _ProfilePageState extends State<ProfilePage> {
                   userInformation('Gender', userData?['gender'] ?? '', () {
                     _showGenderDialog();
                   }),
-                  userInformation(
-                      'Weight', userData?['weight']?.round().toString() ?? '',
-                      () {
-                    // + '${widget.weightUnit}'
-                    _showWeightDialog();
-                  }),
+                  // userInformation(
+                  //     'Weight', userData?['weight']?.round().toString() ?? '',
+                  //     () {
+                  //   // + '${widget.weightUnit}'
+                  //   // _showWeightDialog();
+                  // }),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, left: 34),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Weight',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 100),
+                        Text(
+                          userData?['weight']?.round().toString() ?? '',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 7, 107, 132),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   userInformation('Bedtime', userData?['bedtime'] ?? '', () {
                     _showTimeDialog(bedtime, 'bedtime');
                   }),

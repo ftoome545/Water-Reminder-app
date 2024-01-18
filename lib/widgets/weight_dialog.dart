@@ -5,7 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class WeightDialog extends StatefulWidget {
-  const WeightDialog({super.key});
+  final String unit;
+  const WeightDialog({super.key, required this.unit});
 
   @override
   State<WeightDialog> createState() => _WeightDialogState();
@@ -14,7 +15,7 @@ class WeightDialog extends StatefulWidget {
 class _WeightDialogState extends State<WeightDialog> {
   final _firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
-  String _unit = 'pounds';
+  // String _unit = 'pounds';
   double _weight = 0;
 
   bool _formValid = false;
@@ -50,22 +51,22 @@ class _WeightDialogState extends State<WeightDialog> {
                   const SizedBox(
                     width: 8,
                   ),
-                  DropdownButton<String>(
-                    iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
-                    value: _unit,
-                    items: <String>['pounds', 'kilograms']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _unit = newValue!;
-                      });
-                    },
-                  ),
+                  // DropdownButton<String>(
+                  //   iconEnabledColor: const Color.fromARGB(255, 7, 107, 132),
+                  //   value: _unit,
+                  //   items: <String>['pounds', 'kilograms']
+                  //       .map<DropdownMenuItem<String>>((String value) {
+                  //     return DropdownMenuItem<String>(
+                  //       value: value,
+                  //       child: Text(value),
+                  //     );
+                  //   }).toList(),
+                  //   onChanged: (String? newValue) {
+                  //     setState(() {
+                  //       _unit = newValue!;
+                  //     });
+                  //   },
+                  // ),
                 ],
               ),
             ),
@@ -78,8 +79,9 @@ class _WeightDialogState extends State<WeightDialog> {
               child: TextFormField(
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                    labelText:
-                        _unit == 'pounds' ? 'Weight (lbs)' : 'Weight (kg)'),
+                    labelText: widget.unit == 'pounds'
+                        ? 'Weight (lbs)'
+                        : 'Weight (kg)'),
                 onChanged: (String newValue) {
                   setState(() {
                     _weight = double.tryParse(newValue) ?? 0;
@@ -121,7 +123,7 @@ class _WeightDialogState extends State<WeightDialog> {
                               if (_formValid) {
                                 _firestore.collection('users').doc(uid).update({
                                   'weight': _weight,
-                                  'unit': _unit
+                                  // 'unit': _unit
                                 }).then((value) {
                                   print('Document updated successfully!');
                                 }).catchError((error) {

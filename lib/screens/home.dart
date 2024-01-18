@@ -118,11 +118,11 @@ class _HomeState extends State<Home> {
     }
 
     double? amount = sharedPreferences.getDouble('$userAuthID + amount');
-    if (amount != null) {
-      setState(() {
-        userDataProvider.amount = amount;
-      });
-    }
+    // if (amount != null) {
+    setState(() {
+      userDataProvider.amount = amount ?? 0.0;
+    });
+    // }
   }
 
   /*
@@ -156,93 +156,93 @@ class _HomeState extends State<Home> {
     setData();
   }
 
-  void _editItem(int index) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) {
-        final userDataProvider =
-            Provider.of<UserDataProvider>(context, listen: false);
-        String updatedTime = userDataProvider.items.value[index].time;
-        String updatedAmount =
-            userDataProvider.items.value[index].amountOfWater;
-        TextEditingController timeController =
-            TextEditingController(text: updatedTime);
-        TextEditingController amountController =
-            TextEditingController(text: updatedAmount);
-        return Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return Container(
-                height: 300,
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text(
-                      'Edit Record',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 7, 107, 132),
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    TextField(
-                      decoration: const InputDecoration(
-                        labelText: 'Time',
-                        hintText: 'Enter new time',
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          updatedTime = value;
-                          userDataProvider.items.value[index].time = value;
-                        });
-                      },
-                      controller: timeController,
-                    ),
-                    const SizedBox(height: 16.0),
-                    TextField(
-                      decoration: const InputDecoration(
-                        labelText: 'Amount of Water',
-                        hintText: 'Enter new amount',
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          updatedAmount = value;
-                          userDataProvider.items.value[index].amountOfWater =
-                              value;
-                          // userDataProvider.amount += int.parse(value);
-                          print(value);
-                        });
-                      },
-                      controller: amountController,
-                    ),
-                    const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7)),
-                        backgroundColor: const Color.fromARGB(255, 7, 107, 132),
-                      ),
-                      child: const Text('Save'),
-                      onPressed: () {
-                        userDataProvider.items.notifyListeners();
-                        Navigator.pop(context);
-                        setData();
-                      },
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
+  // void _editItem(int index) {
+  //   showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       final userDataProvider =
+  //           Provider.of<UserDataProvider>(context, listen: false);
+  //       String updatedTime = userDataProvider.items.value[index].time;
+  //       String updatedAmount =
+  //           userDataProvider.items.value[index].amountOfWater;
+  //       TextEditingController timeController =
+  //           TextEditingController(text: updatedTime);
+  //       TextEditingController amountController =
+  //           TextEditingController(text: updatedAmount);
+  //       return Padding(
+  //         padding:
+  //             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+  //         child: StatefulBuilder(
+  //           builder: (BuildContext context, StateSetter setState) {
+  //             return Container(
+  //               height: 300,
+  //               padding: const EdgeInsets.all(16.0),
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.stretch,
+  //                 children: [
+  //                   const Text(
+  //                     'Edit Record',
+  //                     style: TextStyle(
+  //                       fontSize: 20.0,
+  //                       fontWeight: FontWeight.bold,
+  //                       color: Color.fromARGB(255, 7, 107, 132),
+  //                     ),
+  //                   ),
+  //                   const SizedBox(height: 16.0),
+  //                   TextField(
+  //                     decoration: const InputDecoration(
+  //                       labelText: 'Time',
+  //                       hintText: 'Enter new time',
+  //                     ),
+  //                     onChanged: (value) {
+  //                       setState(() {
+  //                         updatedTime = value;
+  //                         userDataProvider.items.value[index].time = value;
+  //                       });
+  //                     },
+  //                     controller: timeController,
+  //                   ),
+  //                   const SizedBox(height: 16.0),
+  //                   TextField(
+  //                     decoration: const InputDecoration(
+  //                       labelText: 'Amount of Water',
+  //                       hintText: 'Enter new amount',
+  //                     ),
+  //                     onChanged: (value) {
+  //                       setState(() {
+  //                         updatedAmount = value;
+  //                         userDataProvider.items.value[index].amountOfWater =
+  //                             value;
+  //                         // userDataProvider.amount += int.parse(value);
+  //                         print(value);
+  //                       });
+  //                     },
+  //                     controller: amountController,
+  //                   ),
+  //                   const SizedBox(height: 16.0),
+  //                   ElevatedButton(
+  //                     style: ElevatedButton.styleFrom(
+  //                       shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(7)),
+  //                       backgroundColor: const Color.fromARGB(255, 7, 107, 132),
+  //                     ),
+  //                     child: const Text('Save'),
+  //                     onPressed: () {
+  //                       userDataProvider.items.notifyListeners();
+  //                       Navigator.pop(context);
+  //                       setData();
+  //                     },
+  //                   )
+  //                 ],
+  //               ),
+  //             );
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -413,9 +413,9 @@ class _HomeState extends State<Home> {
                                       onDelete: () {
                                         _deleteItem(index, userData?['unit']);
                                       },
-                                      onEdit: () {
-                                        _editItem(index);
-                                      },
+                                      // onEdit: () {
+                                      //   // _editItem(index);
+                                      // },
                                     );
                                   },
                                 );

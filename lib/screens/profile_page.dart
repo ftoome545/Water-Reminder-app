@@ -109,11 +109,13 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _showWeightDialog() {
+  void _showWeightDialog(String unit) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return const WeightDialog();
+          return WeightDialog(
+            unit: unit,
+          );
         });
   }
 
@@ -245,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 15, left: 20, right: 5, bottom: 11),
+                                      top: 15, left: 10, right: 5, bottom: 11),
                                   child: InkWell(
                                     onTap: () {
                                       _showImagePickerDialog();
@@ -314,7 +316,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: 18,
                           ),
                         ),
-                        const SizedBox(width: 100),
+                        const SizedBox(width: 50),
                         Text(
                           user?.email ?? '',
                           style: const TextStyle(
@@ -356,33 +358,33 @@ class _ProfilePageState extends State<ProfilePage> {
                   userInformation('Gender', userData?['gender'] ?? '', () {
                     _showGenderDialog();
                   }),
-                  // userInformation(
-                  //     'Weight', userData?['weight']?.round().toString() ?? '',
-                  //     () {
-                  //   // + '${widget.weightUnit}'
-                  //   // _showWeightDialog();
-                  // }),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15, left: 34),
-                    child: Row(
-                      children: [
-                        const Text(
-                          'Weight',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(width: 100),
-                        Text(
-                          userData?['weight']?.round().toString() ?? '',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 7, 107, 132),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  userInformation(
+                      'Weight', userData?['weight']?.round().toString() ?? '',
+                      () {
+                    // + '${widget.weightUnit}'
+                    _showWeightDialog(widget.weightUnit);
+                  }),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 15, left: 34),
+                  //   child: Row(
+                  //     children: [
+                  //       const Text(
+                  //         'Weight',
+                  //         style: TextStyle(
+                  //           fontSize: 18,
+                  //         ),
+                  //       ),
+                  //       const SizedBox(width: 100),
+                  //       Text(
+                  //         userData?['weight']?.round().toString() ?? '',
+                  //         style: const TextStyle(
+                  //           fontSize: 18,
+                  //           color: Color.fromARGB(255, 7, 107, 132),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   userInformation('Bedtime', userData?['bedtime'] ?? '', () {
                     _showTimeDialog(bedtime, 'bedtime');
                   }),

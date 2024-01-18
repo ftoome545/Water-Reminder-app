@@ -8,18 +8,19 @@ class DrinkRecord extends StatelessWidget {
     required this.time,
     required this.amountOfWater,
     required this.onDelete,
-    required this.onEdit,
+    // required this.onEdit,
   });
 
   final String time;
   final String amountOfWater;
   final VoidCallback onDelete;
-  final VoidCallback onEdit;
+  // final VoidCallback onEdit;
 
   void actionPopUpItemSelected(String value) {
-    if (value == 'edit') {
-      onEdit();
-    } else if (value == 'delete') {
+    // if (value == 'edit') {
+    //   onEdit();
+    // } else
+    if (value == 'delete') {
       onDelete();
     } else {}
   }
@@ -50,16 +51,16 @@ class DrinkRecord extends StatelessWidget {
                         title: Text('Delete'),
                       ),
                     ),
-                    PopupMenuItem(
-                      value: 'edit',
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.edit,
-                          color: const Color.fromARGB(255, 7, 107, 132),
-                        ),
-                        title: Text('Edit'),
-                      ),
-                    ),
+                    // PopupMenuItem(
+                    //   value: 'edit',
+                    //   child: ListTile(
+                    //     leading: Icon(
+                    //       Icons.edit,
+                    //       color: const Color.fromARGB(255, 7, 107, 132),
+                    //     ),
+                    //     title: Text('Edit'),
+                    //   ),
+                    // ),
                   ];
                 },
               ),

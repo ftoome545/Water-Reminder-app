@@ -358,11 +358,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   userInformation('Gender', userData?['gender'] ?? '', () {
                     _showGenderDialog();
                   }),
-                  userInformation(
-                      'Weight', userData?['weight']?.round().toString() ?? '',
+                  userInformation('Weight',
+                      '${userData?['weight']?.round().toString() ?? ''} ${userData?['unit'] == 'kilograms' ? 'kg' : 'lbs'}',
                       () {
                     // + '${widget.weightUnit}'
-                    _showWeightDialog(widget.weightUnit);
+                    _showWeightDialog(userData?['unit']);
                   }),
                   // Padding(
                   //   padding: const EdgeInsets.only(top: 15, left: 34),

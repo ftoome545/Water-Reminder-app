@@ -5,17 +5,9 @@ import 'package:water_reminder_app/screens/profile_page.dart';
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
-    required this.weight,
-    required this.unit,
-    required this.bedTime,
-    required this.wakeUpTime,
   }) : super(key: key);
-
-  final double weight;
-  final String unit;
-  final String bedTime;
-  final String wakeUpTime;
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -25,17 +17,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      Home(
-          weight: widget.weight,
-          unit: widget.unit,
-          bedTime: widget.bedTime,
-          wakeUpTime: widget.wakeUpTime),
-      ProfilePage(
-        userBedTime: widget.bedTime,
-        userWakeUpTime: widget.wakeUpTime,
-        userWeight: widget.weight,
-        weightUnit: widget.unit,
-      ),
+      const Home(),
+      const ProfilePage(),
     ];
     return Scaffold(
       body: pages[curentIndex],
@@ -47,9 +30,9 @@ class _HomePageState extends State<HomePage> {
         },
         currentIndex: curentIndex,
         unselectedItemColor: Colors.white,
-        selectedItemColor: Color.fromARGB(255, 102, 217, 246),
+        selectedItemColor: const Color.fromARGB(255, 102, 217, 246),
         backgroundColor: const Color.fromARGB(255, 7, 107, 132),
-        items: [
+        items: const [
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,

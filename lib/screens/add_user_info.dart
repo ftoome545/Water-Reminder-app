@@ -106,8 +106,8 @@ class _AddUserInfoState extends State<AddUserInfo> {
         child: Padding(
           padding: const EdgeInsets.only(top: 35.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ResponsiveContainer(
-              child: const Padding(
+            const ResponsiveContainer(
+              child: Padding(
                 padding: EdgeInsets.only(top: 38, left: 24),
                 child: Align(
                   alignment: Alignment.topLeft,
@@ -244,7 +244,7 @@ class _AddUserInfoState extends State<AddUserInfo> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 30,
                 left: 57,
                 right: 56,
@@ -256,7 +256,8 @@ class _AddUserInfoState extends State<AddUserInfo> {
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25)),
-                        backgroundColor: Color.fromARGB(255, 7, 107, 132)),
+                        backgroundColor:
+                            const Color.fromARGB(255, 7, 107, 132)),
                     onPressed: () {
                       _validateForm();
                       if (_formValid) {
@@ -275,20 +276,15 @@ class _AddUserInfoState extends State<AddUserInfo> {
                             'unit': _unit,
                           });
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HomePage(
-                                    weight: _weight,
-                                    unit: _unit,
-                                    bedTime: bedTimeInString,
-                                    wakeUpTime: wakeUpINString,
-                                  )));
+                              builder: (context) => const HomePage()));
                         }
                       } else {
                         Flushbar(
                           title: "Warning",
                           message: "Please fill in all the form items.",
-                          duration: Duration(seconds: 4),
+                          duration: const Duration(seconds: 4),
                           backgroundColor: Colors.red,
-                        )..show(context);
+                        ).show(context);
                       }
                     },
                     child: const Text(

@@ -46,12 +46,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final cloudDataProvider =
-        Provider.of<CloudDataProvider>(context, listen: false);
-    final weight = cloudDataProvider.weight;
-    final unit = cloudDataProvider.unit;
-    final bedtime = cloudDataProvider.bedtime;
-    final wakeUpTime = cloudDataProvider.wakeUptime;
+    // final cloudDataProvider =
+    //     Provider.of<CloudDataProvider>(context, listen: false);
+    // final weight = cloudDataProvider.weight;
+    // final unit = cloudDataProvider.unit;
+    // final bedtime = cloudDataProvider.bedtime;
+    // final wakeUpTime = cloudDataProvider.wakeUptime;
 
     return MultiProvider(
       providers: [
@@ -64,13 +64,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: user == null
-            ? const StartPage()
-            : HomePage(
-                weight: weight ?? 0,
-                unit: unit ?? '',
-                bedTime: bedtime ?? '',
-                wakeUpTime: wakeUpTime ?? ''),
+        home: user == null ? const StartPage() : const HomePage(),
         onGenerateRoute: MyRoutes.genrateRoute,
       ),
     );

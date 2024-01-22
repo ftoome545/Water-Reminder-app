@@ -212,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                                       backgroundColor: Colors.red,
                                       duration: const Duration(seconds: 3),
                                       flushbarPosition: FlushbarPosition.BOTTOM,
-                                    )..show(context);
+                                    ).show(context);
                                   } else {
                                     try {
                                       final user = await _auth
@@ -236,16 +236,12 @@ class _LoginPageState extends State<LoginPage> {
                                           final wakeUpTime =
                                               userData['wake-up time'];
 
+                                          // ignore: use_build_context_synchronously
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      HomePage(
-                                                          weight: weight,
-                                                          unit: unit,
-                                                          bedTime: bedTime,
-                                                          wakeUpTime:
-                                                              wakeUpTime)));
+                                                      const HomePage()));
                                         }
                                       }
                                     } on FirebaseAuthException catch (e) {
@@ -267,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                                         duration: const Duration(seconds: 3),
                                         flushbarPosition:
                                             FlushbarPosition.BOTTOM,
-                                      )..show(context);
+                                      ).show(context);
                                     }
                                   }
                                 },

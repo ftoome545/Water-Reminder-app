@@ -4,32 +4,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/model/pages_names.dart';
-import 'package:water_reminder_app/screens/privacy_policy.dart';
-import 'package:water_reminder_app/screens/reminder_schedule.dart';
 import 'package:water_reminder_app/widgets/database.dart';
 import 'package:water_reminder_app/widgets/gender_dialog.dart';
-import 'package:water_reminder_app/widgets/intake_goal_dialog.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
-import 'package:water_reminder_app/widgets/unit_dialog.dart';
+import '../ad_id.dart';
 import '../widgets/weight_dialog.dart';
 // import 'package:water_reminder_app/model/user_data.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage(
-      {super.key,
-      required this.weightUnit,
-      required this.userWeight,
-      required this.userBedTime,
-      required this.userWakeUpTime});
-  final String weightUnit;
-  final double userWeight;
-  final String userBedTime;
-  final String userWakeUpTime;
+  const ProfilePage({
+    super.key,
+  });
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -44,12 +35,63 @@ class _ProfilePageState extends State<ProfilePage> {
   TimeOfDay bedtime = const TimeOfDay(hour: 09, minute: 30);
   TimeOfDay wakeUptime = const TimeOfDay(hour: 05, minute: 24);
   late String userAuthID;
+
+  InterstitialAd? _interstitialAd;
+  late int _numInterstitialLoadAttempts;
+  int maxFailedLoadAttempts = 7;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userAuthID = FirebaseAuth.instance.currentUser!.uid;
     getData();
+    _createInterstitialAd();
+  }
+
+  //InterstitialAd
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdHelper.interstitialAdUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$ad loaded');
+            _interstitialAd = ad;
+            _numInterstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            _numInterstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
+              _createInterstitialAd();
+            }
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
   }
 
   void _showImagePickerDialog() {
@@ -154,21 +196,21 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  void _showUnitDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const UnitDialog();
-        });
-  }
+  // void _showUnitDialog() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return const UnitDialog();
+  //       });
+  // }
 
-  void _showIntakeGoalDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const IntakeGoalDialog();
-        });
-  }
+  // void _showIntakeGoalDialog() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return const IntakeGoalDialog();
+  //       });
+  // }
 
   void _chooseImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -234,7 +276,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ResponsiveContainer(
                     child: Container(
                       height: 250,
-                      width: 400,
+                      width: double.infinity,
                       color: const Color.fromRGBO(0, 200, 250, 0.415),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -407,10 +449,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   reminderSettings('Reminder schedule', () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ReminderSchedule()));
+                    Navigator.pushNamed(context, reminderSchedulePage);
+                    _showInterstitialAd();
                   }),
                   // reminderSettings('Reminder sound', () {
                   //   Navigator.pushReplacement(
@@ -494,10 +534,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   userInformation('Privacy policy', '', () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PrivacyPolicy()));
+                    Navigator.pushNamed(context, privacyPolicyPage);
+                    _showInterstitialAd();
                   }),
                   Padding(
                     padding: const EdgeInsets.only(top: 15, left: 34),

@@ -11,20 +11,11 @@ import 'package:water_reminder_app/widgets/database.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_reminder_app/widgets/responsive_container.dart';
 import '../ad_id.dart';
-import '../model/pages_names.dart';
 import '../widgets/drink_record.dart';
 
 class Home extends StatefulWidget {
-  final double weight;
-  final String unit;
-  final String bedTime;
-  final String wakeUpTime;
   const Home({
     super.key,
-    required this.weight,
-    required this.unit,
-    required this.bedTime,
-    required this.wakeUpTime,
   });
 
   @override
@@ -38,6 +29,7 @@ class _HomeState extends State<Home> {
   User? user = FirebaseAuth.instance.currentUser;
   late SharedPreferences sharedPreferences;
   late String userAuthID;
+  String? unit;
   @override
   void initState() {
     super.initState();
@@ -46,10 +38,16 @@ class _HomeState extends State<Home> {
     if (currentUser != null) {
       userAuthID = currentUser.uid;
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final userDoc =
+            FirebaseFirestore.instance.collection('users').doc(user!.uid);
+
+        final userSnapshot = await userDoc.get();
+        unit = userSnapshot['unit'] as String;
         final userDataProvider =
+            // ignore: use_build_context_synchronously
             Provider.of<UserDataProvider>(context, listen: false);
-        userDataProvider.initializeItems(widget.unit);
+        userDataProvider.initializeItems(unit ?? '');
         getData();
         _loadAd();
       });
@@ -139,10 +137,6 @@ class _HomeState extends State<Home> {
   //     return amount.round().toString();
   //   }
   // }
-
-  String changeUnit() {
-    return widget.unit == 'kilograms' ? '175 ml' : '6 fl oz';
-  }
 
   void _deleteItem(int index, String unit) {
     final userDataProvider =
